@@ -15,3 +15,6 @@ Tool helper development
 ### Language Manager
 - Created on: 03-2021
 - This is my tool for future applications. I want to speed up my coding. 
+
+## Reference Document
+- [EF6 with Sqlite](https://damienbod.com/2013/11/18/using-sqlite-with-entity-framework-6-and-the-repository-pattern)
