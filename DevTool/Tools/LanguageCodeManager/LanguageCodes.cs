@@ -18,26 +18,27 @@ namespace DevTool.Tools.LanguageCodeManager {
         }
 
         private void GetDatas(uint offset, uint limit) {
-            var con = SqliteConnectionController.CreateConnection(DefineValue.DatabaseName);
-            string queryString = string.Format(DefineValue.QueryStringList, DefineValue.TableName, limit, offset);
-            try {
-                var data = SqliteConnectionController.Query(con, queryString);
-                _datas.Clear();
-                foreach (var item in data) {
-                    var value = new LanguageCode();
-                    value.Id = item.Value<long>("id");
-                    value.Name = item.Value<string>("name");
-                    value.Description = item.Value<string>("description");
-                    value.VersionNow = item.Value<string>("version");
-                    value.CreatedOn = item.Value<DateTime>("created_on");
-                    value.IsActivated = item.Value<bool>("is_activated");
-                    _datas.Add(value);
-                }
-                con.Close();
-            } catch(Exception ex) {
-                MessageBox.Show(ex.Message, "Get data from database error");
-                con.Close();
-            }
+            //var con = SqliteConnectionController.CreateConnection(DefineValue.DatabaseName);
+            //string queryString = string.Format(DefineValue.QueryStringList, DefineValue.TableName, limit, offset);
+            //try {
+            //    var data = SqliteConnectionController.Query(con, queryString);
+            //    _datas.Clear();
+            //    foreach (var item in data) {
+            //        var value = new LanguageCode();
+            //        value.Id = item.Value<long>("id");
+            //        value.Name = item.Value<string>("name");
+            //        value.Description = item.Value<string>("description");
+            //        value.VersionNow = item.Value<string>("version");
+            //        value.CreatedOn = item.Value<DateTime>("created_on");
+            //        value.IsActivated = item.Value<bool>("is_activated");
+            //        _datas.Add(value);
+            //    }
+            //    con.Close();
+            //} catch(Exception ex) {
+            //    MessageBox.Show(ex.Message, "Get data from database error");
+            //    con.Close();
+            //}
+            using var context = new GenderContext(dbFilePath);
             languageListData.DataSource = null;
             languageListData.DataSource = _datas;
             languageListData.AutoResizeColumns();
