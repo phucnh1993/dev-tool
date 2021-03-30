@@ -16,6 +16,7 @@ namespace DevTool {
 
         static void Migration() {
             AttributeParse.EntityToTable<Language>();
+            AttributeParse.UpdateObject<Language>(new Language() { Id = 1, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now });
         }
 
         [STAThread]
