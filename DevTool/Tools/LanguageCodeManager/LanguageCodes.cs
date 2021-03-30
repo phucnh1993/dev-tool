@@ -1,6 +1,8 @@
-﻿using DevTool.Services.DatabaseConnect.Sqlite;
+﻿using Services.DatabaseConnect.Sqlite.Context;
+using Services.DatabaseConnect.Sqlite.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -10,14 +12,18 @@ namespace DevTool.Tools.LanguageCodeManager {
         private List<LanguageCode> _datas;
         private int _columnIndex;
         private bool _asc;
+        private RootContext _db;
+
         public LanguageCodes() {
             InitializeComponent();
             _datas = new List<LanguageCode>();
             _columnIndex = 0;
             _asc = true;
+            var databaseRoot = Properties.Settings.Default.ConnectionRoot;
+            _db = new RootContext();
         }
 
-        private void GetDatas(uint offset, uint limit) {
+        private void GetDatas(int offset, int limit) {
             //var con = SqliteConnectionController.CreateConnection(DefineValue.DatabaseName);
             //string queryString = string.Format(DefineValue.QueryStringList, DefineValue.TableName, limit, offset);
             //try {
@@ -38,52 +44,65 @@ namespace DevTool.Tools.LanguageCodeManager {
             //    MessageBox.Show(ex.Message, "Get data from database error");
             //    con.Close();
             //}
-            using var context = new GenderContext(dbFilePath);
+            var lan = _db.Languages.AsNoTracking().AsQueryable().Skip(offset).Take(limit).ToList();
             languageListData.DataSource = null;
-            languageListData.DataSource = _datas;
+            languageListData.DataSource = lan;
             languageListData.AutoResizeColumns();
             this.Refresh();
         }
 
         private int CountDatas() {
-            var con = SqliteConnectionController.CreateConnection(DefineValue.DatabaseName);
-            string queryString = string.Format(DefineValue.QueryStringCount, DefineValue.TableName);
-            int count = 0;
-            try {
-                var data = SqliteConnectionController.Query(con, queryString);
-                count = data[0].Value<int>("count");
-                con.Close();
-            } catch (Exception ex) {
-                MessageBox.Show(ex.Message, "Count data from database error");
-                con.Close();
-            }
-            return count;
+            //var con = SqliteConnectionController.CreateConnection(DefineValue.DatabaseName);
+            //string queryString = string.Format(DefineValue.QueryStringCount, DefineValue.TableName);
+            //int count = 0;
+            //try {
+            //    var data = SqliteConnectionController.Query(con, queryString);
+            //    count = data[0].Value<int>("count");
+            //    con.Close();
+            //} catch (Exception ex) {
+            //    MessageBox.Show(ex.Message, "Count data from database error");
+            //    con.Close();
+            //}
+            //return count;
+            return _db.Languages.AsNoTracking().AsQueryable().Count();
         }
 
-        private bool ActionData(string query) {
-            var con = SqliteConnectionController.CreateConnection(DefineValue.DatabaseName);
-            try {
-                var data = SqliteConnectionController.Execute(con, query);
-                con.Close();
-                return data;
-            } catch (Exception ex) {
-                MessageBox.Show(ex.Message, "Count data from database error");
-                con.Close();
-            }
-            return false;
+        //private bool ActionData(string query) {
+        //    var con = SqliteConnectionController.CreateConnection(DefineValue.DatabaseName);
+        //    try {
+        //        var data = SqliteConnectionController.Execute(con, query);
+        //        con.Close();
+        //        return data;
+        //    } catch (Exception ex) {
+        //        MessageBox.Show(ex.Message, "Count data from database error");
+        //        con.Close();
+        //    }
+        //    return false;
+        //}
+
+        private bool Save(Language data) {
+            _db.Languages.Add(data);
+            var chk = _db.SaveChanges();
+            return chk > -1;
         }
+
+        //private bool Updata(Language data) {
+        //    _db.Languages.
+        //    var chk = _db.SaveChanges();
+        //    return chk > -1;
+        //}
 
         private void LanguageCodes_Load(object sender, EventArgs e) {
-            var chk = SqliteSerivce.CheckTableExist(DefineValue.DatabaseName, DefineValue.TableName);
-            if (!chk) {
-                string rowInfo = "id INTEGER PRIMARY KEY, " +
-                    "name TEXT(100) NOT NULL, " +
-                    "description TEXT(500) NULL, " +
-                    "version TEXT(20) NULL, " +
-                    "created_on TEXT(30) NOT NULL, " +
-                    "is_activated INTEGER";
-                var cre = SqliteSerivce.CreateTable(DefineValue.DatabaseName, DefineValue.TableName, rowInfo);
-            }
+            //var chk = SqliteSerivce.CheckTableExist(DefineValue.DatabaseName, DefineValue.TableName);
+            //if (!chk) {
+            //    string rowInfo = "id INTEGER PRIMARY KEY, " +
+            //        "name TEXT(100) NOT NULL, " +
+            //        "description TEXT(500) NULL, " +
+            //        "version TEXT(20) NULL, " +
+            //        "created_on TEXT(30) NOT NULL, " +
+            //        "is_activated INTEGER";
+            //    var cre = SqliteSerivce.CreateTable(DefineValue.DatabaseName, DefineValue.TableName, rowInfo);
+            //}
             var count = CountDatas();
             if (count > 0) {
                 GetDatas(0, 10);
@@ -106,20 +125,28 @@ namespace DevTool.Tools.LanguageCodeManager {
         }
 
         private void btnCreate_Click(object sender, EventArgs e) {
-            LanguageCode lc = new LanguageCode();
-            lc.Name = languageName.Text;
-            lc.VersionNow = languageVersion.Text;
-            lc.Description = languageDescription.Text;
-            lc.IsActivated = chkIsActivated.Checked;
-            string query = "";
-            if (string.IsNullOrEmpty(languageId.Text)) {
-                lc.CreatedOn = DateTime.Now;
-                query = lc.CreateData();
-            } else {
-                lc.Id = long.Parse(languageId.Text);
-                query = lc.UpdateData();
-            }
-            var chk = ActionData(query);
+            //LanguageCode lc = new LanguageCode();
+            //lc.Name = languageName.Text;
+            //lc.VersionNow = languageVersion.Text;
+            //lc.Description = languageDescription.Text;
+            //lc.IsActivated = chkIsActivated.Checked;
+            //string query = "";
+            //if (string.IsNullOrEmpty(languageId.Text)) {
+            //    lc.CreatedOn = DateTime.Now;
+            //    query = lc.CreateData();
+            //} else {
+            //    lc.Id = long.Parse(languageId.Text);
+            //    query = lc.UpdateData();
+            //}
+            //var chk = ActionData(query);
+            Language lan = new Language();
+            lan.Name = languageName.Text;
+            lan.Version = languageVersion.Text;
+            lan.Description = languageDescription.Text;
+            lan.IsActivated = chkIsActivated.Checked;
+            lan.CreatedOn = DateTime.Now;
+            lan.UpdatedOn = DateTime.Now;
+            var chk = Save(lan);
             if (!chk) {
                 MessageBox.Show("Create or Update data error");
             }

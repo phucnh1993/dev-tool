@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DevTool.Services.DatabaseConnect.Sqlite;
+using Services.DatabaseConnect.Sqlite.Entities;
+using System;
 using System.Data.SQLite;
 using System.IO;
 using System.Windows.Forms;
@@ -12,6 +14,10 @@ namespace DevTool {
             }
         }
 
+        static void Migration() {
+            AttributeParse.EntityToTable<Language>();
+        }
+
         [STAThread]
         static void Main() {
             CreateDataDirectory();
@@ -19,6 +25,7 @@ namespace DevTool {
 
             if (!File.Exists(databaseRoot)) {
                 SQLiteConnection.CreateFile(databaseRoot);
+                Migration();
             }
 
             Application.EnableVisualStyles();

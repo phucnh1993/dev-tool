@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace DatabaseSqlite.Configs.Contexts {
-    public interface IEventGenderRepository : IDisposable {
+    public interface IEventGenderRepository<T> : IDisposable {
     }
 }

@@ -25,7 +25,16 @@ namespace DevTool.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("data/root")]
+        [global::System.Configuration.DefaultSettingValueAttribute("data source=testdb.sqlite;initial catalog=Test;App=EntityFramework;")]
+        public string ConnectionRoot {
+            get {
+                return ((string)(this["ConnectionRoot"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("root.db")]
         public string DatabaseRoot {
             get {
                 return ((string)(this["DatabaseRoot"]));
