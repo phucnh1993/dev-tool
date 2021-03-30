@@ -1,4 +1,4 @@
-﻿using Services.DatabaseConnect.Sqlite.Context;
+﻿using DevTool.Services.DatabaseConnect.Sqlite;
 using Services.DatabaseConnect.Sqlite.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,97 +12,70 @@ namespace DevTool.Tools.LanguageCodeManager {
         private List<LanguageCode> _datas;
         private int _columnIndex;
         private bool _asc;
-        private RootContext _db;
 
         public LanguageCodes() {
             InitializeComponent();
             _datas = new List<LanguageCode>();
             _columnIndex = 0;
             _asc = true;
-            var databaseRoot = Properties.Settings.Default.ConnectionRoot;
-            _db = new RootContext();
         }
 
         private void GetDatas(int offset, int limit) {
-            //var con = SqliteConnectionController.CreateConnection(DefineValue.DatabaseName);
-            //string queryString = string.Format(DefineValue.QueryStringList, DefineValue.TableName, limit, offset);
-            //try {
-            //    var data = SqliteConnectionController.Query(con, queryString);
-            //    _datas.Clear();
-            //    foreach (var item in data) {
-            //        var value = new LanguageCode();
-            //        value.Id = item.Value<long>("id");
-            //        value.Name = item.Value<string>("name");
-            //        value.Description = item.Value<string>("description");
-            //        value.VersionNow = item.Value<string>("version");
-            //        value.CreatedOn = item.Value<DateTime>("created_on");
-            //        value.IsActivated = item.Value<bool>("is_activated");
-            //        _datas.Add(value);
-            //    }
-            //    con.Close();
-            //} catch(Exception ex) {
-            //    MessageBox.Show(ex.Message, "Get data from database error");
-            //    con.Close();
-            //}
-            var lan = _db.Languages.AsNoTracking().AsQueryable().Skip(offset).Take(limit).ToList();
+            var con = SqliteConnectionService.CreateConnection();
+            string queryString = string.Format(DefineValue.QueryStringList, DefineValue.TableName, limit, offset);
+            try {
+                var data = SqliteConnectionService.Query(con, queryString);
+                _datas.Clear();
+                foreach (var item in data) {
+                    var value = new LanguageCode();
+                    value.Id = item.Value<long>("id");
+                    value.Name = item.Value<string>("name");
+                    value.Description = item.Value<string>("description");
+                    value.VersionNow = item.Value<string>("version");
+                    value.CreatedOn = item.Value<DateTime>("created_on");
+                    value.IsActivated = item.Value<bool>("is_activated");
+                    _datas.Add(value);
+                }
+                con.Close();
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message, "Get data from database error");
+                con.Close();
+            }
             languageListData.DataSource = null;
-            languageListData.DataSource = lan;
+            languageListData.DataSource = _datas;
             languageListData.AutoResizeColumns();
             this.Refresh();
         }
 
         private int CountDatas() {
-            //var con = SqliteConnectionController.CreateConnection(DefineValue.DatabaseName);
-            //string queryString = string.Format(DefineValue.QueryStringCount, DefineValue.TableName);
-            //int count = 0;
-            //try {
-            //    var data = SqliteConnectionController.Query(con, queryString);
-            //    count = data[0].Value<int>("count");
-            //    con.Close();
-            //} catch (Exception ex) {
-            //    MessageBox.Show(ex.Message, "Count data from database error");
-            //    con.Close();
-            //}
-            //return count;
-            return _db.Languages.AsNoTracking().AsQueryable().Count();
+            var con = SqliteConnectionService.CreateConnection();
+            string queryString = string.Format(DefineValue.QueryStringCount, DefineValue.TableName);
+            int count = 0;
+            try {
+                var data = SqliteConnectionService.Query(con, queryString);
+                count = data[0].Value<int>("count");
+                con.Close();
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message, "Count data from database error");
+                con.Close();
+            }
+            return count;
         }
 
-        //private bool ActionData(string query) {
-        //    var con = SqliteConnectionController.CreateConnection(DefineValue.DatabaseName);
-        //    try {
-        //        var data = SqliteConnectionController.Execute(con, query);
-        //        con.Close();
-        //        return data;
-        //    } catch (Exception ex) {
-        //        MessageBox.Show(ex.Message, "Count data from database error");
-        //        con.Close();
-        //    }
-        //    return false;
-        //}
-
-        private bool Save(Language data) {
-            _db.Languages.Add(data);
-            var chk = _db.SaveChanges();
-            return chk > -1;
+        private bool ActionData(string query) {
+            var con = SqliteConnectionService.CreateConnection();
+            try {
+                var data = SqliteConnectionService.Execute(con, query);
+                con.Close();
+                return data;
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message, "Count data from database error");
+                con.Close();
+            }
+            return false;
         }
-
-        //private bool Updata(Language data) {
-        //    _db.Languages.
-        //    var chk = _db.SaveChanges();
-        //    return chk > -1;
-        //}
 
         private void LanguageCodes_Load(object sender, EventArgs e) {
-            //var chk = SqliteSerivce.CheckTableExist(DefineValue.DatabaseName, DefineValue.TableName);
-            //if (!chk) {
-            //    string rowInfo = "id INTEGER PRIMARY KEY, " +
-            //        "name TEXT(100) NOT NULL, " +
-            //        "description TEXT(500) NULL, " +
-            //        "version TEXT(20) NULL, " +
-            //        "created_on TEXT(30) NOT NULL, " +
-            //        "is_activated INTEGER";
-            //    var cre = SqliteSerivce.CreateTable(DefineValue.DatabaseName, DefineValue.TableName, rowInfo);
-            //}
             var count = CountDatas();
             if (count > 0) {
                 GetDatas(0, 10);
@@ -125,20 +98,6 @@ namespace DevTool.Tools.LanguageCodeManager {
         }
 
         private void btnCreate_Click(object sender, EventArgs e) {
-            //LanguageCode lc = new LanguageCode();
-            //lc.Name = languageName.Text;
-            //lc.VersionNow = languageVersion.Text;
-            //lc.Description = languageDescription.Text;
-            //lc.IsActivated = chkIsActivated.Checked;
-            //string query = "";
-            //if (string.IsNullOrEmpty(languageId.Text)) {
-            //    lc.CreatedOn = DateTime.Now;
-            //    query = lc.CreateData();
-            //} else {
-            //    lc.Id = long.Parse(languageId.Text);
-            //    query = lc.UpdateData();
-            //}
-            //var chk = ActionData(query);
             Language lan = new Language();
             lan.Name = languageName.Text;
             lan.Version = languageVersion.Text;
@@ -146,7 +105,15 @@ namespace DevTool.Tools.LanguageCodeManager {
             lan.IsActivated = chkIsActivated.Checked;
             lan.CreatedOn = DateTime.Now;
             lan.UpdatedOn = DateTime.Now;
-            var chk = Save(lan);
+            string query = "";
+            if (string.IsNullOrEmpty(languageId.Text)) {
+                lan.CreatedOn = DateTime.Now;
+                query = "";//lan.CreateData();
+            } else {
+                lan.Id = long.Parse(languageId.Text);
+                query = "";//lan.UpdateData();
+            }
+            var chk = ActionData(query);
             if (!chk) {
                 MessageBox.Show("Create or Update data error");
             }

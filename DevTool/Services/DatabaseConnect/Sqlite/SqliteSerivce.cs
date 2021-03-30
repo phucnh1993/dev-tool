@@ -4,9 +4,9 @@ using System.Windows.Forms;
 
 namespace DevTool.Services.DatabaseConnect.Sqlite {
     public class SqliteSerivce {
-        public static bool CheckTableExist(string database, string tableName) {
+        public static bool CheckTableExist(string tableName) {
             string query = string.Format(DefineSql.QueryCheckTable, tableName);
-            var con = SqliteConnectionController.CreateConnection(database);
+            var con = SqliteConnectionService.CreateConnection();
             try {
                 SQLiteCommand command = con.CreateCommand();
                 command.CommandText = query;
@@ -21,11 +21,11 @@ namespace DevTool.Services.DatabaseConnect.Sqlite {
             }
         }
 
-        public static bool CreateTable(string database, string tableName, string columnInfo) {
+        public static bool CreateTable(string tableName, string columnInfo) {
             string query = string.Format(DefineSql.QueryCreateTable, tableName, columnInfo);
-            var con = SqliteConnectionController.CreateConnection(database);
+            var con = SqliteConnectionService.CreateConnection();
             try {
-                var chk = SqliteConnectionController.Execute(con, query);
+                var chk = SqliteConnectionService.Execute(con, query);
                 con.Close();
                 return chk;
             } catch (Exception ex) {

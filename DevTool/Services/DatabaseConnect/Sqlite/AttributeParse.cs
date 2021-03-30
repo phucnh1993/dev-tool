@@ -1,14 +1,149 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace DevTool.Services.DatabaseConnect.Sqlite {
     public class AttributeParse {
-        public static string EntityToUpdate<T>(T data) {
-            string result = "UPDATE {0}.{1} SET ";
+        public static string EntityCount<T>(string query) {
+            string result = "SELECT COUNT({0}) FROM {1} WHERE {2}";
             var tableName = typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault() as TableAttribute;
-            result = string.Format(result, tableName.Schema, tableName.Name);
+            var properties = typeof(T).GetProperties().ToList();
+            var columnId = "";
+            foreach (var pro in properties) {
+                var key = pro.GetCustomAttributes(typeof(KeyAttribute), true).FirstOrDefault() as KeyAttribute;
+                if (key != null) {
+                    var colType = pro.GetCustomAttributes(typeof(ColumnAttribute), true).FirstOrDefault() as ColumnAttribute;
+                    columnId = colType.Name;
+                } else {
+                    columnId += pro.Name;
+                }
+            }
+            result = string.Format(result, columnId, tableName.Name, query);
+            return result;
+        }
+
+        public static string EntityToList<T>(string query) {
+            string result = "SELECT {0} FROM {1} WHERE {2}";
+            var tableName = typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault() as TableAttribute;
+            var properties = typeof(T).GetProperties().ToList();
+            var column = "";
+            var index = properties.Count;
+            foreach (var pro in properties) {
+                var colType = pro.GetCustomAttributes(typeof(ColumnAttribute), true).FirstOrDefault() as ColumnAttribute;
+                if (colType != null) {
+                    column += colType.Name;
+                } else {
+                    column += pro.Name;
+                }
+                index--;
+                if (index > 0) {
+                    column += ", ";
+                }
+            }
+            result = string.Format(result, column, tableName.Name, query);
+            return result;
+        }
+
+        public static string EntityToInserts<T>(List<T> data) {
+            string result = "INSERT INTO {0}({1}) VALUES {2}";
+            var tableName = typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault() as TableAttribute;
+            string column = "";
+            var properties = typeof(T).GetProperties().ToList();
+            var index = properties.Count;
+            foreach (var pro in properties) {
+                var colType = pro.GetCustomAttributes(typeof(ColumnAttribute), true).FirstOrDefault() as ColumnAttribute;
+                if (colType != null) {
+                    column += colType.Name;
+                } else {
+                    column += pro.Name;
+                }
+                index--;
+                if (index > 0) {
+                    column += ", ";
+                }
+            }
+            string values = "";
+            var count = data.Count;
+            foreach (var item in data) {
+                index = properties.Count;
+                string value = "(";
+                foreach (var pro in properties) {
+                    var colType = pro.GetCustomAttributes(typeof(ColumnAttribute), true).FirstOrDefault() as ColumnAttribute;
+                    if (colType != null) {
+                        if (colType.TypeName.ToUpper().Contains("TEXT")) {
+                            value += "'" + pro.GetValue(item, null) + "'";
+                        } else {
+                            value += pro.GetValue(item, null);
+                        }
+                    } else {
+                        var type = pro.PropertyType.GetType();
+                        if (type == typeof(String) || type == typeof(DateTime) || type == typeof(Char)
+                            || type == typeof(Decimal) || type == typeof(DateTimeOffset) || type == typeof(Guid)
+                            || type == typeof(TimeSpan) || type == typeof(Array)) {
+                            value += "'" + pro.GetValue(item, null) + "'";
+                        } else {
+                            value += pro.GetValue(item, null);
+                        }
+                    }
+                    index--;
+                    if (index > 0) {
+                        value += ", ";
+                    }
+                }
+                value += ")";
+                values += value;
+                count--;
+                if (count > 0) {
+                    values += ", ";
+                }
+            }
+            result = string.Format(result, tableName.Name, column, values);
+            return result;
+        }
+
+        public static string EntityToInsert<T>(T data) {
+            string result = "INSERT INTO {0}({1}) VALUES ({2})";
+            var tableName = typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault() as TableAttribute;
+            var properties = typeof(T).GetProperties().ToList();
+            var index = properties.Count;
+            string column = "";
+            string values = "";
+            foreach (var pro in properties) {
+                var colType = pro.GetCustomAttributes(typeof(ColumnAttribute), true).FirstOrDefault() as ColumnAttribute;
+                if (colType != null) {
+                    column += colType.Name;
+                    if (colType.TypeName.ToUpper().Contains("TEXT")) {
+                        values += "'" + pro.GetValue(data, null) + "'";
+                    } else {
+                        values += pro.GetValue(data, null);
+                    }
+                } else {
+                    column += pro.Name;
+                    var type = pro.PropertyType.GetType();
+                    if (type == typeof(String) || type == typeof(DateTime) || type == typeof(Char)
+                        || type == typeof(Decimal) || type == typeof(DateTimeOffset) || type == typeof(Guid)
+                        || type == typeof(TimeSpan) || type == typeof(Array)) {
+                        values += "'" + pro.GetValue(data, null) + "'";
+                    } else {
+                        values += pro.GetValue(data, null);
+                    }
+                }
+                index--;
+                if (index > 0) {
+                    column += ", ";
+                    values += ", ";
+                }
+            }
+            result = string.Format(result, tableName.Name, column, values);
+            return result;
+        }
+
+        public static string EntityToUpdate<T>(T data) {
+            string result = "UPDATE {0} SET ";
+            var tableName = typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault() as TableAttribute;
+            result = string.Format(result, tableName.Name);
             var properties = typeof(T).GetProperties().ToList();
             var index = properties.Count;
             foreach (var pro in properties) {
@@ -18,25 +153,18 @@ namespace DevTool.Services.DatabaseConnect.Sqlite {
                     columnInfo += colType.Name + " = ";
                     if (colType.TypeName.ToUpper().Contains("TEXT")) {
                         columnInfo += "'" + pro.GetValue(data, null) + "'";
+                    } else {
+                        columnInfo += pro.GetValue(data, null);
                     }
                 } else {
                     columnInfo += pro.Name + " = ";
                     var type = pro.PropertyType.GetType();
-                    if (type == typeof(System.Int16) || type == typeof(System.Int32) || type == typeof(System.Int64)
-                        || type == typeof(System.UInt16) || type == typeof(System.UInt32) || type == typeof(System.UInt64)
-                        || type == typeof(System.Boolean) || type == typeof(System.Byte) || type == typeof(System.SByte)) {
-                        columnInfo += "INTEGER";
-                    }
-                    if (type == typeof(System.String) || type == typeof(System.DateTime) || type == typeof(System.Char)
-                        || type == typeof(System.Decimal) || type == typeof(System.DateTimeOffset) || type == typeof(System.Guid)
-                        || type == typeof(System.TimeSpan)) {
-                        columnInfo += "TEXT";
-                    }
-                    if (type == typeof(System.Single) || type == typeof(System.Double)) {
-                        columnInfo += "REAL";
-                    }
-                    if (type == typeof(System.Array)) {
-                        columnInfo += "BLOB";
+                    if (type == typeof(String) || type == typeof(DateTime) || type == typeof(Char)
+                        || type == typeof(Decimal) || type == typeof(DateTimeOffset) || type == typeof(Guid)
+                        || type == typeof(TimeSpan) || type == typeof(Array)) {
+                        columnInfo += "'" + pro.GetValue(data, null) + "'";
+                    } else {
+                        columnInfo += pro.GetValue(data, null);
                     }
                 }
                 index--;
@@ -49,9 +177,9 @@ namespace DevTool.Services.DatabaseConnect.Sqlite {
         }
 
         public static string EntityToTable<T>() {
-            string result = "CREATE TABLE IF NOT EXISTS {0}.{1} ";
+            string result = "CREATE TABLE IF NOT EXISTS {0} ";
             var tableName = typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault() as TableAttribute;
-            result = string.Format(result, tableName.Schema, tableName.Name);
+            result = string.Format(result, tableName.Name);
             var properties = typeof(T).GetProperties().ToList();
             var index = properties.Count;
             result += "(";
@@ -63,20 +191,20 @@ namespace DevTool.Services.DatabaseConnect.Sqlite {
                 } else {
                     columnInfo += pro.Name + " ";
                     var type = pro.PropertyType.GetType();
-                    if (type == typeof(System.Int16) || type == typeof(System.Int32) || type == typeof(System.Int64)
-                        || type == typeof(System.UInt16) || type == typeof(System.UInt32) || type == typeof(System.UInt64)
-                        || type == typeof(System.Boolean) || type == typeof(System.Byte) || type == typeof(System.SByte)) {
+                    if (type == typeof(Int16) || type == typeof(Int32) || type == typeof(Int64)
+                        || type == typeof(UInt16) || type == typeof(UInt32) || type == typeof(UInt64)
+                        || type == typeof(Boolean) || type == typeof(Byte) || type == typeof(SByte)) {
                         columnInfo += "INTEGER";
                     }
-                    if (type == typeof(System.String) || type == typeof(System.DateTime) || type == typeof(System.Char)
-                        || type == typeof(System.Decimal) || type == typeof(System.DateTimeOffset) || type == typeof(System.Guid)
-                        || type == typeof(System.TimeSpan)) {
+                    if (type == typeof(String) || type == typeof(DateTime) || type == typeof(Char)
+                        || type == typeof(Decimal) || type == typeof(DateTimeOffset) || type == typeof(Guid)
+                        || type == typeof(TimeSpan)) {
                         columnInfo += "TEXT";
                     }
-                    if (type == typeof(System.Single) || type == typeof(System.Double)) {
+                    if (type == typeof(Single) || type == typeof(Double)) {
                         columnInfo += "REAL";
                     }
-                    if (type == typeof(System.Array)) {
+                    if (type == typeof(Array)) {
                         columnInfo += "BLOB";
                     }
                 }

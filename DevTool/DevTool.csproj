@@ -65,12 +65,14 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SQLite.CodeFirst, Version=1.6.1.31, Culture=neutral, PublicKeyToken=eb96ba0a78d831a7, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLite.CodeFirst.1.6.1.31\lib\net45\SQLite.CodeFirst.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data.SQLite, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\lib\net46\System.Data.SQLite.dll</HintPath>
     </Reference>
@@ -102,10 +104,8 @@
     <Compile Include="Services\CommandLine\CommandLineController.cs" />
     <Compile Include="Services\DatabaseConnect\DefineSql.cs" />
     <Compile Include="Services\DatabaseConnect\Sqlite\AttributeParse.cs" />
-    <Compile Include="Services\DatabaseConnect\Sqlite\Context\RootContext.cs" />
     <Compile Include="Services\DatabaseConnect\Sqlite\Entities\Language.cs" />
-    <Compile Include="Services\DatabaseConnect\Sqlite\Queries\LanguageMigration.cs" />
-    <Compile Include="Services\DatabaseConnect\Sqlite\SqliteConnectionController.cs" />
+    <Compile Include="Services\DatabaseConnect\Sqlite\SqliteConnectionService.cs" />
     <Compile Include="Services\DatabaseConnect\Sqlite\SqliteSerivce.cs" />
     <Compile Include="Tools\LanguageCodeManager\DefineValue.cs" />
     <Compile Include="Tools\LanguageCodeManager\LanguageCode.cs" />

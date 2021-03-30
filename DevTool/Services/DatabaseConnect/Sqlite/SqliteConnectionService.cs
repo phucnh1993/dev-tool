@@ -5,9 +5,9 @@ using System.Data.SQLite;
 using System.Windows.Forms;
 
 namespace DevTool.Services.DatabaseConnect.Sqlite {
-    public class SqliteConnectionController {
-        public static SQLiteConnection CreateConnection(string databaseName) {
-            SQLiteConnection conn = new SQLiteConnection(string.Format("Data Source={0}.db;Version=3;New=True;Compress=True;", databaseName));
+    public class SqliteConnectionService {
+        public static SQLiteConnection CreateConnection() {
+            SQLiteConnection conn = new SQLiteConnection(Properties.Settings.Default.ConnectionDatabase);
             try {
                 conn.Open();
             } catch (Exception ex) {

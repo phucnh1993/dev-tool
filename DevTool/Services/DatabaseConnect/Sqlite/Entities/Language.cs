@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Services.DatabaseConnect.Sqlite.Entities {
-    [Table("Languages", Schema = "gender")]
+    [Table("Languages", Schema = "master")]
     public sealed class Language {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
