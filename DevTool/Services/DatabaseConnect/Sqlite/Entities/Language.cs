@@ -19,11 +19,11 @@ namespace Services.DatabaseConnect.Sqlite.Entities {
         public string Version { get; set; }
 
         [Required]
-        [Column("CreatedOn", TypeName = "TEXT(30)")]
+        [Column("CreatedOn", TypeName = "TEXT(22)")]
         public DateTime CreatedOn { get; set; } = DateTime.Now;
 
         [Required]
-        [Column("UpdatedOn", TypeName = "TEXT(30)")]
+        [Column("UpdatedOn", TypeName = "TEXT(22)")]
         public DateTime UpdatedOn { get; set; }
 
         [Required]
