@@ -3,7 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="DatabaseRoot" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">data/root</Value>
+      <Value Profile="(Default)">data\master.db</Value>
+    </Setting>
+    <Setting Name="ConnectionDatabase" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=data\master.db;Version=3;New=True;Compress=True;Cache Size=3000;UTF8Encoding=True;Page Size=10240;</Value>
     </Setting>
   </Settings>
 </SettingsFile>
