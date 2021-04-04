@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import databases.entities.Language;
 import databases.mysql.repositories.ILanguageRepository;
@@ -23,6 +24,7 @@ import requests.LanguageRequest;
 import responses.ActionResponse;
 import responses.ResultData;
 
+@RestController
 public class LanguageController {
 	private final ILanguageRepository _repo;
 	
