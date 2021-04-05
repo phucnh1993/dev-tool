@@ -19,21 +19,26 @@
   </properties>
   
   <dependencies>
+  	<!-- SpringBoot -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
 	  <artifactId>spring-boot-starter-web</artifactId>
 	</dependency>
-	
+	<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-properties-migrator</artifactId>
+    </dependency>
+	<!-- Jpa : Auto migration database -->
 	<dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
-    
+    <!-- MySql : Database mySQL -->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
     </dependency>
- 	
+ 	<!-- Lombok : Auto create GET / SET / CONSTRUCTER -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -45,7 +50,18 @@
       <artifactId>h2</artifactId>
 	</dependency>
  	-->
-	<dependency>
+	
+	<!-- Hibernate : Genera sql query -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+    </dependency>
+    <!-- Unit test -->
+    <dependency>
 	  <groupId>org.springframework.boot</groupId>
 	  <artifactId>spring-boot-starter-test</artifactId>
 	  <scope>test</scope>
