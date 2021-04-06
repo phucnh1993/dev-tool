@@ -32,7 +32,7 @@ public class LanguageController {
 		_repo = repo;
 	}
 	
-	@GetMapping("/language")
+	@GetMapping("/languages")
 	public @ResponseBody ResultData<List<Language>> getAll(FilterRequest filter) {
 		ResultData<List<Language>> result = new ResultData<List<Language>>();
 		var data = _repo.findAll();
@@ -43,7 +43,7 @@ public class LanguageController {
 	    return result;
 	}
 	
-	@GetMapping("/language/{id}")
+	@GetMapping("/languages/{id}")
 	public @ResponseBody ResultData<Language> getOne(@PathVariable BigInteger id) {
 		ResultData<Language> result = new ResultData<Language>();
 		result.setData(_repo.findById(id).orElseThrow(() -> new LanguageNotFoundException(id)));
@@ -53,7 +53,7 @@ public class LanguageController {
 	    return result;
 	}
 	
-	@PostMapping("/employees")
+	@PostMapping("/languages")
 	public @ResponseBody ResultData<ActionResponse> newEmployee(@RequestBody LanguageRequest newLanguage) {
 		long startTime = System.nanoTime();
 		LocalDateTime now = LocalDateTime.now();
@@ -79,7 +79,7 @@ public class LanguageController {
 	    return result;
 	}
 	
-	@PutMapping("/employees/{id}")
+	@PutMapping("/languages/{id}")
 	public @ResponseBody ResultData<ActionResponse> replaceEmployee(@RequestBody Language newLanguage, @PathVariable BigInteger id) {
 		long startTime = System.nanoTime();
 		LocalDateTime now = LocalDateTime.now();
@@ -111,7 +111,7 @@ public class LanguageController {
 	    return result;
 	}
 
-	@DeleteMapping("/employees/{id}")
+	@DeleteMapping("/languages/{id}")
 	public @ResponseBody ResultData<ActionResponse> deleteEmployee(@PathVariable BigInteger id) {
 		long startTime = System.nanoTime();
 		_repo.deleteById(id);
