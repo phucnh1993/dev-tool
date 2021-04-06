@@ -17,7 +17,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@PropertySources({ @PropertySource("classpath:datasource-cfg.properties") })
+@PropertySources({ @PropertySource("classpath:datasource.properties") })
 public class DataSourceConfig {
 	@Autowired
 	private Environment env;

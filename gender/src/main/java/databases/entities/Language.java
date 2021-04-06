@@ -1,5 +1,6 @@
 package databases.entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 
@@ -21,9 +22,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "Languages")
 @EntityListeners(AuditingEntityListener.class)
 @Getter @Setter @NoArgsConstructor
-public class Language {
+public class Language implements Serializable {
+	private static final long serialVersionUID = 746237126088051312L;
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "Id", nullable = false)
     private BigInteger id;
 	
 	@Column(name = "Name", nullable = false)
