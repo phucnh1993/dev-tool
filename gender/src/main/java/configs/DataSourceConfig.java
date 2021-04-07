@@ -33,7 +33,7 @@ public class DataSourceConfig {
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean ds1EntityManager() {
+	public LocalContainerEntityManagerFactoryBean dsEntityManager() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dsDatasource());
 		em.setPackagesToScan(new String[] { Constants.PACKAGE_ENTITIES });
@@ -52,7 +52,7 @@ public class DataSourceConfig {
 	@Bean
 	public PlatformTransactionManager ds1TransactionManager() {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(ds1EntityManager().getObject());
+		transactionManager.setEntityManagerFactory(dsEntityManager().getObject());
 		return transactionManager;
 	}
 }

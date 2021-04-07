@@ -1,0 +1,3 @@
+spring:  application:    name: gender  data:    rest:      base-path: /api
+server:
+  port: 8081
