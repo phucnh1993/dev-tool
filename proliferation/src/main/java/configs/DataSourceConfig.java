@@ -17,7 +17,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@PropertySources({ @PropertySource("classpath:datasource-cfg.properties") })
+@PropertySources({ @PropertySource("classpath:datasource.properties") })
 public class DataSourceConfig {
 	@Autowired
 	private Environment env;
@@ -33,7 +33,7 @@ public class DataSourceConfig {
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean ds1EntityManager() {
+	public LocalContainerEntityManagerFactoryBean dsEntityManager() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dsDatasource());
 		em.setPackagesToScan(new String[] { Constants.PACKAGE_ENTITIES });
@@ -52,7 +52,7 @@ public class DataSourceConfig {
 	@Bean
 	public PlatformTransactionManager ds1TransactionManager() {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(ds1EntityManager().getObject());
+		transactionManager.setEntityManagerFactory(dsEntityManager().getObject());
 		return transactionManager;
 	}
 }

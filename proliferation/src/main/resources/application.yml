@@ -1,0 +1,3 @@
+spring:  application:    name: proliferation  data:    rest:      base-path: /api      
+server:
+  port: 8081
