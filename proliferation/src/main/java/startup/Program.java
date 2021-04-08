@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class,
-		DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
+		DataSourceTransactionManagerAutoConfiguration.class,
+		HibernateJpaAutoConfiguration.class})
 public class Program {
 	@Value("${spring.application.name}")
 	private String name;
