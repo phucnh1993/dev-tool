@@ -1,0 +1,1 @@
+curl -X PUT localhost:8081/languages -H 'Content-type:application/json' -d '{"name": "Test", "version": "1", "description": "Test thôi mà", "status": 1 }'

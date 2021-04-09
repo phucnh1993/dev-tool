@@ -28,7 +28,7 @@ import responses.ActionResponse;
 import responses.ResultData;
 
 @RestController
-@RequestMapping("/api/v1")
+//@RequestMapping("/languages")
 @RequiredArgsConstructor
 public class LanguageController {
 	@Autowired

@@ -7,12 +7,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import controllers.LanguageController;
+
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class,
 		DataSourceTransactionManagerAutoConfiguration.class,
-		HibernateJpaAutoConfiguration.class})
+		HibernateJpaAutoConfiguration.class,
+		SecurityAutoConfiguration.class })
+@ComponentScan(basePackageClasses = LanguageController.class)
 public class Program {
 	@Value("${spring.application.name}")
 	private String name;
@@ -22,8 +29,8 @@ public class Program {
 		app.run(args);
 	}
 
-	@RequestMapping(value = "/")
-	public String name() {
-		return name;
-	}
+//	@RequestMapping(value = "/")
+//	public String name() {
+//		return name;
+//	}
 }
