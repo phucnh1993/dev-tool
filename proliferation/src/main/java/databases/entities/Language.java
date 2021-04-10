@@ -11,39 +11,44 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+@Getter 
+@Setter 
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Languages")
 @EntityListeners(AuditingEntityListener.class)
-@Getter @Setter @NoArgsConstructor
 public class Language implements Serializable {
 	private static final long serialVersionUID = 746237126088051312L;
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id", nullable = false)
+	@Column(name = "Id", nullable = false, columnDefinition = "bigint unsigned")
     private BigInteger id;
 	
-	@Column(name = "Name", nullable = false)
+	@Column(name = "Name", nullable = false, length = 100, columnDefinition = "varchar(100)")
 	private String name;
 	
-	@Column(name = "Version", nullable = true)
+	@Column(name = "Version", nullable = false, length = 20, columnDefinition = "varchar(20)")
 	private String version;
 	
-	@Column(name = "Description", nullable = true)
+	@Column(name = "Description", nullable = false, length = 500, columnDefinition = "varchar(500)")
 	private String description;
 	
-	@Column(name = "CreatedOn", nullable = false)
+	@Column(name = "CreatedOn", nullable = false, columnDefinition = "date")
 	private Timestamp createdOn;
 	
-	@Column(name = "ModifiedOn", nullable = false)
+	@Column(name = "ModifiedOn", nullable = false, columnDefinition = "datetime")
 	private Timestamp modifiedOn;
 	
-	@Column(name = "Status", nullable = false)
-	private int status;
+	@Column(name = "Status", nullable = false, columnDefinition = "tinyint unsigned")
+	private short status;
 }

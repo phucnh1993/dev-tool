@@ -1,6 +1,6 @@
-package databases.mysql.context;
+package databases;
 
-import databases.mysql.repositories.ILanguageRepository;
+import databases.repositories.ILanguageRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import lombok.RequiredArgsConstructor;

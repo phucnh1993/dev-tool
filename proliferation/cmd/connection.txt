@@ -1,11 +1,8 @@
-# ===============================
-# DATASOURCE
-# ===============================
-
 # MYSQL
 # MYSQL
 # com.mysql.jdbc.Driver
 # jdbc:mysql://127.0.0.1:3306/Gender
+
 spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
 spring.datasource.url=jdbc:mariadb://localhost:3306/Proliferation
 spring.datasource.username=abc
@@ -16,6 +13,7 @@ spring.jpa.show-sql=true
 spring.jpa.generate-ddl=true
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
+
 
 # POSTGRESQL
 # org.postgresql.Driver
