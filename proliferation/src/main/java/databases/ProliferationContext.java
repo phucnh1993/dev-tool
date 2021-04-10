@@ -1,16 +1,16 @@
-package databases.mysql.context;
+package databases;
 
-import databases.mysql.repositories.ILanguageRepository;
+import databases.repositories.ILanguageRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GenderContext {
+public class ProliferationContext {
 	private ILanguageRepository languages;
 	
-	public GenderContext(String[] args) {
-		ApplicationContext context = SpringApplication.run(GenderContext.class, args);
+	public ProliferationContext(String[] args) {
+		ApplicationContext context = SpringApplication.run(ProliferationContext.class, args);
 		languages = context.getBean(ILanguageRepository.class);
 	}
 

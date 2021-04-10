@@ -9,5 +9,5 @@ public class LanguageRequest {
 	private String name;
 	private String version;
 	private String description;
-	private int status;
+	private short status;
 }

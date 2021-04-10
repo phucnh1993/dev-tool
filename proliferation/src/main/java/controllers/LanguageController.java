@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import databases.entities.Language;
-import databases.mysql.repositories.ILanguageRepository;
+import databases.repositories.ILanguageRepository;
 import exceptions.LanguageNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
@@ -28,11 +28,13 @@ import responses.ActionResponse;
 import responses.ResultData;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class LanguageController {
 	@Autowired
 	private final ILanguageRepository _repo;
+	
+	//private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 	
 	@GetMapping("/languages")
 	public @ResponseBody ResultData<List<Language>> getAll(FilterRequest filter) {

@@ -1,4 +1,4 @@
-package databases.mysql.repositories;
+package databases.repositories;
 
 import databases.entities.Language;
 
