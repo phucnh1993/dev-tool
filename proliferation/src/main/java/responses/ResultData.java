@@ -1,15 +1,21 @@
 package responses;
 
+import configs.ConstantConfig;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class ResultData<T> {
 	private T data;
-	private int total;
+	private long total;
 	private long errorCode;
 	private String message;
+
+	public ResultData() {
+		data = null;
+		total = 0;
+		errorCode = ConstantConfig.SUCCESS;
+		message = ConstantConfig.StatusMessage.get(ConstantConfig.SUCCESS);
+	}
 }

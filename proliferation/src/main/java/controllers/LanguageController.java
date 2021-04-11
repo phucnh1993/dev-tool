@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +29,7 @@ import requests.FilterRequest;
 import requests.LanguageRequest;
 import responses.ActionResponse;
 import responses.ResultData;
+import services.language.LanguageQuery;
 
 @RestController
 @RequestMapping("/api")
@@ -33,20 +37,21 @@ import responses.ResultData;
 public class LanguageController {
 	@Autowired
 	private final ILanguageRepository _repo;
+
+	@PersistenceContext
+	EntityManager entityManager;
 	
-	//private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-	
+	@Autowired(required=true)
+	LanguageQuery _query;
+
+	// private static final Logger LOGGER =
+	// LoggerFactory.getLogger(UserController.class);
+
 	@GetMapping("/languages")
 	public @ResponseBody ResultData<List<Language>> getAll(FilterRequest filter) {
-		ResultData<List<Language>> result = new ResultData<List<Language>>();
-		var data = _repo.findAll();
-		result.setData(data);
-		result.setTotal(data.size());
-		result.setErrorCode(0);
-		result.setMessage("SUCCESS");
-	    return result;
+		return _query.getAll(filter);
 	}
-	
+
 	@GetMapping("/languages/{id}")
 	public @ResponseBody ResultData<Language> getOne(@PathVariable BigInteger id) {
 		ResultData<Language> result = new ResultData<Language>();
@@ -54,9 +59,9 @@ public class LanguageController {
 		result.setTotal(1);
 		result.setErrorCode(0);
 		result.setMessage("SUCCESS");
-	    return result;
+		return result;
 	}
-	
+
 	@PostMapping("/languages")
 	public @ResponseBody ResultData<ActionResponse> newEmployee(@RequestBody LanguageRequest newLanguage) {
 		long startTime = System.nanoTime();
@@ -75,31 +80,30 @@ public class LanguageController {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		temp.setActionOn(now.format(formatter));
 		long endTime = System.nanoTime();
-		temp.setRuntime((endTime - startTime)/1000);
+		temp.setRuntime((endTime - startTime) / 1000);
 		result.setData(temp);
 		result.setTotal(1);
 		result.setErrorCode(0);
 		result.setMessage("SUCCESS");
-	    return result;
+		return result;
 	}
-	
+
 	@PutMapping("/languages/{id}")
-	public @ResponseBody ResultData<ActionResponse> replaceEmployee(@RequestBody Language newLanguage, @PathVariable BigInteger id) {
+	public @ResponseBody ResultData<ActionResponse> replaceEmployee(@RequestBody Language newLanguage,
+			@PathVariable BigInteger id) {
 		long startTime = System.nanoTime();
 		LocalDateTime now = LocalDateTime.now();
-		var data = _repo.findById(id)
-	      .map(language -> {
-	    	  language.setName(newLanguage.getName());
-	    	  language.setVersion(newLanguage.getVersion());
-	    	  language.setDescription(newLanguage.getDescription());
-	    	  language.setModifiedOn(Timestamp.valueOf(now));
-	    	  language.setStatus(newLanguage.getStatus());
-	    	  return _repo.save(language);
-	      })
-	      .orElseGet(() -> {
-	    	  newLanguage.setId(id);
-	        return _repo.save(newLanguage);
-	      });
+		var data = _repo.findById(id).map(language -> {
+			language.setName(newLanguage.getName());
+			language.setVersion(newLanguage.getVersion());
+			language.setDescription(newLanguage.getDescription());
+			language.setModifiedOn(Timestamp.valueOf(now));
+			language.setStatus(newLanguage.getStatus());
+			return _repo.save(language);
+		}).orElseGet(() -> {
+			newLanguage.setId(id);
+			return _repo.save(newLanguage);
+		});
 		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
 		ActionResponse temp = new ActionResponse();
 		temp.setId(data.getId());
@@ -107,12 +111,12 @@ public class LanguageController {
 		temp.setActionOn(now.format(formatter));
 		temp.setActionOn(now.format(formatter));
 		long endTime = System.nanoTime();
-		temp.setRuntime((endTime - startTime)/1000);
+		temp.setRuntime((endTime - startTime) / 1000);
 		result.setData(temp);
 		result.setTotal(1);
 		result.setErrorCode(0);
 		result.setMessage("SUCCESS");
-	    return result;
+		return result;
 	}
 
 	@DeleteMapping("/languages/{id}")
@@ -127,7 +131,7 @@ public class LanguageController {
 		temp.setActionOn(now.format(formatter));
 		temp.setActionOn(now.format(formatter));
 		long endTime = System.nanoTime();
-		temp.setRuntime((endTime - startTime)/1000);
+		temp.setRuntime((endTime - startTime) / 1000);
 		result.setData(temp);
 		result.setTotal(1);
 		result.setErrorCode(0);
