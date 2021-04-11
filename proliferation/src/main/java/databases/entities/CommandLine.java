@@ -1,6 +1,5 @@
 package databases.entities;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 
@@ -9,36 +8,37 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
-import javax.persistence.Id;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter 
 @Setter 
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Languages")
+@Table(name = "CommandLines")
 @EntityListeners(AuditingEntityListener.class)
-public class Language implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class CommandLine {
+	@SuppressWarnings("unused")
+	private static final long serialVersionUID = 2L;
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id", nullable = false, columnDefinition = "bigint unsigned")
     private BigInteger id;
 	
-	@Column(name = "Name", nullable = false, length = 100, columnDefinition = "varchar(100)")
-	private String name;
+	@Column(name = "ApplicationName", nullable = false, length = 100, columnDefinition = "varchar(100)")
+	private String applicationName;
 	
-	@Column(name = "Version", nullable = false, length = 20, columnDefinition = "varchar(20)")
-	private String version;
+	@Column(name = "Content", nullable = false, length = 2048, columnDefinition = "varchar(2048)")
+	private String content;
 	
 	@Column(name = "Description", nullable = false, length = 500, columnDefinition = "varchar(500)")
 	private String description;
