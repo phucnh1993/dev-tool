@@ -30,25 +30,27 @@ public class LanguageQuery {
 		result.setData(new ArrayList<Language>());
 		result.setErrorCode(ConstantConfig.SUCCESS);
 		result.setMessage(ConstantConfig.StatusMessage.get(ConstantConfig.SUCCESS));
-		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Language> criteriaQuery = criteriaBuilder.createQuery(Language.class);
-		CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Language> criteriaQuery = cb.createQuery(Language.class);
+		CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		// Tạo root của câu query
+		Root<Language> rootCount = countQuery.from(Language.class);
 		Root<Language> root = criteriaQuery.from(Language.class);
+//		if (filter.getKeyWords() != null && !filter.getKeyWords().trim().isEmpty()) {
+//			Predicate condition = cb.like(countQuery.from(Language.class).get("name"), filter.getKeyWords() + "%");
+//			predicates.add(condition);
+//		}
 		if (filter.getKeyWords() != null && !filter.getKeyWords().trim().isEmpty()) {
-			Predicate condition = criteriaBuilder.like(countQuery.from(Language.class).get("Name"),
-					filter.getKeyWords() + "%");
+			Predicate condition = cb.like(cb.createQuery(Long.class).from(Language.class).get("name"), filter.getKeyWords() + "%");
 			predicates.add(condition);
 		}
 		if (filter.getFrom() != null && !filter.getFrom().trim().isEmpty()) {
-			Predicate condition = criteriaBuilder
-					.greaterThanOrEqualTo(countQuery.from(Language.class).get("ModifiedOn"), filter.getFrom());
+			Predicate condition = cb.greaterThanOrEqualTo(countQuery.from(Language.class).get("ModifiedOn"), filter.getFrom());
 			predicates.add(condition);
 		}
 		if (filter.getTo() != null && !filter.getTo().trim().isEmpty()) {
-			Predicate condition = criteriaBuilder.lessThanOrEqualTo(countQuery.from(Language.class).get("ModifiedOn"),
-					filter.getTo());
+			Predicate condition = cb.lessThanOrEqualTo(countQuery.from(Language.class).get("ModifiedOn"), filter.getTo());
 			predicates.add(condition);
 		}
 
@@ -56,13 +58,13 @@ public class LanguageQuery {
 		CriteriaQuery<Language> select = criteriaQuery.select(root);
 
 		// Đếm giá trị của câu query
-		countQuery.select(criteriaBuilder.count(root));
+		countQuery.select(cb.count(rootCount));
 
 		// countQuery.where(criteriaBuilder.like(countQuery.from(Language.class).get("Name"),
 		// filter.getKeyWords() + "%"));
 		if (predicates.size() > 0) {
 			predicates.forEach((element) -> {
-				countQuery.where(criteriaBuilder.and(element));
+				countQuery.where(element);
 			});
 		}
 
