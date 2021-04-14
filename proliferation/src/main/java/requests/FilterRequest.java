@@ -24,11 +24,11 @@ public class FilterRequest {
 	private int pageSize = ConstantConfig.PAGE_SIZE_DEFAULT;
 	private boolean isDescSort = false;
 	private String fieldSort;
-	
+
 	public int getOffset() {
 		return (pageIndex - ConstantConfig.PAGE_INDEX_DEFAULT) * pageSize;
 	}
-	
+
 	public <T> List<Predicate> CreateListPredicate(CriteriaBuilder cb, Root<T> root, Class<T> myClass) {
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		if (this.keyWords != null && !this.keyWords.trim().isEmpty()) {
@@ -36,16 +36,16 @@ public class FilterRequest {
 			predicates.add(condition);
 		}
 		if (this.from != null && !this.from.trim().isEmpty()) {
-			Predicate condition = cb.greaterThanOrEqualTo(root.get("ModifiedOn"), this.from);
+			Predicate condition = cb.greaterThanOrEqualTo(root.get("modifiedOn"), this.from);
 			predicates.add(condition);
 		}
 		if (this.to != null && !this.to.trim().isEmpty()) {
-			Predicate condition = cb.lessThanOrEqualTo(root.get("ModifiedOn"), this.to);
+			Predicate condition = cb.lessThanOrEqualTo(root.get("modifiedOn"), this.to);
 			predicates.add(condition);
 		}
 		return predicates;
 	}
-	
+
 	public <T> CriteriaQuery<T> UseListPredicate(CriteriaQuery<T> query, List<Predicate> predicates) {
 		if (predicates.size() > 0) {
 			predicates.forEach((element) -> {
@@ -54,7 +54,7 @@ public class FilterRequest {
 		}
 		return query;
 	}
-	
+
 	public <T> CriteriaQuery<Long> CreateCount(CriteriaBuilder cb, Class<T> myClass) {
 		CriteriaQuery<Long> query = cb.createQuery(Long.class);
 		Root<T> root = query.from(myClass);
@@ -63,12 +63,21 @@ public class FilterRequest {
 		query = UseListPredicate(query, predicates);
 		return query;
 	}
-	
+
 	public <T> CriteriaQuery<T> CreateQuery(CriteriaBuilder cb, Class<T> myClass) {
 		CriteriaQuery<T> query = cb.createQuery(myClass);
 		Root<T> root = query.from(myClass);
 		List<Predicate> predicates = CreateListPredicate(cb, root, myClass);
 		query = UseListPredicate(query, predicates);
+		if (this.fieldSort != null && !this.fieldSort.trim().isEmpty()) {
+			if (!this.isDescSort) {
+				query = query.orderBy(cb.asc(root.get(this.fieldSort)));
+			} else {
+				query = query.orderBy(cb.desc(root.get(this.fieldSort)));
+			}
+		} else {
+			query = query.orderBy(cb.desc(root.get("modifiedOn")));
+		}
 		return query;
 	}
 }

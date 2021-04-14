@@ -1,6 +1,7 @@
 package controllers;
 
 import java.math.BigInteger;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -71,7 +72,7 @@ public class LanguageController {
 		language.setDescription(newLanguage.getDescription());
 		language.setVersion(newLanguage.getVersion());
 		language.setStatus(newLanguage.getStatus());
-		language.setCreatedOn(Timestamp.valueOf(now));
+		language.setCreatedOn(Date.valueOf(now.toLocalDate()));
 		language.setModifiedOn(Timestamp.valueOf(now));
 		var data = _repo.save(language);
 		ResultData<ActionResponse> result = new ResultData<ActionResponse>();

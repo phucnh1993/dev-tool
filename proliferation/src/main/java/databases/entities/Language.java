@@ -2,6 +2,7 @@ package databases.entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -44,7 +45,7 @@ public class Language implements Serializable {
 	private String description;
 	
 	@Column(name = "CreatedOn", nullable = false, columnDefinition = "date")
-	private Timestamp createdOn;
+	private Date createdOn;
 	
 	@Column(name = "ModifiedOn", nullable = false, columnDefinition = "datetime")
 	private Timestamp modifiedOn;
