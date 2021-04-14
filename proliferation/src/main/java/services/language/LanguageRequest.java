@@ -1,4 +1,4 @@
-package requests;
+package services.language;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

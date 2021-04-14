@@ -1,6 +1,7 @@
 package controllers;
 
 import java.math.BigInteger;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,6 +27,7 @@ import requests.FilterRequest;
 import requests.CommandLineRequest;
 import responses.ActionResponse;
 import responses.ResultData;
+import services.commandLine.CommandLineQuery;
 
 @RestController
 @RequestMapping("/api")
@@ -34,15 +36,12 @@ public class CommandLineController {
 	@Autowired
 	private final ICommandLineRepository _repo;
 	
+	@Autowired(required=true)
+	CommandLineQuery _query;
+	
 	@GetMapping("/command-lines")
 	public @ResponseBody ResultData<List<CommandLine>> getAll(FilterRequest filter) {
-		ResultData<List<CommandLine>> result = new ResultData<List<CommandLine>>();
-		var data = _repo.findAll();
-		result.setData(data);
-		result.setTotal(data.size());
-		result.setErrorCode(0);
-		result.setMessage("SUCCESS");
-	    return result;
+		return _query.getAll(filter);
 	}
 	
 	@GetMapping("/command-lines/{id}")
@@ -64,7 +63,7 @@ public class CommandLineController {
 		language.setDescription(newLanguage.getDescription());
 		language.setContent(newLanguage.getContent());
 		language.setStatus(newLanguage.getStatus());
-		language.setCreatedOn(Timestamp.valueOf(now));
+		language.setCreatedOn(Date.valueOf(now.toLocalDate()));
 		language.setModifiedOn(Timestamp.valueOf(now));
 		var data = _repo.save(language);
 		ResultData<ActionResponse> result = new ResultData<ActionResponse>();

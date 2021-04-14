@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import databases.entities.Language;
 import databases.repositories.ILanguageRepository;
-import exceptions.LanguageNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
 import requests.FilterRequest;
-import requests.LanguageRequest;
 import responses.ActionResponse;
 import responses.ResultData;
 import services.language.LanguageQuery;
+import services.language.LanguageRequest;
+import services.language.LanguagesResponse;
 
 @RestController
 @RequestMapping("/api")
@@ -49,18 +49,13 @@ public class LanguageController {
 	// LoggerFactory.getLogger(UserController.class);
 
 	@GetMapping("/languages")
-	public @ResponseBody ResultData<List<Language>> getAll(FilterRequest filter) {
+	public @ResponseBody ResultData<List<LanguagesResponse>> getAll(FilterRequest filter) {
 		return _query.getAll(filter);
 	}
 
 	@GetMapping("/languages/{id}")
 	public @ResponseBody ResultData<Language> getOne(@PathVariable BigInteger id) {
-		ResultData<Language> result = new ResultData<Language>();
-		result.setData(_repo.findById(id).orElseThrow(() -> new LanguageNotFoundException(id)));
-		result.setTotal(1);
-		result.setErrorCode(0);
-		result.setMessage("SUCCESS");
-		return result;
+		return _query.getDetail(id);
 	}
 
 	@PostMapping("/languages")
