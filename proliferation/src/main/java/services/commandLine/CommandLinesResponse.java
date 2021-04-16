@@ -1,4 +1,4 @@
-package services.language;
+package services.commandLine;
 
 import java.math.BigInteger;
 
@@ -13,11 +13,11 @@ import lombok.Setter;
 @Setter 
 @NoArgsConstructor
 @AllArgsConstructor
-public class LanguagesResponse {
+public class CommandLinesResponse {
 	@JsonProperty("id")
 	private BigInteger id;
-	@JsonProperty("content")
-	private String content;
-	@JsonProperty("applicationName")
-	private String applicationName;
+	@JsonProperty("name")
+	private String name;
+	@JsonProperty("version")
+	private String version;
 }

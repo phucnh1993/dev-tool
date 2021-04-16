@@ -1,4 +1,4 @@
-package services.language;
+package services.commandLine;
 
 import java.math.BigInteger;
 import java.sql.Date;
@@ -12,8 +12,8 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 
 import configs.ConstantConfig;
-import databases.entities.Language;
-import databases.repositories.ILanguageRepository;
+import databases.entities.CommandLine;
+import databases.repositories.ICommandLineRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
 import services.ActionResponse;
@@ -21,23 +21,23 @@ import services.ResultData;
 
 @Service
 @RequiredArgsConstructor
-public class LanguageAction {
+public class CommandLineAction {
 	@PersistenceContext
 	final EntityManager entityManager;
 
-	public ResultData<ActionResponse> createLanguage(ILanguageRepository _repo, LanguageRequest newLanguage) {
+	public ResultData<ActionResponse> createCommandLine(ICommandLineRepository _repo, CommandLineRequest newCmd) {
 		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
 		try {
 			long startTime = System.nanoTime();
 			LocalDateTime now = LocalDateTime.now();
-			Language language = new Language();
-			language.setName(newLanguage.getName());
-			language.setDescription(newLanguage.getDescription());
-			language.setVersion(newLanguage.getVersion());
-			language.setStatus(newLanguage.getStatus());
-			language.setCreatedOn(Date.valueOf(now.toLocalDate()));
-			language.setModifiedOn(Timestamp.valueOf(now));
-			var data = _repo.save(language);
+			CommandLine cmd = new CommandLine();
+			cmd.setContent(newCmd.getContent());
+			cmd.setApplicationName(newCmd.getApplicationName());
+			cmd.setDescription(newCmd.getDescription());
+			cmd.setStatus(newCmd.getStatus());
+			cmd.setCreatedOn(Date.valueOf(now.toLocalDate()));
+			cmd.setModifiedOn(Timestamp.valueOf(now));
+			var data = _repo.save(cmd);
 			ActionResponse temp = new ActionResponse();
 			temp.setId(data.getId());
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -53,18 +53,18 @@ public class LanguageAction {
 		return result;
 	}
 
-	public ResultData<ActionResponse> updateLanguage(ILanguageRepository _repo, LanguageRequest oldLanguage,
+	public ResultData<ActionResponse> updateCommandLine(ICommandLineRepository _repo, CommandLineRequest newCmd,
 			BigInteger id) {
 		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
 		try {
 			long startTime = System.nanoTime();
 			LocalDateTime now = LocalDateTime.now();
-			Language data = _repo.findById(id).get();
-			data.setName(oldLanguage.getName());
-			data.setVersion(oldLanguage.getVersion());
-			data.setDescription(oldLanguage.getDescription());
+			CommandLine data = _repo.findById(id).get();
+			data.setContent(newCmd.getContent());
+			data.setApplicationName(newCmd.getApplicationName());
+			data.setDescription(newCmd.getDescription());
+			data.setStatus(newCmd.getStatus());
 			data.setModifiedOn(Timestamp.valueOf(now));
-			data.setStatus(oldLanguage.getStatus());
 			_repo.save(data);
 			ActionResponse temp = new ActionResponse();
 			temp.setId(data.getId());
@@ -81,7 +81,7 @@ public class LanguageAction {
 		return result;
 	}
 	
-	public ResultData<ActionResponse> deleteLanguage(ILanguageRepository _repo, BigInteger id) {
+	public ResultData<ActionResponse> deleteCommandLine(ICommandLineRepository _repo, BigInteger id) {
 		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
 		try {
 			long startTime = System.nanoTime();
