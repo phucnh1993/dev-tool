@@ -1,10 +1,6 @@
 package controllers;
 
 import java.math.BigInteger;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -24,10 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import databases.entities.Language;
 import databases.repositories.ILanguageRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.var;
-import requests.FilterRequest;
-import responses.ActionResponse;
-import responses.ResultData;
+import services.ActionResponse;
+import services.FilterRequest;
+import services.ResultData;
+import services.language.LanguageAction;
 import services.language.LanguageQuery;
 import services.language.LanguageRequest;
 import services.language.LanguagesResponse;
@@ -44,9 +40,9 @@ public class LanguageController {
 	
 	@Autowired(required=true)
 	LanguageQuery _query;
-
-	// private static final Logger LOGGER =
-	// LoggerFactory.getLogger(UserController.class);
+	
+	@Autowired(required=true)
+	LanguageAction _action;
 
 	@GetMapping("/languages")
 	public @ResponseBody ResultData<List<LanguagesResponse>> getAll(FilterRequest filter) {
@@ -59,79 +55,18 @@ public class LanguageController {
 	}
 
 	@PostMapping("/languages")
-	public @ResponseBody ResultData<ActionResponse> newEmployee(@RequestBody LanguageRequest newLanguage) {
-		long startTime = System.nanoTime();
-		LocalDateTime now = LocalDateTime.now();
-		Language language = new Language();
-		language.setName(newLanguage.getName());
-		language.setDescription(newLanguage.getDescription());
-		language.setVersion(newLanguage.getVersion());
-		language.setStatus(newLanguage.getStatus());
-		language.setCreatedOn(Date.valueOf(now.toLocalDate()));
-		language.setModifiedOn(Timestamp.valueOf(now));
-		var data = _repo.save(language);
-		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
-		ActionResponse temp = new ActionResponse();
-		temp.setId(data.getId());
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		temp.setActionOn(now.format(formatter));
-		long endTime = System.nanoTime();
-		temp.setRuntime((endTime - startTime) / 1000);
-		result.setData(temp);
-		result.setTotal(1);
-		result.setErrorCode(0);
-		result.setMessage("SUCCESS");
-		return result;
+	public @ResponseBody ResultData<ActionResponse> createLanaguage(@RequestBody LanguageRequest newLanguage) {
+		return _action.createLanguage(_repo, newLanguage);
 	}
 
 	@PutMapping("/languages/{id}")
-	public @ResponseBody ResultData<ActionResponse> replaceEmployee(@RequestBody Language newLanguage,
+	public @ResponseBody ResultData<ActionResponse> updateLanaguage(@RequestBody LanguageRequest oldLanguage,
 			@PathVariable BigInteger id) {
-		long startTime = System.nanoTime();
-		LocalDateTime now = LocalDateTime.now();
-		var data = _repo.findById(id).map(language -> {
-			language.setName(newLanguage.getName());
-			language.setVersion(newLanguage.getVersion());
-			language.setDescription(newLanguage.getDescription());
-			language.setModifiedOn(Timestamp.valueOf(now));
-			language.setStatus(newLanguage.getStatus());
-			return _repo.save(language);
-		}).orElseGet(() -> {
-			newLanguage.setId(id);
-			return _repo.save(newLanguage);
-		});
-		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
-		ActionResponse temp = new ActionResponse();
-		temp.setId(data.getId());
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		temp.setActionOn(now.format(formatter));
-		temp.setActionOn(now.format(formatter));
-		long endTime = System.nanoTime();
-		temp.setRuntime((endTime - startTime) / 1000);
-		result.setData(temp);
-		result.setTotal(1);
-		result.setErrorCode(0);
-		result.setMessage("SUCCESS");
-		return result;
+		return _action.updateLanguage(_repo, oldLanguage, id);
 	}
 
 	@DeleteMapping("/languages/{id}")
 	public @ResponseBody ResultData<ActionResponse> deleteEmployee(@PathVariable BigInteger id) {
-		long startTime = System.nanoTime();
-		_repo.deleteById(id);
-		LocalDateTime now = LocalDateTime.now();
-		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
-		ActionResponse temp = new ActionResponse();
-		temp.setId(id);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		temp.setActionOn(now.format(formatter));
-		temp.setActionOn(now.format(formatter));
-		long endTime = System.nanoTime();
-		temp.setRuntime((endTime - startTime) / 1000);
-		result.setData(temp);
-		result.setTotal(1);
-		result.setErrorCode(0);
-		result.setMessage("SUCCESS");
-		return result;
+		return _action.deleteLanguage(_repo, id);
 	}
 }

@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import configs.ConstantConfig;
 import databases.entities.Language;
 import lombok.RequiredArgsConstructor;
-import requests.FilterRequest;
-import responses.ResultData;
+import services.FilterRequest;
+import services.ResultData;
 
 @Service
 @RequiredArgsConstructor
@@ -32,36 +32,43 @@ public class LanguageQuery {
 
 	public ResultData<List<LanguagesResponse>> getAll(FilterRequest filter) {
 		ResultData<List<LanguagesResponse>> result = new ResultData<List<LanguagesResponse>>();
-		result.setData(new ArrayList<LanguagesResponse>());
-		result.setErrorCode(ConstantConfig.SUCCESS);
-		result.setMessage(ConstantConfig.StatusMessage.get(ConstantConfig.SUCCESS));
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-		result.setTotal(count(filter));
-		if (result.getTotal() > 0) {
-			TypedQuery<Language> typedQuery = entityManager.createQuery(filter.CreateQuery(cb, Language.class)).setFirstResult(filter.getOffset())
-					.setMaxResults(filter.getPageSize());
-			List<Language> languages = typedQuery.getResultList();
-			List<LanguagesResponse> data = new ArrayList<LanguagesResponse>();
-			for (int i = 0; i < languages.size(); i++) {
-				data.add(new LanguagesResponse(languages.get(i).getId(), languages.get(i).getName(), languages.get(i).getVersion()));
+		try {
+			result.setData(new ArrayList<LanguagesResponse>());
+			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+			result.setTotal(count(filter));
+			if (result.getTotal() > 0) {
+				TypedQuery<Language> typedQuery = entityManager.createQuery(filter.CreateQuery(cb, Language.class))
+						.setFirstResult(filter.getOffset()).setMaxResults(filter.getPageSize());
+				List<Language> languages = typedQuery.getResultList();
+				List<LanguagesResponse> data = new ArrayList<LanguagesResponse>();
+				for (int i = 0; i < languages.size(); i++) {
+					data.add(new LanguagesResponse(languages.get(i).getId(), languages.get(i).getName(),
+							languages.get(i).getVersion()));
+				}
+				result.setData(data);
 			}
-			result.setData(data);
+		} catch (Exception ex) {
+			result.setErrorCode(ConstantConfig.QUERY_DATA_ERROR);
+			result.setMessage(ConstantConfig.StatusMessage.get(ConstantConfig.QUERY_DATA_ERROR));
 		}
 		return result;
 	}
-	
+
 	public ResultData<Language> getDetail(BigInteger id) {
 		ResultData<Language> result = new ResultData<Language>();
-		result.setErrorCode(ConstantConfig.SUCCESS);
-		result.setMessage(ConstantConfig.StatusMessage.get(ConstantConfig.SUCCESS));
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Language> query = cb.createQuery(Language.class);
-		Root<Language> root = query.from(Language.class);
-		query.where(cb.equal(root.get("id"), id));
-		TypedQuery<Language> typedQuery = entityManager.createQuery(query);
-		result.setData(typedQuery.getSingleResult());
-		if (result.getData() != null) {
-			result.setTotal(1);
+		try {
+			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Language> query = cb.createQuery(Language.class);
+			Root<Language> root = query.from(Language.class);
+			query.where(cb.equal(root.get("id"), id));
+			TypedQuery<Language> typedQuery = entityManager.createQuery(query);
+			result.setData(typedQuery.getSingleResult());
+			if (result.getData() != null) {
+				result.setTotal(1);
+			}
+		} catch (Exception ex) {
+			result.setErrorCode(ConstantConfig.QUERY_DATA_ERROR);
+			result.setMessage(ConstantConfig.StatusMessage.get(ConstantConfig.QUERY_DATA_ERROR));
 		}
 		return result;
 	}

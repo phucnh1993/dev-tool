@@ -1,4 +1,4 @@
-package requests;
+package services.commandLine;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

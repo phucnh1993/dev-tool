@@ -23,11 +23,11 @@ import databases.repositories.ICommandLineRepository;
 import exceptions.LanguageNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
-import requests.FilterRequest;
-import requests.CommandLineRequest;
-import responses.ActionResponse;
-import responses.ResultData;
+import services.ActionResponse;
+import services.FilterRequest;
+import services.ResultData;
 import services.commandLine.CommandLineQuery;
+import services.commandLine.CommandLineRequest;
 
 @RestController
 @RequestMapping("/api")

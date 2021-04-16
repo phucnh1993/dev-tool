@@ -1,4 +1,4 @@
-package responses;
+package services;
 
 import configs.ConstantConfig;
 import lombok.Getter;

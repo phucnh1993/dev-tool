@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import configs.ConstantConfig;
 import databases.entities.CommandLine;
 import lombok.RequiredArgsConstructor;
-import requests.FilterRequest;
-import responses.ResultData;
+import services.FilterRequest;
+import services.ResultData;
 
 @Service
 @RequiredArgsConstructor
