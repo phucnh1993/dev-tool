@@ -38,7 +38,10 @@ public class CodeTemplate {
 	@Column(name = "LanguageId", nullable = false, columnDefinition = "bigint unsigned")
 	private String languageId;
 	
-	@Column(name = "Title", nullable = false, length = 100, columnDefinition = "varchar(100)")
+	@Column(name = "TagName", nullable = false, length = 64, columnDefinition = "varchar(64)")
+	private String tagName;
+	
+	@Column(name = "Title", nullable = false, length = 128, columnDefinition = "varchar(128)")
 	private String title;
 	
 	@Column(name = "Content", nullable = false, columnDefinition = "longtext")
@@ -50,6 +53,9 @@ public class CodeTemplate {
 	@Column(name = "ModifiedOn", nullable = false, columnDefinition = "datetime")
 	private Timestamp modifiedOn;
 	
-	@Column(name = "Status", nullable = false, columnDefinition = "tinyint unsigned")
-	private short status;
+	@Column(name = "IsActivated", nullable = false, columnDefinition = "bit")
+	private boolean isActivated;
+	
+	@Column(name = "OnlyFirst", nullable = false, columnDefinition = "bit")
+	private boolean onlyFirst;
 }

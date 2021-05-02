@@ -24,7 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Projects")
+@Table(name = "Servers")
 @EntityListeners(AuditingEntityListener.class)
 public class Server {
 	@SuppressWarnings("unused")
@@ -35,7 +35,7 @@ public class Server {
 	@Column(name = "Id", nullable = false, columnDefinition = "bigint unsigned")
     private BigInteger id;
 	
-	@Column(name = "Name", nullable = false, length = 100, columnDefinition = "varchar(100)")
+	@Column(name = "Name", nullable = false, length = 64, columnDefinition = "varchar(64)")
 	private String name;
 	
 	@Column(name = "Description", nullable = false, length = 500, columnDefinition = "varchar(500)")

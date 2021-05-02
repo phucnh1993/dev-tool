@@ -35,7 +35,7 @@ public class Project {
 	@Column(name = "Id", nullable = false, columnDefinition = "bigint unsigned")
     private BigInteger id;
 	
-	@Column(name = "Name", nullable = false, length = 100, columnDefinition = "varchar(100)")
+	@Column(name = "Name", nullable = false, length = 64, columnDefinition = "varchar(64)")
 	private String name;
 	
 	@Column(name = "Code", nullable = false, length = 32, columnDefinition = "varchar(32)")
@@ -47,19 +47,25 @@ public class Project {
 	@Column(name = "LanguageId", nullable = false, columnDefinition = "bigint unsigned")
 	private String languageId;
 	
+	@Column(name = "ServerId", nullable = false, columnDefinition = "bigint unsigned")
+	private String serverId;
+	
+	@Column(name = "IsActivated", nullable = false, columnDefinition = "bit")
+	private boolean isActivated;
+	
 	@Column(name = "IsIpSix", nullable = false, columnDefinition = "bit")
 	private boolean isIpSix;
 	
 	@Column(name = "DatabaseAddress", nullable = false, length = 50, columnDefinition = "varchar(50)")
 	private String databaseAddress;
 	
-	@Column(name = "DatabaseName", nullable = false, length = 100, columnDefinition = "varchar(100)")
+	@Column(name = "DatabaseName", nullable = false, length = 64, columnDefinition = "varchar(64)")
 	private String databaseName;
 	
 	@Column(name = "DatabaseType", nullable = false, length = 50, columnDefinition = "varchar(50)")
 	private String databaseType;
 	
-	@Column(name = "UserName", nullable = false, length = 100, columnDefinition = "varchar(100)")
+	@Column(name = "UserName", nullable = false, length = 64, columnDefinition = "varchar(64)")
 	private String userName;
 	
 	@Column(name = "Password", nullable = false, length = 64, columnDefinition = "varbinary(64)")
@@ -73,7 +79,4 @@ public class Project {
 	
 	@Column(name = "ModifiedOn", nullable = false, columnDefinition = "datetime")
 	private Timestamp modifiedOn;
-	
-	@Column(name = "Status", nullable = false, columnDefinition = "tinyint unsigned")
-	private short status;
 }
