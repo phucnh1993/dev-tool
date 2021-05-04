@@ -59,6 +59,11 @@ namespace DevTool.Domains {
                 .HasColumnOrder(2)
                 .IsUnicode(true)
                 .IsRequired();
+            modelBuilder.Entity<CommandRun>().Property(p => p.Sort)
+                .HasColumnName("Sort")
+                .HasColumnType("int")
+                .HasColumnOrder(3)
+                .IsRequired();
         }
     }
 }

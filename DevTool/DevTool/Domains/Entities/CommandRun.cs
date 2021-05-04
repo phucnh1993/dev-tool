@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DevTool.Domains.Entities {
     public class CommandRun {
@@ -12,8 +11,8 @@ namespace DevTool.Domains.Entities {
         public long Id { get; set; }
         public string CommandContent { get; set; }
         public string CommandDecription { get; set; }
+        public int Sort { get; set; }
 
-        [ForeignKey("FK_CommandRun_AppRun")]
         public virtual ICollection<AppRun> AppRuns { get; set; }
     }
 }
