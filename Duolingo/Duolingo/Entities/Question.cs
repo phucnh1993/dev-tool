@@ -36,7 +36,7 @@ namespace Duolingo.Entities {
         public int Sort { get; set; }
 
         [Required]
-        [Column("Sort", Order = 6, TypeName = "tinyint")]
+        [Column("Status", Order = 6, TypeName = "tinyint")]
         public byte Status { get; set; }
     }
 }
