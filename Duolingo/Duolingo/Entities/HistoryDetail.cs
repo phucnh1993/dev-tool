@@ -24,5 +24,8 @@ namespace Duolingo.Entities {
         [Required]
         [Column("DataTest", Order = 3, TypeName = "longblob")]
         public byte[] DataTest { get; set; }
+
+        public virtual History MyHistory { get; set; }
+        public virtual Topic MyTopic { get; set; }
     }
 }

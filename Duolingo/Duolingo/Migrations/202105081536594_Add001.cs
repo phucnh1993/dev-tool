@@ -33,6 +33,18 @@ namespace Duolingo.Migrations
                 .Index(t => t.TopicId);
             
             CreateTable(
+                "dbo.Topics",
+                c => new
+                    {
+                        Id = c.Long(nullable: false, identity: true),
+                        Title = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
+                        HashCompare = c.String(nullable: false, maxLength: 128, unicode: false),
+                        Sort = c.Int(nullable: false),
+                        IsActivated = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.Questions",
                 c => new
                     {
@@ -53,18 +65,6 @@ namespace Duolingo.Migrations
                 .Index(t => t.VietnamHashCompare, unique: true)
                 .Index(t => t.TopicId, unique: true);
             
-            CreateTable(
-                "dbo.Topics",
-                c => new
-                    {
-                        Id = c.Long(nullable: false, identity: true),
-                        Title = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
-                        HashCompare = c.String(nullable: false, maxLength: 128, unicode: false),
-                        Sort = c.Int(nullable: false),
-                        IsActivated = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
         }
         
         public override void Down()
@@ -80,8 +80,8 @@ namespace Duolingo.Migrations
             DropIndex("dbo.HistoryDetails", new[] { "TopicId" });
             DropIndex("dbo.HistoryDetails", new[] { "HistoryId" });
             DropIndex("dbo.Histories", new[] { "CreatedDate" });
-            DropTable("dbo.Topics");
             DropTable("dbo.Questions");
+            DropTable("dbo.Topics");
             DropTable("dbo.HistoryDetails");
             DropTable("dbo.Histories");
         }

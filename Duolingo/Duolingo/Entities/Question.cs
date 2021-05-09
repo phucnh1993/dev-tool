@@ -46,5 +46,7 @@ namespace Duolingo.Entities {
         [InverseProperty("FK_Questions_TopicId")]
         [Index("IX_TopicId", IsClustered = false, IsUnique = true)]
         public long TopicId { get; set; }
+
+        public virtual Topic MyTopic { get; set; }
     }
 }

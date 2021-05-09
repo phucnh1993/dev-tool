@@ -30,6 +30,7 @@ namespace Duolingo {
             this.autoRun = new System.Windows.Forms.Button();
             this.refeshInfo = new System.Windows.Forms.Button();
             this.reloadAuto = new System.Windows.Forms.Timer(this.components);
+            this.manageHistory = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // databaseInfo
@@ -50,7 +51,7 @@ namespace Duolingo {
             this.manageData.Name = "manageData";
             this.manageData.Size = new System.Drawing.Size(121, 23);
             this.manageData.TabIndex = 1;
-            this.manageData.Text = "Manage Data";
+            this.manageData.Text = "Manage Topic";
             this.manageData.UseVisualStyleBackColor = true;
             this.manageData.Click += new System.EventHandler(this.manageData_Click);
             // 
@@ -80,11 +81,22 @@ namespace Duolingo {
             this.reloadAuto.Interval = 5000;
             this.reloadAuto.Tick += new System.EventHandler(this.reloadAuto_Tick);
             // 
+            // manageHistory
+            // 
+            this.manageHistory.Location = new System.Drawing.Point(229, 99);
+            this.manageHistory.Name = "manageHistory";
+            this.manageHistory.Size = new System.Drawing.Size(121, 23);
+            this.manageHistory.TabIndex = 4;
+            this.manageHistory.Text = "Manage History";
+            this.manageHistory.UseVisualStyleBackColor = true;
+            this.manageHistory.Click += new System.EventHandler(this.manageHistory_Click);
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(361, 193);
+            this.Controls.Add(this.manageHistory);
             this.Controls.Add(this.refeshInfo);
             this.Controls.Add(this.autoRun);
             this.Controls.Add(this.manageData);
@@ -104,6 +116,7 @@ namespace Duolingo {
         private System.Windows.Forms.Button autoRun;
         private System.Windows.Forms.Button refeshInfo;
         private System.Windows.Forms.Timer reloadAuto;
+        private System.Windows.Forms.Button manageHistory;
     }
 }
 
