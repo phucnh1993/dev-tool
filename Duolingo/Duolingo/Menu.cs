@@ -46,5 +46,13 @@ namespace Duolingo {
             ManageHistory mh = new ManageHistory();
             mh.Show();
         }
+
+        private void exportAllData_Click(object sender, EventArgs e) {
+
+        }
+
+        private void importAllData_Click(object sender, EventArgs e) {
+
+        }
     }
 }

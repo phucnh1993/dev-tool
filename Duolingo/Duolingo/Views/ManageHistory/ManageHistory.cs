@@ -45,5 +45,24 @@ namespace Duolingo.Views.ManageHistory {
             var end = endDate.Value;
             Reload(start, end);
         }
+
+        private void listHistory_SelectedIndexChanged(object sender, EventArgs e) {
+            string item = listHistory.SelectedItem.ToString();
+            if (item != "") {
+                var data = item.Split(':');
+                long index = long.Parse(data[0]);
+                using (var db = new DuoContext()) {
+                    var hisDetail = db.HistoryDetails.AsNoTracking()
+                        .Where(x => x.MyHistory.Id == index && x.MyTopic.IsActivated)
+                        .Select(x => new { Id = x.TopicId, TopicTitle = x.MyTopic.Title }).ToList();
+                    if (hisDetail.Count > 0) {
+                        foreach (var detail in hisDetail) {
+                            string dataHisDetail = detail.Id + ": " + detail.TopicTitle;
+                            listTopic.Items.Add(dataHisDetail);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
