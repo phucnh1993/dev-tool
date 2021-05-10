@@ -16,12 +16,12 @@ namespace Duolingo.Entities {
         public long Id { get; set; }
 
         [Required]
-        [MaxLength(128, ErrorMessage = "Title over max length")]
+        [MaxLength(100, ErrorMessage = "Title over max length")]
         [Column("Title", Order = 1, TypeName = "nvarchar")]
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(128, ErrorMessage = "HashCompare over max length")]
+        [MaxLength(64, ErrorMessage = "HashCompare over max length")]
         [Column("HashCompare", Order = 2, TypeName = "varchar")]
         public string HashCompare { get; set; }
 
@@ -30,8 +30,12 @@ namespace Duolingo.Entities {
         public int Sort { get; set; }
 
         [Required]
-        [Column("IsActivated", Order = 4, TypeName = "bool")]
-        public bool IsActivated { get; set; }
+        [Column("IsHide", Order = 4)]
+        public bool IsHide { get; set; }
+
+        [Required]
+        [Column("IsDeleted", Order = 5)]
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }
         public virtual ICollection<HistoryDetail> HistoryDetails { get; set; }

@@ -28,18 +28,16 @@ namespace Duolingo.Entities {
         public string VietnamData { get; set; }
 
         [Required]
-        [MaxLength(64, ErrorMessage = "VietnamHashCompare over max length")]
-        [Column("VietnamHashCompare", Order = 4, TypeName = "varchar")]
-        [Index("IX_VietnamHashCompare", IsClustered = false, IsUnique = true)]
-        public string VietnamHashCompare { get; set; }
-
-        [Required]
-        [Column("Sort", Order = 5, TypeName = "int")]
+        [Column("Sort", Order = 4, TypeName = "int")]
         public int Sort { get; set; }
 
         [Required]
-        [Column("IsActivated", Order = 6, TypeName = "bool")]
+        [Column("IsActivated", Order = 5, TypeName = "bool")]
         public bool IsActivated { get; set; }
+
+        [Required]
+        [Column("IsDeleted", Order = 6, TypeName = "bool")]
+        public bool IsDeleted { get; set; }
 
         [Required]
         [Column("TopicId", Order = 7, TypeName = "bigint")]
