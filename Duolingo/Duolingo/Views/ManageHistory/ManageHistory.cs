@@ -21,6 +21,9 @@ namespace Duolingo.Views.ManageHistory {
                             listHistory.Items.Add(dataHis);
                         }
                     }
+                    var topics = db.Topics.AsNoTracking().Where(x => !x.IsDeleted && !x.IsHide).OrderBy(x => x.Sort).ToList();
+                    selectTopic.DataSource = topics;
+                    selectTopic.DisplayMember = "Title";
                 }
                 return;
             }
@@ -52,7 +55,7 @@ namespace Duolingo.Views.ManageHistory {
                 long index = long.Parse(data[0]);
                 using (var db = new DuoContext()) {
                     var hisDetail = db.HistoryDetails.AsNoTracking()
-                        .Where(x => x.MyHistory.Id == index && x.MyTopic.IsActivated)
+                        .Where(x => x.MyHistory.Id == index && !x.MyTopic.IsDeleted && x.MyTopic.IsHide)
                         .Select(x => new { Id = x.TopicId, TopicTitle = x.MyTopic.Title }).ToList();
                     if (hisDetail.Count > 0) {
                         foreach (var detail in hisDetail) {

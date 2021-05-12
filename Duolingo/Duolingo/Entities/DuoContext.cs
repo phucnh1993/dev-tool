@@ -1,5 +1,7 @@
 ﻿using MySql.Data.EntityFramework;
+using System;
 using System.Data.Entity;
+using System.Windows.Forms;
 
 namespace Duolingo.Entities {
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
@@ -12,6 +14,17 @@ namespace Duolingo.Entities {
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
+        }
+
+        public bool Update<T>(T data) {
+            try {
+                this.Entry(data).State = EntityState.Modified;
+                this.SaveChanges();
+                return true;
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message, "Lỗi update dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
         }
     }
 }

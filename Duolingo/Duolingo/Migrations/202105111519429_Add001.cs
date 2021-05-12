@@ -37,10 +37,11 @@ namespace Duolingo.Migrations
                 c => new
                     {
                         Id = c.Long(nullable: false, identity: true),
-                        Title = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
-                        HashCompare = c.String(nullable: false, maxLength: 128, unicode: false),
+                        Title = c.String(nullable: false, maxLength: 100, storeType: "nvarchar"),
+                        HashCompare = c.String(nullable: false, maxLength: 64, unicode: false),
                         Sort = c.Int(nullable: false),
-                        IsActivated = c.Boolean(nullable: false),
+                        IsHide = c.Boolean(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -52,9 +53,9 @@ namespace Duolingo.Migrations
                         EnglishData = c.String(nullable: false, maxLength: 500, unicode: false),
                         EnglishHashCompare = c.String(nullable: false, maxLength: 64, unicode: false),
                         VietnamData = c.String(nullable: false, maxLength: 500, storeType: "nvarchar"),
-                        VietnamHashCompare = c.String(nullable: false, maxLength: 64, unicode: false),
                         Sort = c.Int(nullable: false),
                         IsActivated = c.Boolean(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                         TopicId = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -62,7 +63,6 @@ namespace Duolingo.Migrations
                 .Index(t => t.EnglishData, unique: true)
                 .Index(t => t.EnglishHashCompare, unique: true)
                 .Index(t => t.VietnamData, unique: true)
-                .Index(t => t.VietnamHashCompare, unique: true)
                 .Index(t => t.TopicId, unique: true);
             
         }
@@ -73,7 +73,6 @@ namespace Duolingo.Migrations
             DropForeignKey("dbo.HistoryDetails", "TopicId", "dbo.Topics");
             DropForeignKey("dbo.HistoryDetails", "HistoryId", "dbo.Histories");
             DropIndex("dbo.Questions", new[] { "TopicId" });
-            DropIndex("dbo.Questions", new[] { "VietnamHashCompare" });
             DropIndex("dbo.Questions", new[] { "VietnamData" });
             DropIndex("dbo.Questions", new[] { "EnglishHashCompare" });
             DropIndex("dbo.Questions", new[] { "EnglishData" });
