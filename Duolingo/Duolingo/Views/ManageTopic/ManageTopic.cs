@@ -28,6 +28,9 @@ namespace Duolingo.Views.ManageTopic {
                     listTopic.Items.Add(data);
                 }
             }
+            _topic = new Topic();
+            topicTitle.Text = "";
+            isHide.Checked = false;
             this.Refresh();
         }
 
@@ -36,7 +39,6 @@ namespace Duolingo.Views.ManageTopic {
         }
 
         private void saveChangeTopic_Click(object sender, EventArgs e) {
-
             if (_topic == null && !string.IsNullOrWhiteSpace(topicTitle.Text)) {
                 var hashData = HashService.ComputeSha256Hash(topicTitle.Text);
                 using (var db = new DuoContext()) {
