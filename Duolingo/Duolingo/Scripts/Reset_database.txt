@@ -1,0 +1,7 @@
+﻿delete from duolingo.historydetails;
+delete from duolingo.histories;
+delete from duolingo.topics;
+
+alter table duolingo.historydetails  auto_increment = 1;
+alter table duolingo.histories auto_increment = 1;
+alter table duolingo.topics auto_increment = 1;

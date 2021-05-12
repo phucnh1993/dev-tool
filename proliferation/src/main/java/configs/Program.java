@@ -11,10 +11,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 @ComponentScan("controllers")
+@ComponentScan("services")
 @EntityScan("databases.entities")
 @EnableJpaRepositories("databases.repositories")
 public class Program {
 	public static void main(String[] args) {
+		ConstantConfig.CreateStatusMessage();
 		SpringApplication app = new SpringApplication(Program.class);
 		app.run(args);
 	}

@@ -1,15 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DevTool.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
   <Profiles />
-  <Settings>
-    <Setting Name="DatabaseRoot" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">data\master.db</Value>
-    </Setting>
-    <Setting Name="ConnectionDatabase" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Data Source=data\master.db;Version=3;New=True;Compress=True;Cache Size=3000;UTF8Encoding=True;Page Size=10240;</Value>
-    </Setting>
-    <Setting Name="ConnectionTool" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">server=localhost;port=3306;database=Tool;uid=root</Value>
-    </Setting>
-  </Settings>
+  <Settings />
 </SettingsFile>

@@ -22,33 +22,5 @@ namespace DevTool.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("data\\master.db")]
-        public string DatabaseRoot {
-            get {
-                return ((string)(this["DatabaseRoot"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=data\\master.db;Version=3;New=True;Compress=True;Cache Size=3000;UTF8E" +
-            "ncoding=True;Page Size=10240;")]
-        public string ConnectionDatabase {
-            get {
-                return ((string)(this["ConnectionDatabase"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("server=localhost;port=3306;database=Tool;uid=root")]
-        public string ConnectionTool {
-            get {
-                return ((string)(this["ConnectionTool"]));
-            }
-        }
     }
 }

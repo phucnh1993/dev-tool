@@ -46,7 +46,6 @@ namespace DevTool {
             this.btnLanguageManager.TabIndex = 1;
             this.btnLanguageManager.Text = "Language Manager";
             this.btnLanguageManager.UseVisualStyleBackColor = true;
-            this.btnLanguageManager.Click += new System.EventHandler(this.btnLanguageManager_Click);
             // 
             // MenuTool
             // 
