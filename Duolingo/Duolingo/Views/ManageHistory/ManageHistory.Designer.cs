@@ -49,6 +49,7 @@ namespace Duolingo.Views.ManageHistory {
             this.listHistory.Name = "listHistory";
             this.listHistory.Size = new System.Drawing.Size(176, 316);
             this.listHistory.TabIndex = 0;
+            this.listHistory.SelectedIndexChanged += new System.EventHandler(this.listHistory_SelectedIndexChanged);
             // 
             // label1
             // 

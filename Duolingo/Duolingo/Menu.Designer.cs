@@ -31,6 +31,8 @@ namespace Duolingo {
             this.refeshInfo = new System.Windows.Forms.Button();
             this.reloadAuto = new System.Windows.Forms.Timer(this.components);
             this.manageHistory = new System.Windows.Forms.Button();
+            this.exportAllData = new System.Windows.Forms.Button();
+            this.importAllData = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // databaseInfo
@@ -42,7 +44,7 @@ namespace Duolingo {
             this.databaseInfo.Multiline = true;
             this.databaseInfo.Name = "databaseInfo";
             this.databaseInfo.ReadOnly = true;
-            this.databaseInfo.Size = new System.Drawing.Size(211, 171);
+            this.databaseInfo.Size = new System.Drawing.Size(211, 168);
             this.databaseInfo.TabIndex = 0;
             // 
             // manageData
@@ -57,7 +59,7 @@ namespace Duolingo {
             // 
             // autoRun
             // 
-            this.autoRun.Location = new System.Drawing.Point(229, 41);
+            this.autoRun.Location = new System.Drawing.Point(229, 128);
             this.autoRun.Name = "autoRun";
             this.autoRun.Size = new System.Drawing.Size(121, 23);
             this.autoRun.TabIndex = 2;
@@ -67,7 +69,7 @@ namespace Duolingo {
             // 
             // refeshInfo
             // 
-            this.refeshInfo.Location = new System.Drawing.Point(229, 70);
+            this.refeshInfo.Location = new System.Drawing.Point(229, 157);
             this.refeshInfo.Name = "refeshInfo";
             this.refeshInfo.Size = new System.Drawing.Size(121, 23);
             this.refeshInfo.TabIndex = 3;
@@ -83,7 +85,7 @@ namespace Duolingo {
             // 
             // manageHistory
             // 
-            this.manageHistory.Location = new System.Drawing.Point(229, 99);
+            this.manageHistory.Location = new System.Drawing.Point(228, 41);
             this.manageHistory.Name = "manageHistory";
             this.manageHistory.Size = new System.Drawing.Size(121, 23);
             this.manageHistory.TabIndex = 4;
@@ -91,11 +93,33 @@ namespace Duolingo {
             this.manageHistory.UseVisualStyleBackColor = true;
             this.manageHistory.Click += new System.EventHandler(this.manageHistory_Click);
             // 
+            // exportAllData
+            // 
+            this.exportAllData.Location = new System.Drawing.Point(229, 70);
+            this.exportAllData.Name = "exportAllData";
+            this.exportAllData.Size = new System.Drawing.Size(120, 23);
+            this.exportAllData.TabIndex = 5;
+            this.exportAllData.Text = "Export All Data";
+            this.exportAllData.UseVisualStyleBackColor = true;
+            this.exportAllData.Click += new System.EventHandler(this.exportAllData_Click);
+            // 
+            // importAllData
+            // 
+            this.importAllData.Location = new System.Drawing.Point(229, 99);
+            this.importAllData.Name = "importAllData";
+            this.importAllData.Size = new System.Drawing.Size(120, 23);
+            this.importAllData.TabIndex = 6;
+            this.importAllData.Text = "Import All Data";
+            this.importAllData.UseVisualStyleBackColor = true;
+            this.importAllData.Click += new System.EventHandler(this.importAllData_Click);
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 193);
+            this.ClientSize = new System.Drawing.Size(361, 189);
+            this.Controls.Add(this.importAllData);
+            this.Controls.Add(this.exportAllData);
             this.Controls.Add(this.manageHistory);
             this.Controls.Add(this.refeshInfo);
             this.Controls.Add(this.autoRun);
@@ -117,6 +141,8 @@ namespace Duolingo {
         private System.Windows.Forms.Button refeshInfo;
         private System.Windows.Forms.Timer reloadAuto;
         private System.Windows.Forms.Button manageHistory;
+        private System.Windows.Forms.Button exportAllData;
+        private System.Windows.Forms.Button importAllData;
     }
 }
 

@@ -1,6 +1,5 @@
 ﻿using Duolingo.Entities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -22,6 +21,9 @@ namespace Duolingo.Views.ManageHistory {
                             listHistory.Items.Add(dataHis);
                         }
                     }
+                    var topics = db.Topics.AsNoTracking().Where(x => !x.IsDeleted && !x.IsHide).OrderBy(x => x.Sort).ToList();
+                    selectTopic.DataSource = topics;
+                    selectTopic.DisplayMember = "Title";
                 }
                 return;
             }
@@ -37,13 +39,59 @@ namespace Duolingo.Views.ManageHistory {
         }
 
         private void addHistory_Click(object sender, EventArgs e) {
-
+            var now = DateTime.Now.Date;
+            var nextDay = now.AddDays(1);
+            using (var db = new DuoContext()) {
+                if (!db.Histories.Any(x => x.CreatedDate >= now && x.CreatedDate < nextDay)) {
+                    var his = new History() {
+                        CreatedDate = now
+                    };
+                    db.Histories.Add(his);
+                    db.SaveChanges();
+                } else {
+                    var topic = (Topic) selectTopic.SelectedItem;
+                    var topicId = topic.Id;
+                    var his = db.Histories.FirstOrDefault(x => x.CreatedDate >= now && x.CreatedDate < nextDay && !x.HistoryDetails.Any(y => y.TopicId == topicId));
+                    if (his == null) {
+                        MessageBox.Show("Chủ đề đã kiểm tra và thêm lịch sử", "Trùng lập dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    var hisDetail = new HistoryDetail() {
+                        HistoryId = his.Id,
+                        TopicId = topic.Id,
+                        DataTest = new byte[0]
+                    };
+                    db.HistoryDetails.Add(hisDetail);
+                    db.SaveChanges();
+                }
+                listTopic.Items.Clear();
+            }
         }
 
         private void reload_Click(object sender, EventArgs e) {
             var start = startDate.Value;
             var end = endDate.Value;
             Reload(start, end);
+        }
+
+        private void listHistory_SelectedIndexChanged(object sender, EventArgs e) {
+            listTopic.Items.Clear();
+            string item = listHistory.SelectedItem.ToString();
+            if (item != "") {
+                var data = item.Split(':');
+                long index = long.Parse(data[0]);
+                using (var db = new DuoContext()) {
+                    var hisDetail = db.HistoryDetails.AsNoTracking()
+                        .Where(x => x.MyHistory.Id == index)
+                        .Select(x => new { Id = x.TopicId, TopicTitle = x.MyTopic.Title }).ToList();
+                    if (hisDetail.Count > 0) {
+                        foreach (var detail in hisDetail) {
+                            string dataHisDetail = detail.Id + ": " + detail.TopicTitle;
+                            listTopic.Items.Add(dataHisDetail);
+                        }
+                    }
+                }
+            }
         }
     }
 }

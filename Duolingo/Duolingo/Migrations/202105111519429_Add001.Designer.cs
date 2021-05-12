@@ -13,7 +13,7 @@ namespace Duolingo.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202105081536594_Add001"; }
+            get { return "202105111519429_Add001"; }
         }
         
         string IMigrationMetadata.Source
