@@ -2,7 +2,6 @@
 using Duolingo.Services;
 using System;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -28,7 +27,7 @@ namespace Duolingo.Views.ManageTopic {
                     listTopic.Items.Add(data);
                 }
             }
-            _topic = new Topic();
+            _topic = null;
             topicTitle.Text = "";
             isHide.Checked = false;
             this.Refresh();
