@@ -12,18 +12,14 @@ namespace Duolingo.Views.ManageHistory {
         private void Reload(DateTime start, DateTime end) {
             if (start < end) {
                 using (var db = new DuoContext()) {
-                    var his = db.Histories.Where(x => x.CreatedDate >= start && x.CreatedDate <= end).ToList();
+                    var his = db.Histories.AsNoTracking().Where(x => x.CreatedDate >= start && x.CreatedDate <= end).ToList();
                     totalHistory.Text = his.Count.ToString();
-                    listHistory.Items.Clear();
+                    listHistory.DataSource = null;
                     if (his.Count > 0) {
-                        foreach (var item in his) {
-                            string dataHis = item.Id + ": " + item.CreatedDate.ToString("yyyy/MM/dd");
-                            listHistory.Items.Add(dataHis);
-                        }
+                        var hisSelect = his.Select(x => new HistorySelection() { Id = x.Id, CreatedDate = x.CreatedDate.ToString("yyyy/MM/dd") }).ToList();
+                        listHistory.DataSource = hisSelect;
+                        listHistory.DisplayMember = "CreatedDate";
                     }
-                    var topics = db.Topics.AsNoTracking().Where(x => !x.IsDeleted && !x.IsHide).OrderBy(x => x.Sort).ToList();
-                    selectTopic.DataSource = topics;
-                    selectTopic.DisplayMember = "Title";
                 }
                 return;
             }
@@ -36,35 +32,46 @@ namespace Duolingo.Views.ManageHistory {
             Reload(start, end);
             startDate.Value = start;
             endDate.Value = end;
+            using (var db = new DuoContext()) {
+                var topics = db.Topics.AsNoTracking().Where(x => !x.IsDeleted && !x.IsHide).OrderBy(x => x.Sort).ToList();
+                selectTopic.DataSource = topics;
+                selectTopic.DisplayMember = "Title";
+            }
         }
 
         private void addHistory_Click(object sender, EventArgs e) {
             var now = DateTime.Now.Date;
             var nextDay = now.AddDays(1);
+            var topic = (Topic) selectTopic.SelectedItem;
             using (var db = new DuoContext()) {
+                History his;
                 if (!db.Histories.Any(x => x.CreatedDate >= now && x.CreatedDate < nextDay)) {
-                    var his = new History() {
+                    his = new History() {
                         CreatedDate = now
                     };
                     db.Histories.Add(his);
                     db.SaveChanges();
                 } else {
-                    var topic = (Topic) selectTopic.SelectedItem;
-                    var topicId = topic.Id;
-                    var his = db.Histories.FirstOrDefault(x => x.CreatedDate >= now && x.CreatedDate < nextDay && !x.HistoryDetails.Any(y => y.TopicId == topicId));
-                    if (his == null) {
-                        MessageBox.Show("Chủ đề đã kiểm tra và thêm lịch sử", "Trùng lập dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-                    var hisDetail = new HistoryDetail() {
-                        HistoryId = his.Id,
-                        TopicId = topic.Id,
-                        DataTest = new byte[0]
-                    };
-                    db.HistoryDetails.Add(hisDetail);
-                    db.SaveChanges();
+                    his = db.Histories.FirstOrDefault(x => x.CreatedDate >= now && x.CreatedDate < nextDay && !x.HistoryDetails.Any(y => y.TopicId == topic.Id));
                 }
-                listTopic.Items.Clear();
+                if (his == null) {
+                    MessageBox.Show("Chủ đề đã kiểm tra và thêm lịch sử", "Trùng lập dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                var hisDetail = new HistoryDetail() {
+                    HistoryId = his.Id,
+                    TopicId = topic.Id,
+                    DataTest = new byte[0]
+                };
+                db.HistoryDetails.Add(hisDetail);
+                db.SaveChanges();
+                listTopic.DataSource = null;
+                var hisDetails = db.HistoryDetails.AsNoTracking()
+                       .Where(x => x.MyHistory.Id == his.Id)
+                       .OrderBy(x => x.MyTopic.Sort)
+                       .Select(x => new { Id = x.Id, Title = x.MyTopic.Title }).ToList();
+                listTopic.DataSource = hisDetails;
+                listTopic.DisplayMember = "Title";
             }
         }
 
@@ -75,21 +82,16 @@ namespace Duolingo.Views.ManageHistory {
         }
 
         private void listHistory_SelectedIndexChanged(object sender, EventArgs e) {
-            listTopic.Items.Clear();
-            string item = listHistory.SelectedItem.ToString();
-            if (item != "") {
-                var data = item.Split(':');
-                long index = long.Parse(data[0]);
+            listTopic.DataSource = null;
+            var item = (HistorySelection) listHistory.SelectedItem;
+            if (item != null && item.Id > 0) {
                 using (var db = new DuoContext()) {
                     var hisDetail = db.HistoryDetails.AsNoTracking()
-                        .Where(x => x.MyHistory.Id == index)
-                        .Select(x => new { Id = x.TopicId, TopicTitle = x.MyTopic.Title }).ToList();
-                    if (hisDetail.Count > 0) {
-                        foreach (var detail in hisDetail) {
-                            string dataHisDetail = detail.Id + ": " + detail.TopicTitle;
-                            listTopic.Items.Add(dataHisDetail);
-                        }
-                    }
+                        .Where(x => x.MyHistory.Id == item.Id)
+                        .OrderBy(x => x.MyTopic.Sort)
+                        .Select(x => new { Id = x.Id, Title = x.MyTopic.Title }).ToList();
+                    listTopic.DataSource = hisDetail;
+                    listTopic.DisplayMember = "Title";
                 }
             }
         }

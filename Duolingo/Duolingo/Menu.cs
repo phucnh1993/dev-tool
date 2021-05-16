@@ -41,8 +41,10 @@ namespace Duolingo {
                 data += "Number question: " + db.Questions.Count(x => x.IsActivated) + "\r\n";
                 data += "Number topic test today: " + db.HistoryDetails.Count(x => x.MyHistory.CreatedDate >= startDate && x.MyHistory.CreatedDate < endDate);
             }
-            databaseInfo.Text = data;
-            this.Refresh();
+            if (databaseInfo.Text != data) {
+                databaseInfo.Text = data;
+                this.Refresh();
+            }
         }
 
         private void manageHistory_Click(object sender, EventArgs e) {

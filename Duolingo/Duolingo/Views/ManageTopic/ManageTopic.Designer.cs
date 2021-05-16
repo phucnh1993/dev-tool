@@ -270,7 +270,7 @@ namespace Duolingo.Views.ManageTopic {
             // 
             this.importFile.Location = new System.Drawing.Point(505, 716);
             this.importFile.Name = "importFile";
-            this.importFile.Size = new System.Drawing.Size(104, 23);
+            this.importFile.Size = new System.Drawing.Size(95, 23);
             this.importFile.TabIndex = 22;
             this.importFile.Text = "Nhập bằng file";
             this.importFile.UseVisualStyleBackColor = true;
@@ -278,9 +278,9 @@ namespace Duolingo.Views.ManageTopic {
             // 
             // exportFile
             // 
-            this.exportFile.Location = new System.Drawing.Point(615, 716);
+            this.exportFile.Location = new System.Drawing.Point(606, 716);
             this.exportFile.Name = "exportFile";
-            this.exportFile.Size = new System.Drawing.Size(87, 23);
+            this.exportFile.Size = new System.Drawing.Size(78, 23);
             this.exportFile.TabIndex = 23;
             this.exportFile.Text = "Xuất ra file";
             this.exportFile.UseVisualStyleBackColor = true;

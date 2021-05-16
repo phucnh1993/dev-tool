@@ -2,6 +2,7 @@
 using Duolingo.Services;
 using System;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -148,7 +149,17 @@ namespace Duolingo.Views.ManageTopic {
         }
 
         private void exportFile_Click(object sender, EventArgs e) {
-
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Topic File|*.tpc";
+            saveFileDialog.Title = "Save an Image File";
+            saveFileDialog.ShowDialog();
+            if (saveFileDialog.FileName != "") {
+                var fs = (FileStream) saveFileDialog.OpenFile();
+                
+                fs.Close();
+            } else {
+                MessageBox.Show("Tên file chưa được nhập","File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void listTopic_SelectedIndexChanged(object sender, EventArgs e) {
