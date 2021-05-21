@@ -38,8 +38,6 @@ namespace Duolingo.Views.ManageHistory {
             this.endDate = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.totalHistory = new System.Windows.Forms.TextBox();
-            this.export = new System.Windows.Forms.Button();
-            this.import = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listHistory
@@ -96,7 +94,7 @@ namespace Duolingo.Views.ManageHistory {
             // 
             // addHistory
             // 
-            this.addHistory.Location = new System.Drawing.Point(276, 345);
+            this.addHistory.Location = new System.Drawing.Point(194, 345);
             this.addHistory.Name = "addHistory";
             this.addHistory.Size = new System.Drawing.Size(75, 23);
             this.addHistory.TabIndex = 6;
@@ -106,7 +104,7 @@ namespace Duolingo.Views.ManageHistory {
             // 
             // reload
             // 
-            this.reload.Location = new System.Drawing.Point(276, 426);
+            this.reload.Location = new System.Drawing.Point(276, 345);
             this.reload.Name = "reload";
             this.reload.Size = new System.Drawing.Size(75, 23);
             this.reload.TabIndex = 7;
@@ -119,7 +117,7 @@ namespace Duolingo.Views.ManageHistory {
             this.startDate.Location = new System.Drawing.Point(73, 374);
             this.startDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.startDate.Name = "startDate";
-            this.startDate.Size = new System.Drawing.Size(278, 20);
+            this.startDate.Size = new System.Drawing.Size(196, 20);
             this.startDate.TabIndex = 8;
             this.startDate.Value = new System.DateTime(2021, 1, 1, 0, 0, 0, 0);
             // 
@@ -146,7 +144,7 @@ namespace Duolingo.Views.ManageHistory {
             this.endDate.Location = new System.Drawing.Point(73, 400);
             this.endDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.endDate.Name = "endDate";
-            this.endDate.Size = new System.Drawing.Size(278, 20);
+            this.endDate.Size = new System.Drawing.Size(196, 20);
             this.endDate.TabIndex = 10;
             this.endDate.Value = new System.DateTime(9970, 12, 31, 0, 0, 0, 0);
             // 
@@ -169,31 +167,11 @@ namespace Duolingo.Views.ManageHistory {
             this.totalHistory.Size = new System.Drawing.Size(108, 20);
             this.totalHistory.TabIndex = 13;
             // 
-            // export
-            // 
-            this.export.Location = new System.Drawing.Point(195, 426);
-            this.export.Name = "export";
-            this.export.Size = new System.Drawing.Size(75, 23);
-            this.export.TabIndex = 14;
-            this.export.Text = "Export";
-            this.export.UseVisualStyleBackColor = true;
-            // 
-            // import
-            // 
-            this.import.Location = new System.Drawing.Point(194, 345);
-            this.import.Name = "import";
-            this.import.Size = new System.Drawing.Size(75, 23);
-            this.import.TabIndex = 15;
-            this.import.Text = "Import";
-            this.import.UseVisualStyleBackColor = true;
-            // 
             // ManageHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(363, 456);
-            this.Controls.Add(this.import);
-            this.Controls.Add(this.export);
             this.Controls.Add(this.totalHistory);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -232,7 +210,5 @@ namespace Duolingo.Views.ManageHistory {
         private System.Windows.Forms.DateTimePicker endDate;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox totalHistory;
-        private System.Windows.Forms.Button export;
-        private System.Windows.Forms.Button import;
     }
 }

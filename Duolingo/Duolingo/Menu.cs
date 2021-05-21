@@ -1,6 +1,9 @@
 ﻿using Duolingo.Entities;
+using Duolingo.Models;
+using Duolingo.Services;
 using Duolingo.Views.ManageHistory;
 using Duolingo.Views.ManageTopic;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -53,7 +56,15 @@ namespace Duolingo {
         }
 
         private void exportAllData_Click(object sender, EventArgs e) {
-
+            var fod = new FileOutData();
+            string data = "";
+            using (var db = new DuoContext()) {
+                fod.Topics = db.Topics.AsNoTracking().AsQueryable().ToList();
+                fod.Histories = db.Histories.AsNoTracking().AsQueryable().ToList();
+                fod.HistoryDetails = db.HistoryDetails.AsNoTracking().AsQueryable().ToList();
+                data = JsonConvert.SerializeObject(fod);
+            }
+            FileService.WriteNewFile("DuoData.dat", data);
         }
 
         private void importAllData_Click(object sender, EventArgs e) {

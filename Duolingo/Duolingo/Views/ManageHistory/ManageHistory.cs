@@ -51,6 +51,9 @@ namespace Duolingo.Views.ManageHistory {
                     };
                     db.Histories.Add(his);
                     db.SaveChanges();
+                    var start = startDate.Value;
+                    var end = endDate.Value;
+                    Reload(start, end);
                 } else {
                     his = db.Histories.FirstOrDefault(x => x.CreatedDate >= now && x.CreatedDate < nextDay && !x.HistoryDetails.Any(y => y.TopicId == topic.Id));
                 }
@@ -88,7 +91,7 @@ namespace Duolingo.Views.ManageHistory {
                 using (var db = new DuoContext()) {
                     var hisDetail = db.HistoryDetails.AsNoTracking()
                         .Where(x => x.MyHistory.Id == item.Id)
-                        .OrderBy(x => x.MyTopic.Sort)
+                        .OrderBy(x => x.Id)
                         .Select(x => new { Id = x.Id, Title = x.MyTopic.Title }).ToList();
                     listTopic.DataSource = hisDetail;
                     listTopic.DisplayMember = "Title";
