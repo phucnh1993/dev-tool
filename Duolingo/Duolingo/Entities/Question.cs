@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Duolingo.Entities {
@@ -45,6 +46,7 @@ namespace Duolingo.Entities {
         [Index("IX_TopicId", IsClustered = false, IsUnique = true)]
         public long TopicId { get; set; }
 
+        [JsonIgnore]
         public virtual Topic MyTopic { get; set; }
     }
 }

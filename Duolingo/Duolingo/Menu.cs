@@ -64,7 +64,7 @@ namespace Duolingo {
                 fod.HistoryDetails = db.HistoryDetails.AsNoTracking().AsQueryable().ToList();
                 data = JsonConvert.SerializeObject(fod);
             }
-            FileService.WriteNewFile("DuoData.dat", data);
+            FileService.WriteNewFile("DuoData.json", data);
         }
 
         private void importAllData_Click(object sender, EventArgs e) {
