@@ -14,7 +14,7 @@ namespace DevTool.Domains.Entities {
         [Required]
         [MaxLength(1000)]
         [Column("Name", TypeName = "nvarchar")]
-        [Index("IX_CategorySearch", IsClustered = false, IsUnique = false, Order = 1)]
+        [Index("IX_CategorySearch", IsClustered = false, IsUnique = false, Order = 2)]
         public string Name { get; set; }
 
         [Required]
@@ -34,6 +34,8 @@ namespace DevTool.Domains.Entities {
         [Column("CategoryData", TypeName = "longblob")]
         public byte[] CategoryData { get; set; }
 
+        [Index("IX_CategorySearch", IsClustered = false, IsUnique = false, Order = 1)]
+        [Index("IX_GroupId", IsClustered = false, IsUnique = false)]
         public long? GroupId { get; set; }
 
         [JsonIgnore]

@@ -25,7 +25,7 @@ namespace DevTool {
         /// </summary>
         private void InitializeComponent() {
             this.btnPortManager = new System.Windows.Forms.Button();
-            this.btnLanguageManager = new System.Windows.Forms.Button();
+            this.btnCategoryManager = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnPortManager
@@ -38,21 +38,22 @@ namespace DevTool {
             this.btnPortManager.UseVisualStyleBackColor = true;
             this.btnPortManager.Click += new System.EventHandler(this.btnPortManager_Click);
             // 
-            // btnLanguageManager
+            // btnCategoryManager
             // 
-            this.btnLanguageManager.Location = new System.Drawing.Point(122, 12);
-            this.btnLanguageManager.Name = "btnLanguageManager";
-            this.btnLanguageManager.Size = new System.Drawing.Size(116, 23);
-            this.btnLanguageManager.TabIndex = 1;
-            this.btnLanguageManager.Text = "Language Manager";
-            this.btnLanguageManager.UseVisualStyleBackColor = true;
+            this.btnCategoryManager.Location = new System.Drawing.Point(122, 12);
+            this.btnCategoryManager.Name = "btnCategoryManager";
+            this.btnCategoryManager.Size = new System.Drawing.Size(116, 23);
+            this.btnCategoryManager.TabIndex = 1;
+            this.btnCategoryManager.Text = "Category Manager";
+            this.btnCategoryManager.UseVisualStyleBackColor = true;
+            this.btnCategoryManager.Click += new System.EventHandler(this.btnCategoryManager_Click);
             // 
             // MenuTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(405, 56);
-            this.Controls.Add(this.btnLanguageManager);
+            this.Controls.Add(this.btnCategoryManager);
             this.Controls.Add(this.btnPortManager);
             this.Name = "MenuTool";
             this.Text = "Menu Tool";
@@ -63,7 +64,7 @@ namespace DevTool {
         #endregion
 
         private System.Windows.Forms.Button btnPortManager;
-        private System.Windows.Forms.Button btnLanguageManager;
+        private System.Windows.Forms.Button btnCategoryManager;
     }
 }
 

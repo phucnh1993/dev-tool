@@ -91,8 +91,8 @@ namespace Duolingo.Views.ManageHistory {
                 using (var db = new DuoContext()) {
                     var hisDetail = db.HistoryDetails.AsNoTracking()
                         .Where(x => x.MyHistory.Id == item.Id)
-                        .OrderBy(x => x.Id)
-                        .Select(x => new { Id = x.Id, Title = x.MyTopic.Title }).ToList();
+                        .Select(x => new { Id = x.Id, Title = x.MyTopic.Title })
+                        .OrderBy(x => x.Id).ToList();
                     listTopic.DataSource = hisDetail;
                     listTopic.DisplayMember = "Title";
                 }

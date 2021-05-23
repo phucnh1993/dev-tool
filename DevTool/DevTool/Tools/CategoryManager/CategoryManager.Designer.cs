@@ -25,8 +25,8 @@ namespace DevTool.Tools.CategoryManager {
         /// </summary>
         private void InitializeComponent() {
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.boxCategoryParent = new System.Windows.Forms.ComboBox();
+            this.datChildren = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -37,7 +37,7 @@ namespace DevTool.Tools.CategoryManager {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtCategoryData = new System.Windows.Forms.TextBox();
             this.isParent = new System.Windows.Forms.CheckBox();
             this.txtNumberChildren = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -45,7 +45,7 @@ namespace DevTool.Tools.CategoryManager {
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnReload = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.datChildren)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -59,21 +59,22 @@ namespace DevTool.Tools.CategoryManager {
             this.label1.TabIndex = 0;
             this.label1.Text = "Category Parent";
             // 
-            // comboBox1
+            // boxCategoryParent
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(101, 6);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(375, 21);
-            this.comboBox1.TabIndex = 1;
+            this.boxCategoryParent.FormattingEnabled = true;
+            this.boxCategoryParent.Location = new System.Drawing.Point(101, 6);
+            this.boxCategoryParent.Name = "boxCategoryParent";
+            this.boxCategoryParent.Size = new System.Drawing.Size(375, 21);
+            this.boxCategoryParent.TabIndex = 1;
             // 
-            // dataGridView1
+            // datChildren
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(1, 33);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(475, 607);
-            this.dataGridView1.TabIndex = 2;
+            this.datChildren.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.datChildren.Location = new System.Drawing.Point(1, 33);
+            this.datChildren.Name = "datChildren";
+            this.datChildren.Size = new System.Drawing.Size(475, 607);
+            this.datChildren.TabIndex = 2;
+            this.datChildren.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datChildren_CellClick);
             // 
             // label2
             // 
@@ -160,7 +161,7 @@ namespace DevTool.Tools.CategoryManager {
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.txtCategoryData);
             this.groupBox2.Location = new System.Drawing.Point(499, 239);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(714, 401);
@@ -168,14 +169,14 @@ namespace DevTool.Tools.CategoryManager {
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Data";
             // 
-            // textBox1
+            // txtCategoryData
             // 
-            this.textBox1.Location = new System.Drawing.Point(6, 19);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(702, 376);
-            this.textBox1.TabIndex = 0;
+            this.txtCategoryData.Location = new System.Drawing.Point(6, 19);
+            this.txtCategoryData.Multiline = true;
+            this.txtCategoryData.Name = "txtCategoryData";
+            this.txtCategoryData.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtCategoryData.Size = new System.Drawing.Size(702, 376);
+            this.txtCategoryData.TabIndex = 0;
             // 
             // isParent
             // 
@@ -267,13 +268,13 @@ namespace DevTool.Tools.CategoryManager {
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtId);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.datChildren);
+            this.Controls.Add(this.boxCategoryParent);
             this.Controls.Add(this.label1);
             this.Name = "CategoryManager";
             this.Text = "Category Manager";
             this.Load += new System.EventHandler(this.CategoryManager_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.datChildren)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -286,8 +287,8 @@ namespace DevTool.Tools.CategoryManager {
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ComboBox boxCategoryParent;
+        private System.Windows.Forms.DataGridView datChildren;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label label3;
@@ -298,7 +299,7 @@ namespace DevTool.Tools.CategoryManager {
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtCategoryData;
         private System.Windows.Forms.CheckBox isParent;
         private System.Windows.Forms.TextBox txtNumberChildren;
         private System.Windows.Forms.Label label5;
