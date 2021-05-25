@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -41,5 +42,13 @@ namespace DevTool.Domains.Entities {
 
         [Required]
         public DateTime CreatedDate { get; set; }
+
+        public virtual ICollection<FunctionInput> FunctionInput { get; set; }
+        public virtual ICollection<FunctionOutput> FunctionOutput { get; set; }
+
+        public Function() {
+            FunctionInput = new HashSet<FunctionInput>();
+            FunctionOutput = new HashSet<FunctionOutput>();
+        }
     }
 }

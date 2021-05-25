@@ -131,7 +131,13 @@
   <ItemGroup>
     <Compile Include="Domains\CreatorContext.cs" />
     <Compile Include="Domains\Entities\Category.cs" />
+    <Compile Include="Domains\Entities\DataType.cs" />
     <Compile Include="Domains\Entities\Function.cs" />
+    <Compile Include="Domains\Entities\FunctionInput.cs" />
+    <Compile Include="Domains\Entities\FunctionOutput.cs" />
+    <Compile Include="Domains\Entities\ObjectData.cs" />
+    <Compile Include="Domains\Entities\ObjectField.cs" />
+    <Compile Include="Domains\Entities\ObjectGroup.cs" />
     <Compile Include="Domains\Models\ComboBoxModel.cs" />
     <Compile Include="MenuTool.cs">
       <SubType>Form</SubType>

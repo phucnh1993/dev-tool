@@ -76,7 +76,9 @@ namespace DevTool.Tools.CategoryManager {
         }
 
         private void btnUp_Click(object sender, EventArgs e) {
+            using (var db = new CreatorContext()) {
 
+            }
         }
 
         private void btnReload_Click(object sender, EventArgs e) {

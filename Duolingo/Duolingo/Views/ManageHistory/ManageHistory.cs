@@ -71,7 +71,7 @@ namespace Duolingo.Views.ManageHistory {
                 listTopic.DataSource = null;
                 var hisDetails = db.HistoryDetails.AsNoTracking()
                        .Where(x => x.MyHistory.Id == his.Id)
-                       .OrderBy(x => x.MyTopic.Sort)
+                       .OrderBy(x => x.Id)
                        .Select(x => new { Id = x.Id, Title = x.MyTopic.Title }).ToList();
                 listTopic.DataSource = hisDetails;
                 listTopic.DisplayMember = "Title";
