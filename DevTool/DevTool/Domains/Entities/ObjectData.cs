@@ -22,6 +22,10 @@ namespace DevTool.Domains.Entities {
         [Column("Description", TypeName = "nvarchar")]
         public string Description { get; set; }
 
+        public long ObjectGroupId { get; set; }
+
+        public virtual ObjectGroup ObjectGroup { get; set; }
+
         public virtual ICollection<ObjectField> ObjectFields { get; set; }
 
         public ObjectData() {
