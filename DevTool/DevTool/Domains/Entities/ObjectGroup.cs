@@ -23,5 +23,9 @@ namespace DevTool.Domains.Entities {
         public string Description { get; set; }
 
         public virtual ICollection<ObjectData> ObjectDatas { get; set; }
+
+        public ObjectGroup() {
+            ObjectDatas = new HashSet<ObjectData>();
+        }
     }
 }

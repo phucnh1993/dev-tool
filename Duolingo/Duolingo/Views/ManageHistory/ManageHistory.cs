@@ -1,5 +1,7 @@
 ﻿using Duolingo.Entities;
+using Duolingo.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -16,7 +18,8 @@ namespace Duolingo.Views.ManageHistory {
                     totalHistory.Text = his.Count.ToString();
                     listHistory.DataSource = null;
                     if (his.Count > 0) {
-                        var hisSelect = his.Select(x => new HistorySelection() { Id = x.Id, CreatedDate = x.CreatedDate.ToString("yyyy/MM/dd") }).ToList();
+                        var hisSelect = his.Select(x => new HistorySelection() { Id = x.Id, CreatedDate = x.CreatedDate.ToString("yyyy/MM/dd") })
+                            .ToList();
                         listHistory.DataSource = hisSelect;
                         listHistory.DisplayMember = "CreatedDate";
                     }
@@ -28,21 +31,28 @@ namespace Duolingo.Views.ManageHistory {
 
         private void ManageHistory_Load(object sender, EventArgs e) {
             var end = DateTime.Now;
+            var yesterday = end.AddDays(-1);
             var start = end.AddDays(-7);
             Reload(start, end);
             startDate.Value = start;
             endDate.Value = end;
             using (var db = new DuoContext()) {
-                var topics = db.Topics.AsNoTracking().Where(x => !x.IsDeleted && !x.IsHide).OrderBy(x => x.Sort).ToList();
+                var topics = db.Topics.AsNoTracking().Where(x => !x.IsDeleted && !x.IsHide 
+                    && !x.HistoryDetails.Any(y => y.MyHistory.CreatedDate > yesterday && y.MyHistory.CreatedDate <= end))
+                    .OrderBy(x => x.Sort)
+                    .Select(x => new SelectionData { Id = x.Id, Name = x.Title }).ToList();
                 selectTopic.DataSource = topics;
-                selectTopic.DisplayMember = "Title";
+                selectTopic.DisplayMember = "Name";
             }
         }
 
         private void addHistory_Click(object sender, EventArgs e) {
             var now = DateTime.Now.Date;
             var nextDay = now.AddDays(1);
-            var topic = (Topic) selectTopic.SelectedItem;
+            var topic = (SelectionData) selectTopic.SelectedItem;
+            var dataSource = (List<SelectionData>) selectTopic.DataSource;
+            dataSource.Remove(topic);
+            selectTopic.DataSource = dataSource;
             using (var db = new DuoContext()) {
                 History his;
                 if (!db.Histories.Any(x => x.CreatedDate >= now && x.CreatedDate < nextDay)) {
@@ -55,7 +65,8 @@ namespace Duolingo.Views.ManageHistory {
                     var end = endDate.Value;
                     Reload(start, end);
                 } else {
-                    his = db.Histories.FirstOrDefault(x => x.CreatedDate >= now && x.CreatedDate < nextDay && !x.HistoryDetails.Any(y => y.TopicId == topic.Id));
+                    his = db.Histories.FirstOrDefault(x => x.CreatedDate >= now && x.CreatedDate < nextDay 
+                        && !x.HistoryDetails.Any(y => y.TopicId == topic.Id));
                 }
                 if (his == null) {
                     MessageBox.Show("Chủ đề đã kiểm tra và thêm lịch sử", "Trùng lập dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -73,9 +84,11 @@ namespace Duolingo.Views.ManageHistory {
                        .Where(x => x.MyHistory.Id == his.Id)
                        .OrderBy(x => x.Id)
                        .Select(x => new { Id = x.Id, Title = x.MyTopic.Title }).ToList();
+                totalTopic.Text = hisDetails.Count.ToString();
                 listTopic.DataSource = hisDetails;
                 listTopic.DisplayMember = "Title";
             }
+            
         }
 
         private void reload_Click(object sender, EventArgs e) {
@@ -93,6 +106,7 @@ namespace Duolingo.Views.ManageHistory {
                         .Where(x => x.MyHistory.Id == item.Id)
                         .Select(x => new { Id = x.Id, Title = x.MyTopic.Title })
                         .OrderBy(x => x.Id).ToList();
+                    totalTopic.Text = hisDetail.Count.ToString();
                     listTopic.DataSource = hisDetail;
                     listTopic.DisplayMember = "Title";
                 }

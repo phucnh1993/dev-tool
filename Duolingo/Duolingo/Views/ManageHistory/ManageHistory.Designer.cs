@@ -38,6 +38,8 @@ namespace Duolingo.Views.ManageHistory {
             this.endDate = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.totalHistory = new System.Windows.Forms.TextBox();
+            this.totalTopic = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // listHistory
@@ -164,14 +166,35 @@ namespace Duolingo.Views.ManageHistory {
             this.totalHistory.Location = new System.Drawing.Point(81, 428);
             this.totalHistory.Name = "totalHistory";
             this.totalHistory.ReadOnly = true;
-            this.totalHistory.Size = new System.Drawing.Size(108, 20);
+            this.totalHistory.Size = new System.Drawing.Size(74, 20);
             this.totalHistory.TabIndex = 13;
+            // 
+            // totalTopic
+            // 
+            this.totalTopic.BackColor = System.Drawing.SystemColors.Highlight;
+            this.totalTopic.ForeColor = System.Drawing.SystemColors.Window;
+            this.totalTopic.Location = new System.Drawing.Point(228, 428);
+            this.totalTopic.Name = "totalTopic";
+            this.totalTopic.ReadOnly = true;
+            this.totalTopic.Size = new System.Drawing.Size(74, 20);
+            this.totalTopic.TabIndex = 15;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(161, 431);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(61, 13);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Total Topic";
             // 
             // ManageHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(363, 456);
+            this.Controls.Add(this.totalTopic);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.totalHistory);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -210,5 +233,7 @@ namespace Duolingo.Views.ManageHistory {
         private System.Windows.Forms.DateTimePicker endDate;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox totalHistory;
+        private System.Windows.Forms.TextBox totalTopic;
+        private System.Windows.Forms.Label label7;
     }
 }
