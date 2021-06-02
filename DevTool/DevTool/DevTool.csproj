@@ -139,6 +139,7 @@
     <Compile Include="Domains\Entities\ObjectField.cs" />
     <Compile Include="Domains\Entities\ObjectGroup.cs" />
     <Compile Include="Domains\Models\ComboBoxModel.cs" />
+    <Compile Include="Domains\Models\TableModel.cs" />
     <Compile Include="MenuTool.cs">
       <SubType>Form</SubType>
     </Compile>

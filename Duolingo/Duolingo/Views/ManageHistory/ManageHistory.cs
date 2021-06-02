@@ -13,16 +13,24 @@ namespace Duolingo.Views.ManageHistory {
 
         private void Reload(DateTime start, DateTime end) {
             if (start < end) {
+                listHistory.DataSource = null;
+                selectTopic.DataSource = null;
                 using (var db = new DuoContext()) {
                     var his = db.Histories.AsNoTracking().Where(x => x.CreatedDate >= start && x.CreatedDate <= end).ToList();
                     totalHistory.Text = his.Count.ToString();
-                    listHistory.DataSource = null;
                     if (his.Count > 0) {
                         var hisSelect = his.Select(x => new HistorySelection() { Id = x.Id, CreatedDate = x.CreatedDate.ToString("yyyy/MM/dd") })
                             .ToList();
                         listHistory.DataSource = hisSelect;
                         listHistory.DisplayMember = "CreatedDate";
                     }
+                    var yesterday = end.AddDays(-2);
+                    var topics = db.Topics.AsNoTracking().Where(x => !x.IsDeleted && !x.IsHide
+                    && !x.HistoryDetails.Any(y => y.MyHistory.CreatedDate > yesterday && y.MyHistory.CreatedDate <= end))
+                    .OrderBy(x => x.Sort)
+                    .Select(x => new SelectionData { Id = x.Id, Name = x.Title }).ToList();
+                    selectTopic.DataSource = topics;
+                    selectTopic.DisplayMember = "Name";
                 }
                 return;
             }
@@ -31,28 +39,16 @@ namespace Duolingo.Views.ManageHistory {
 
         private void ManageHistory_Load(object sender, EventArgs e) {
             var end = DateTime.Now;
-            var yesterday = end.AddDays(-1);
             var start = end.AddDays(-7);
             Reload(start, end);
             startDate.Value = start;
             endDate.Value = end;
-            using (var db = new DuoContext()) {
-                var topics = db.Topics.AsNoTracking().Where(x => !x.IsDeleted && !x.IsHide 
-                    && !x.HistoryDetails.Any(y => y.MyHistory.CreatedDate > yesterday && y.MyHistory.CreatedDate <= end))
-                    .OrderBy(x => x.Sort)
-                    .Select(x => new SelectionData { Id = x.Id, Name = x.Title }).ToList();
-                selectTopic.DataSource = topics;
-                selectTopic.DisplayMember = "Name";
-            }
         }
 
         private void addHistory_Click(object sender, EventArgs e) {
             var now = DateTime.Now.Date;
             var nextDay = now.AddDays(1);
             var topic = (SelectionData) selectTopic.SelectedItem;
-            var dataSource = (List<SelectionData>) selectTopic.DataSource;
-            dataSource.Remove(topic);
-            selectTopic.DataSource = dataSource;
             using (var db = new DuoContext()) {
                 History his;
                 if (!db.Histories.Any(x => x.CreatedDate >= now && x.CreatedDate < nextDay)) {

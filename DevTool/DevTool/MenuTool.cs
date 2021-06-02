@@ -1,4 +1,5 @@
-﻿using DevTool.Tools.CategoryManager;
+﻿using DevTool.Domains;
+using DevTool.Tools.CategoryManager;
 using DevTool.Tools.PortManager;
 using System;
 using System.Windows.Forms;
@@ -17,6 +18,16 @@ namespace DevTool {
         private void btnCategoryManager_Click(object sender, EventArgs e) {
             CategoryManager cm = new CategoryManager();
             cm.Show();
+        }
+
+        private void MenuTool_Load(object sender, EventArgs e) {
+            using (var db = new CreatorContext()) {
+                if (!db.Database.Exists()) {
+                    systemStatus.Text = "Database cannot connect!";
+                } else {
+                    systemStatus.Text = "System status is good!";
+                }
+            }
         }
     }
 }

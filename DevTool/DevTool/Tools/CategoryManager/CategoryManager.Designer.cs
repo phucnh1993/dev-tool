@@ -66,6 +66,7 @@ namespace DevTool.Tools.CategoryManager {
             this.boxCategoryParent.Name = "boxCategoryParent";
             this.boxCategoryParent.Size = new System.Drawing.Size(375, 21);
             this.boxCategoryParent.TabIndex = 1;
+            this.boxCategoryParent.SelectedIndexChanged += new System.EventHandler(this.boxCategoryParent_SelectedIndexChanged);
             // 
             // datChildren
             // 

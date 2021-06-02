@@ -15,8 +15,8 @@ namespace DevTool.Tools.CategoryManager {
 
         private void LoadData() {
             using (var db = new CreatorContext()) {
-                var cateParent = db.Categories.Where(x => x.GroupId == null)
-                    .Select(x => new ComboBoxModel() { Id = x.Id, Name = x.Name, Parent = null, Sort = x.Sort }).ToList();
+                var cateParents = db.Categories.Where(x => x.GroupId == null).ToList();
+                var cateParent = cateParents.Select(x => new ComboBoxModel() { Id = x.Id, Name = x.Name, Parent = 0, Sort = x.Sort }).ToList();
                 cateParent.Add(new ComboBoxModel() { Id = 0, Name = "NULL", Parent = null, Sort = 0 });
                 cateParent = cateParent.OrderBy(x => x.Sort).ToList();
                 boxCategoryParent.DataSource = cateParent;
@@ -87,6 +87,20 @@ namespace DevTool.Tools.CategoryManager {
 
         private void datChildren_CellClick(object sender, DataGridViewCellEventArgs e) {
 
+        }
+
+        private void boxCategoryParent_SelectedIndexChanged(object sender, EventArgs e) {
+            var index = (ComboBoxModel) boxCategoryParent.SelectedItem;
+            long? parentId = null;
+            if (index.Id != 0) {
+                parentId = index.Id;
+            }
+            using (var db = new CreatorContext()) {
+                var cates = db.Categories.Where(x => x.IsActivated && x.GroupId == parentId)
+                    .Select(x => new TableModel { Id = x.Id, Name = x.Name, CreateDate = x.CreatedDate })
+                    .ToList();
+                datChildren.DataSource = cates;
+            }
         }
     }
 }
