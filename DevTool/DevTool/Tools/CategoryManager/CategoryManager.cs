@@ -8,27 +8,43 @@ using System.Windows.Forms;
 
 namespace DevTool.Tools.CategoryManager {
     public partial class CategoryManager : Form {
-        private Category category;
         public CategoryManager() {
             InitializeComponent();
         }
 
-        private void LoadData() {
+        private void SetSizeColumn() {
+            DataGridViewColumn column_id = datChildren.Columns[0];
+            column_id.Width = 80;
+            DataGridViewColumn column_name = datChildren.Columns[1];
+            column_name.Width = 250;
+            DataGridViewColumn column_created = datChildren.Columns[2];
+            column_created.Width = 115;
+        }
+
+        private void LoadData(long startId) {
             using (var db = new CreatorContext()) {
-                var cateParents = db.Categories.Where(x => x.GroupId == null).ToList();
-                var cateParent = cateParents.Select(x => new ComboBoxModel() { Id = x.Id, Name = x.Name, Parent = 0, Sort = x.Sort }).ToList();
+                var cateParent = db.Categories.Where(x => x.GroupId == null)
+                    .Select(x => new ComboBoxModel() { Id = x.Id, Name = x.Name, Parent = 0, Sort = x.Sort }).ToList();
                 cateParent.Add(new ComboBoxModel() { Id = 0, Name = "NULL", Parent = null, Sort = 0 });
                 cateParent = cateParent.OrderBy(x => x.Sort).ToList();
                 boxCategoryParent.DataSource = cateParent;
                 boxCategoryParent.DisplayMember = "Name";
+                if (startId == 0) {
+                    var cates = db.Categories.Where(x => x.IsActivated && x.GroupId == null)
+                        .OrderBy(x => x.Sort)
+                        .Select(x => new TableModel { Id = x.Id, Name = x.Name, CreateDate = x.CreatedDate })
+                        .ToList();
+                    datChildren.DataSource = cates;
+                } else {
+                    datChildren.DataSource = null;
+                }
             }
-            datChildren.DataSource = null;
-            category = new Category();
+            SetSizeColumn();
             isActivated.Checked = true;
         }
 
         private void CategoryManager_Load(object sender, EventArgs e) {
-            LoadData();
+            LoadData(0);
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
@@ -58,7 +74,7 @@ namespace DevTool.Tools.CategoryManager {
                         db.Update(cate);
                     }
                 }
-                LoadData();
+                LoadData(cate.GroupId.Value);
             }
         }
 
@@ -70,23 +86,62 @@ namespace DevTool.Tools.CategoryManager {
                     var cate = db.Categories.Where(x => x.Id == id).FirstOrDefault();
                     db.Categories.Remove(cate);
                     db.SaveChanges();
+                    LoadData(cate.GroupId.Value);
                 }
-                LoadData();
             }
         }
 
         private void btnUp_Click(object sender, EventArgs e) {
-            using (var db = new CreatorContext()) {
-
+            if (!string.IsNullOrEmpty(txtId.Text)) {
+                long id = long.Parse(txtId.Text);
+                using (var db = new CreatorContext()) {
+                    var cate = db.Categories.FirstOrDefault(x => x.Id == id);
+                    var cate_2 = db.Categories.FirstOrDefault(x => x.GroupId == cate.GroupId && x.Sort < cate.Sort);
+                    if (cate_2 != null) {
+                        int sort = cate.Sort;
+                        cate.Sort = cate_2.Sort;
+                        cate_2.Sort = sort;
+                        db.Update(cate);
+                        db.Update(cate_2);
+                        LoadData(cate.GroupId.HasValue ? cate.GroupId.Value : 0);
+                    }
+                }
             }
         }
 
         private void btnReload_Click(object sender, EventArgs e) {
-            LoadData();
+            LoadData(0);
         }
 
         private void datChildren_CellClick(object sender, DataGridViewCellEventArgs e) {
-
+            long id = 0;
+            if (datChildren.SelectedRows.Count > 0) {
+                DataGridViewRow row = datChildren.SelectedRows[0];
+                id = long.Parse(row.Cells[0].Value.ToString());
+                
+            }
+            if (datChildren.SelectedCells.Count > 0) {
+                var cell = datChildren.SelectedCells[0];
+                switch (cell.ColumnIndex) {
+                    case 0:
+                        id = long.Parse(cell.Value.ToString());
+                        break;
+                    default:
+                        return;
+                }
+            }
+            Category cate = null;
+            using (var db = new CreatorContext()) {
+                cate = db.Categories.FirstOrDefault(x => x.Id == id);
+            }
+            txtId.Text = cate.Id.ToString();
+            txtName.Text = cate.Name;
+            txtCreatedDate.Text = cate.CreatedDate.ToString();
+            txtDescription.Text = cate.Description;
+            txtCategoryData.Text = Encoding.UTF8.GetString(cate.CategoryData);
+            isActivated.Checked = cate.IsActivated;
+            isParent.Checked = !cate.GroupId.HasValue;
+            this.Refresh();
         }
 
         private void boxCategoryParent_SelectedIndexChanged(object sender, EventArgs e) {
@@ -97,9 +152,12 @@ namespace DevTool.Tools.CategoryManager {
             }
             using (var db = new CreatorContext()) {
                 var cates = db.Categories.Where(x => x.IsActivated && x.GroupId == parentId)
+                    .OrderBy(x => x.Sort)
                     .Select(x => new TableModel { Id = x.Id, Name = x.Name, CreateDate = x.CreatedDate })
                     .ToList();
                 datChildren.DataSource = cates;
+                txtNumberChildren.Text = cates.Count.ToString();
+                SetSizeColumn();
             }
         }
     }

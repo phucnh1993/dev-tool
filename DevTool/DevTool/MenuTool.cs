@@ -1,5 +1,6 @@
 ﻿using DevTool.Domains;
 using DevTool.Tools.CategoryManager;
+using DevTool.Tools.ModelManager;
 using DevTool.Tools.PortManager;
 using System;
 using System.Windows.Forms;
@@ -28,6 +29,11 @@ namespace DevTool {
                     systemStatus.Text = "System status is good!";
                 }
             }
+        }
+
+        private void btnModelController_Click(object sender, EventArgs e) {
+            ModelManager mm = new ModelManager();
+            mm.Show();
         }
     }
 }

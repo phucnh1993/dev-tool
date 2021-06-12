@@ -28,33 +28,32 @@ namespace DevTool.Migrations
                 .Index(t => t.GroupParent_Id);
             
             CreateTable(
-                "dbo.Functions",
+                "dbo.DataTypes",
                 c => new
                     {
-                        Id = c.Long(nullable: false, identity: true),
-                        CodeSupport = c.String(nullable: false, maxLength: 100, unicode: false),
-                        Name = c.String(nullable: false, maxLength: 250, unicode: false),
-                        HashData = c.String(nullable: false, maxLength: 64, unicode: false),
-                        Description = c.String(maxLength: 2000, storeType: "nvarchar"),
-                        FunctionData = c.Binary(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         IsActivated = c.Boolean(nullable: false),
-                        CreatedDate = c.DateTime(nullable: false, precision: 0),
+                        Code = c.String(nullable: false, maxLength: 100, unicode: false),
+                        Name = c.String(nullable: false, maxLength: 250, unicode: false),
+                        MaxLength = c.Int(nullable: false),
+                        MultiName = c.String(nullable: false, unicode: false),
+                        MultiNameMapType = c.String(nullable: false, unicode: false),
+                        Description = c.String(maxLength: 2000, storeType: "nvarchar"),
+                        Sort = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .Index(t => new { t.IsActivated, t.CodeSupport, t.Name }, name: "IX_FunctionSearch")
-                .Index(t => t.HashData, unique: true, name: "IX_FunctionHashData");
+                .Index(t => new { t.IsActivated, t.Code }, name: "IX_DataTypeSearch");
             
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.Categories", "GroupParent_Id", "dbo.Categories");
-            DropIndex("dbo.Functions", "IX_FunctionHashData");
-            DropIndex("dbo.Functions", "IX_FunctionSearch");
+            DropIndex("dbo.DataTypes", "IX_DataTypeSearch");
             DropIndex("dbo.Categories", new[] { "GroupParent_Id" });
             DropIndex("dbo.Categories", new[] { "GroupId" });
             DropIndex("dbo.Categories", "IX_CategorySearch");
-            DropTable("dbo.Functions");
+            DropTable("dbo.DataTypes");
             DropTable("dbo.Categories");
         }
     }

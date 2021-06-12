@@ -13,7 +13,7 @@ namespace DevTool.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202105230321357_Add001"; }
+            get { return "202106091407414_Add001"; }
         }
         
         string IMigrationMetadata.Source

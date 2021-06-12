@@ -27,22 +27,16 @@ namespace DevTool.Domains.Entities {
         [Required]
         public int MaxLength { get; set; }
 
-        [Required]
-        [Column("MultiName", TypeName = "mediumtext")]
-        public string MultiName { get; set; }
-
-        [Required]
-        [Column("MultiNameMapType", TypeName = "mediumtext")]
-        public string MultiNameMapType { get; set; }
-
         [MaxLength(2000)]
         [Column("Description", TypeName = "nvarchar")]
         public string Description { get; set; }
 
-        public virtual ICollection<ObjectField> ObjectFields { get; set; }
+        public int Sort { get; set; }
+
+        //public virtual ICollection<ObjectField> ObjectFields { get; set; }
 
         public DataType() {
-            ObjectFields = new HashSet<ObjectField>();
+            //ObjectFields = new HashSet<ObjectField>();
         }
     }
 }

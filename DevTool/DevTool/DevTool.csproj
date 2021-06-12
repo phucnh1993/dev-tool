@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domains\CreatorContext.cs" />
+    <Compile Include="Domains\Entities\BasicType.cs" />
     <Compile Include="Domains\Entities\Category.cs" />
     <Compile Include="Domains\Entities\DataType.cs" />
     <Compile Include="Domains\Entities\Function.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Domains\Entities\ObjectField.cs" />
     <Compile Include="Domains\Entities\ObjectGroup.cs" />
     <Compile Include="Domains\Models\ComboBoxModel.cs" />
+    <Compile Include="Domains\Models\DataTypeDatasource.cs" />
     <Compile Include="Domains\Models\TableModel.cs" />
     <Compile Include="MenuTool.cs">
       <SubType>Form</SubType>
@@ -146,9 +148,9 @@
     <Compile Include="MenuTool.Designer.cs">
       <DependentUpon>MenuTool.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202105230321357_Add001.cs" />
-    <Compile Include="Migrations\202105230321357_Add001.Designer.cs">
-      <DependentUpon>202105230321357_Add001.cs</DependentUpon>
+    <Compile Include="Migrations\202106091407414_Add001.cs" />
+    <Compile Include="Migrations\202106091407414_Add001.Designer.cs">
+      <DependentUpon>202106091407414_Add001.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -160,6 +162,18 @@
     <Compile Include="Tools\CategoryManager\CategoryManager.Designer.cs">
       <DependentUpon>CategoryManager.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\ModelManager\DataTypeManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\ModelManager\DataTypeManager.Designer.cs">
+      <DependentUpon>DataTypeManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\ModelManager\ModelManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\ModelManager\ModelManager.Designer.cs">
+      <DependentUpon>ModelManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\PortManager\PortManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,8 +184,8 @@
     <EmbeddedResource Include="MenuTool.resx">
       <DependentUpon>MenuTool.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202105230321357_Add001.resx">
-      <DependentUpon>202105230321357_Add001.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202106091407414_Add001.resx">
+      <DependentUpon>202106091407414_Add001.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -184,6 +198,12 @@
     </Compile>
     <EmbeddedResource Include="Tools\CategoryManager\CategoryManager.resx">
       <DependentUpon>CategoryManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\ModelManager\DataTypeManager.resx">
+      <DependentUpon>DataTypeManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\ModelManager\ModelManager.resx">
+      <DependentUpon>ModelManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\PortManager\PortManager.resx">
       <DependentUpon>PortManager.cs</DependentUpon>

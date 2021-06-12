@@ -24,7 +24,7 @@ namespace Duolingo.Views.ManageHistory {
                         listHistory.DataSource = hisSelect;
                         listHistory.DisplayMember = "CreatedDate";
                     }
-                    var yesterday = end.AddDays(-2);
+                    var yesterday = end.AddDays(-2.5);
                     var topics = db.Topics.AsNoTracking().Where(x => !x.IsDeleted && !x.IsHide
                     && !x.HistoryDetails.Any(y => y.MyHistory.CreatedDate > yesterday && y.MyHistory.CreatedDate <= end))
                     .OrderBy(x => x.Sort)
@@ -83,8 +83,14 @@ namespace Duolingo.Views.ManageHistory {
                 totalTopic.Text = hisDetails.Count.ToString();
                 listTopic.DataSource = hisDetails;
                 listTopic.DisplayMember = "Title";
+                var topics = (List<SelectionData>) selectTopic.DataSource;
+                var index = topics.FindIndex(x => x.Id == topic.Id);
+                topics.RemoveAt(index);
+                selectTopic.DataSource = null;
+                selectTopic.DataSource = topics;
+                selectTopic.DisplayMember = "Name";
             }
-            
+            this.Refresh();
         }
 
         private void reload_Click(object sender, EventArgs e) {
