@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -37,7 +38,9 @@ namespace Duolingo.Entities {
         [Column("IsDeleted", Order = 5)]
         public bool IsDeleted { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Question> Questions { get; set; }
+        [JsonIgnore]
         public virtual ICollection<HistoryDetail> HistoryDetails { get; set; }
     }
 }

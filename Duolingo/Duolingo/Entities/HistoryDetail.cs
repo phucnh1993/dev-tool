@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Duolingo.Entities {
@@ -25,7 +26,9 @@ namespace Duolingo.Entities {
         [Column("DataTest", Order = 3, TypeName = "longblob")]
         public byte[] DataTest { get; set; }
 
+        [JsonIgnore]
         public virtual History MyHistory { get; set; }
+        [JsonIgnore]
         public virtual Topic MyTopic { get; set; }
     }
 }

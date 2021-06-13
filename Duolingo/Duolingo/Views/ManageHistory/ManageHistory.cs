@@ -1,5 +1,7 @@
 ﻿using Duolingo.Entities;
+using Duolingo.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -11,19 +13,24 @@ namespace Duolingo.Views.ManageHistory {
 
         private void Reload(DateTime start, DateTime end) {
             if (start < end) {
+                listHistory.DataSource = null;
+                selectTopic.DataSource = null;
                 using (var db = new DuoContext()) {
-                    var his = db.Histories.Where(x => x.CreatedDate >= start && x.CreatedDate <= end).ToList();
+                    var his = db.Histories.AsNoTracking().Where(x => x.CreatedDate >= start && x.CreatedDate <= end).ToList();
                     totalHistory.Text = his.Count.ToString();
-                    listHistory.Items.Clear();
                     if (his.Count > 0) {
-                        foreach (var item in his) {
-                            string dataHis = item.Id + ": " + item.CreatedDate.ToString("yyyy/MM/dd");
-                            listHistory.Items.Add(dataHis);
-                        }
+                        var hisSelect = his.Select(x => new HistorySelection() { Id = x.Id, CreatedDate = x.CreatedDate.ToString("yyyy/MM/dd") })
+                            .ToList();
+                        listHistory.DataSource = hisSelect;
+                        listHistory.DisplayMember = "CreatedDate";
                     }
-                    var topics = db.Topics.AsNoTracking().Where(x => !x.IsDeleted && !x.IsHide).OrderBy(x => x.Sort).ToList();
+                    var yesterday = end.AddDays(-2.5);
+                    var topics = db.Topics.AsNoTracking().Where(x => !x.IsDeleted && !x.IsHide
+                    && !x.HistoryDetails.Any(y => y.MyHistory.CreatedDate > yesterday && y.MyHistory.CreatedDate <= end))
+                    .OrderBy(x => x.Sort)
+                    .Select(x => new SelectionData { Id = x.Id, Name = x.Title }).ToList();
                     selectTopic.DataSource = topics;
-                    selectTopic.DisplayMember = "Title";
+                    selectTopic.DisplayMember = "Name";
                 }
                 return;
             }
@@ -41,31 +48,49 @@ namespace Duolingo.Views.ManageHistory {
         private void addHistory_Click(object sender, EventArgs e) {
             var now = DateTime.Now.Date;
             var nextDay = now.AddDays(1);
+            var topic = (SelectionData) selectTopic.SelectedItem;
             using (var db = new DuoContext()) {
+                History his;
                 if (!db.Histories.Any(x => x.CreatedDate >= now && x.CreatedDate < nextDay)) {
-                    var his = new History() {
+                    his = new History() {
                         CreatedDate = now
                     };
                     db.Histories.Add(his);
                     db.SaveChanges();
+                    var start = startDate.Value;
+                    var end = endDate.Value;
+                    Reload(start, end);
                 } else {
-                    var topic = (Topic) selectTopic.SelectedItem;
-                    var topicId = topic.Id;
-                    var his = db.Histories.FirstOrDefault(x => x.CreatedDate >= now && x.CreatedDate < nextDay && !x.HistoryDetails.Any(y => y.TopicId == topicId));
-                    if (his == null) {
-                        MessageBox.Show("Chủ đề đã kiểm tra và thêm lịch sử", "Trùng lập dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-                    var hisDetail = new HistoryDetail() {
-                        HistoryId = his.Id,
-                        TopicId = topic.Id,
-                        DataTest = new byte[0]
-                    };
-                    db.HistoryDetails.Add(hisDetail);
-                    db.SaveChanges();
+                    his = db.Histories.FirstOrDefault(x => x.CreatedDate >= now && x.CreatedDate < nextDay 
+                        && !x.HistoryDetails.Any(y => y.TopicId == topic.Id));
                 }
-                listTopic.Items.Clear();
+                if (his == null) {
+                    MessageBox.Show("Chủ đề đã kiểm tra và thêm lịch sử", "Trùng lập dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                var hisDetail = new HistoryDetail() {
+                    HistoryId = his.Id,
+                    TopicId = topic.Id,
+                    DataTest = new byte[0]
+                };
+                db.HistoryDetails.Add(hisDetail);
+                db.SaveChanges();
+                listTopic.DataSource = null;
+                var hisDetails = db.HistoryDetails.AsNoTracking()
+                       .Where(x => x.MyHistory.Id == his.Id)
+                       .OrderBy(x => x.Id)
+                       .Select(x => new { Id = x.Id, Title = x.MyTopic.Title }).ToList();
+                totalTopic.Text = hisDetails.Count.ToString();
+                listTopic.DataSource = hisDetails;
+                listTopic.DisplayMember = "Title";
+                var topics = (List<SelectionData>) selectTopic.DataSource;
+                var index = topics.FindIndex(x => x.Id == topic.Id);
+                topics.RemoveAt(index);
+                selectTopic.DataSource = null;
+                selectTopic.DataSource = topics;
+                selectTopic.DisplayMember = "Name";
             }
+            this.Refresh();
         }
 
         private void reload_Click(object sender, EventArgs e) {
@@ -75,21 +100,17 @@ namespace Duolingo.Views.ManageHistory {
         }
 
         private void listHistory_SelectedIndexChanged(object sender, EventArgs e) {
-            listTopic.Items.Clear();
-            string item = listHistory.SelectedItem.ToString();
-            if (item != "") {
-                var data = item.Split(':');
-                long index = long.Parse(data[0]);
+            listTopic.DataSource = null;
+            var item = (HistorySelection) listHistory.SelectedItem;
+            if (item != null && item.Id > 0) {
                 using (var db = new DuoContext()) {
                     var hisDetail = db.HistoryDetails.AsNoTracking()
-                        .Where(x => x.MyHistory.Id == index)
-                        .Select(x => new { Id = x.TopicId, TopicTitle = x.MyTopic.Title }).ToList();
-                    if (hisDetail.Count > 0) {
-                        foreach (var detail in hisDetail) {
-                            string dataHisDetail = detail.Id + ": " + detail.TopicTitle;
-                            listTopic.Items.Add(dataHisDetail);
-                        }
-                    }
+                        .Where(x => x.MyHistory.Id == item.Id)
+                        .Select(x => new { Id = x.Id, Title = x.MyTopic.Title })
+                        .OrderBy(x => x.Id).ToList();
+                    totalTopic.Text = hisDetail.Count.ToString();
+                    listTopic.DataSource = hisDetail;
+                    listTopic.DisplayMember = "Title";
                 }
             }
         }

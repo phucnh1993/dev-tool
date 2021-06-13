@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/botton/normal.css">
+		<link rel="stylesheet" href="../css/botton/success.css">
+		<link rel="stylesheet" href="../css/botton/alert.css">
+		<link rel="stylesheet" href="../css/form/popup.css">
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../js/layout.js"></script>
+		<script src="../js/forms/action.js"></script>
+		<script src="../js/services/tableService.js"></script>
+		<script src="../js/services/createData.js"></script>
+		<script src="../js/services/basicType.js"></script>
+	</head>
+	<body>
+		<div id='layout'></div>
+		<div>
+			<button class="btn-normal btn-success" onclick="openForm()">Create</button>
+		</div>
+		<div id='data-table'>
+		</div>
+		<script>
+			window.onload = function() {
+				LoadLayout();
+				GetList();
+			};
+		</script>
+		<div class="form-popup" id="myForm">
+			<div class="form-container">
+				<h3>Create a Basic Type</h3>
+				<div style="display: none;"></div>
+    			<label for="txtName">
+    				<b>Name</b>
+    			</label><br>
+    			<input type="text" placeholder="Name of basic type" id="txtName" name="txtName" required><br>
+				<label for="txtDescription">
+					<b>Description</b>
+				</label><br>
+    			<input type="text" placeholder="Description of basic type" id="txtDescription" name="txtDescription" required><br>
+    			<label for="txtSort">
+    				<b>Sort</b>
+    			</label><br>
+    			<input type="number" placeholder="Sort of basic type" id="txtSort" name="txtSort" min="1" required><br>
+    			<input type="checkbox" id="isActivated" name="isActivated">
+    			<label for="isActivated"><b> Is Activated</b></label><br>
+    			<button class="btn-normal btn-success" onclick="CreateOne()">OK</button>
+    			<button class="btn-normal btn-alert" onclick="closeForm()">Close</button>
+    		</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: creator
+  data:
+    rest:
+      base-path: /creators
+  jackson:
+    time-zone: GMT+7
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/CodeCreator
+    username: abc
+    password: 123
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    database: MYSQL
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  sql:
+    init:
+      encoding: UTF-8
+server:
+  port: 9000
