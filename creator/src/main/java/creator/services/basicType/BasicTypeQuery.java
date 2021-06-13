@@ -43,11 +43,16 @@ public class BasicTypeQuery {
 				List<BasicType> cmd = typedQuery.getResultList();
 				List<BasicTypeResponse> data = new ArrayList<BasicTypeResponse>();
 				for (int i = 0; i < cmd.size(); i++) {
-					data.add(new BasicTypeResponse(cmd.get(i).getId(), cmd.get(i).getName(), cmd.get(i).getDescription(), cmd.get(i).getSort()));
+					data.add(new BasicTypeResponse(cmd.get(i).getId()
+							, cmd.get(i).getName()
+							, cmd.get(i).getDescription()
+							, cmd.get(i).getSort()
+							, cmd.get(i).isActivated()));
 				}
 				result.setData(data);
 			}
 		} catch (Exception ex) {
+			System.err.println(ex.getMessage());
 			result.setErrorCode(ConstantConfig.QUERY_DATA_ERROR);
 			result.setMessage(ConstantConfig.StatusMessage.get(ConstantConfig.QUERY_DATA_ERROR));
 		}

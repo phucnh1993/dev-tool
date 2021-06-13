@@ -22,4 +22,6 @@ public class BasicTypeResponse {
 	private String description;
 	@JsonProperty("sort")
 	private int sort;
+	@JsonProperty("isActivated")
+	private boolean isActivated;
 }

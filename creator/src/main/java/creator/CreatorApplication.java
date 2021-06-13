@@ -16,7 +16,7 @@ import creator.configs.ConstantConfig;
 @ComponentScan("creator.controllers")
 @ComponentScan("creator.services")
 @EntityScan("creator.domains.entities")
-@EnableJpaRepositories("databases.repositories")
+@EnableJpaRepositories("creator.domains.repositories")
 public class CreatorApplication {
 
 	public static void main(String[] args) {

@@ -28,4 +28,7 @@ public class ConstantConfig {
 			StatusMessage.put(UPDATE_DATA_ERROR, "Update data error");
 			StatusMessage.put(DELETE_DATA_ERROR, "Delete data error");
 		}
+		
+		// URL API
+		public static final String URL_BASIC_TYPE = "/api/basicTypes/?pageIndex=1&pageSize=10";
 }

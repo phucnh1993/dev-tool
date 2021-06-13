@@ -31,6 +31,11 @@ public class FilterRequest {
 
 	public <T> List<Predicate> CreateListPredicate(CriteriaBuilder cb, Root<T> root, Class<T> myClass) {
 		List<Predicate> predicates = new ArrayList<Predicate>();
+		System.out.println(keyWords);
+		System.out.println(from);
+		System.out.println(to);
+		System.out.println(pageIndex);
+		System.out.println(pageSize);
 		if (this.keyWords != null && !this.keyWords.trim().isEmpty()) {
 			Predicate condition = cb.like(root.get("name"), this.keyWords + "%");
 			predicates.add(condition);
