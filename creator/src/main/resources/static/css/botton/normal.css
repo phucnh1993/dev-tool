@@ -1,0 +1,14 @@
+.btn-normal {
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 8px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px 4px 10px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}

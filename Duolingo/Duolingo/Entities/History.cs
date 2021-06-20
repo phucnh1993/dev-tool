@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,7 +20,7 @@ namespace Duolingo.Entities {
         [Column("CreatedDate", Order = 1, TypeName = "datetime")]
         [Index("IX_CreatedDate", IsClustered = false, IsUnique = true)]
         public DateTime CreatedDate { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<HistoryDetail> HistoryDetails { get; set; }
     }
 }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Application Management</title>
+		<link rel="stylesheet" href="../css/layout/navbar.css" lazyload>
+		<link rel="stylesheet" href="../css/botton/normal.css" lazyload>
+		<link rel="stylesheet" href="../css/botton/success.css" lazyload>
+		<link rel="stylesheet" href="../css/botton/alert.css" lazyload>
+		<link rel="stylesheet" href="../css/botton/accept.css" lazyload>
+		<link rel="stylesheet" href="../css/form/popup.css" lazyload>
+		<link rel="stylesheet" href="../css/table/table.css" lazyload>
+		<script defer src="../js/layout.js" async></script>
+		<script defer src="../js/forms/action.js" async></script>
+		<script defer src="../js/services/tableService.js" async></script>
+		<script defer src="../js/services/createData.js" async></script>
+		<script defer src="../js/services/updateData.js" async></script>
+		<script defer src="../js/services/application.js" async></script>
+	</head>
+	<body>
+		<nav id='layout'></nav>
+		<div id='table-button' class="table-button"></div>
+		<div id='data-table' class="table-style">
+		</div>
+		<script defer>
+			window.onload = function() {
+				LoadLayout("a_application");
+				LoadButton();
+				GetList();
+			};
+		</script>
+		<div class="form-popup" id="myForm">
+			<div class="form-container">
+				<h3>Create a Basic Type</h3>
+				<label id="lblId" for="txtId">
+    				<b>Id</b>
+    			</label><br>
+    			<input type="text" placeholder="Id of basic type" id="txtId" name="txtId" readonly><br>
+    			<label for="txtName">
+    				<b>Name</b>
+    			</label><br>
+    			<input type="text" placeholder="Name of basic type" id="txtName" name="txtName" required><br>
+				<label for="txtDescription">
+					<b>Description</b>
+				</label><br>
+    			<input type="text" placeholder="Description of basic type" id="txtDescription" name="txtDescription" required><br>
+    			<label for="txtBasicTypeId">
+    				<b>Basic Type</b>
+    			</label><br>
+    			<input type="number" placeholder="Basic type" id="txtBasicTypeId" name="txtBasicTypeId"><br>
+    			<label for="txtDatabaseDevId">
+    				<b>Database DEV</b>
+    			</label><br>
+    			<input type="number" placeholder="Database DEV" id="txtDatabaseDevId" name="txtDatabaseDevId"><br>
+    			<label for="txtDatabaseDevId">
+    				<b>Database UAT</b>
+    			</label><br>
+    			<input type="number" placeholder="Database UAT" id="txtDatabaseDevId" name="txtDatabaseDevId"><br>
+    			<input type="checkbox" id="isActivated" name="isActivated">
+    			<label for="isActivated"><b> Is Activated</b></label><br>
+    			<button class="btn-normal btn-success" onclick="UpdateOne()">OK</button>
+    			<button class="btn-normal btn-alert" onclick="closeForm()">Close</button>
+    		</div>
+		</div>
+	</body>
+</html>
