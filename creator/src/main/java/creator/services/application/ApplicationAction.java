@@ -1,4 +1,4 @@
-package creator.services.basicType;
+package creator.services.application;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -9,32 +9,55 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Service;
 
-
-import lombok.RequiredArgsConstructor;
-
-import creator.domains.entities.BasicType;
-import creator.domains.repositories.IBasicTypeRepository;
 import creator.configs.ConstantConfig;
-import creator.services.ResultData;
+import creator.domains.entities.Application;
+import creator.domains.entities.BasicType;
+import creator.domains.entities.Database;
+import creator.domains.repositories.IApplicationRepository;
+import creator.domains.repositories.IBasicTypeRepository;
+import creator.domains.repositories.IDatabaseRepository;
 import creator.services.ActionResponse;
+import creator.services.ResultData;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class BasicTypeAction {
+public class ApplicationAction {
 	@PersistenceContext
 	final EntityManager entityManager;
+	
+	private final IBasicTypeRepository repoBasicType;
+	private final IDatabaseRepository repoDatabase;
 
-	public ResultData<ActionResponse> createData(IBasicTypeRepository _repo, BasicTypeRequest newData) {
+	public Application setDataApplication(Application data, ApplicationRequest request) {
+		data.setName(request.getName());
+		data.setDescription(request.getDescription());
+		data.setActivated(request.isActivated());
+		if (request.getBasicTypeId() != null) {
+			BasicType rbt = repoBasicType.findById(request.getBasicTypeId()).get();
+			if (rbt != null)
+				data.setBasicType(rbt);
+		}
+		if (request.getDatabaseDevId() != null) {
+			Database db = repoDatabase.findById(request.getDatabaseDevId()).get();
+			if (db != null)
+				data.setDatabaseDev(db);
+		}
+		if (request.getDatabaseUatId() != null) {
+			Database db = repoDatabase.findById(request.getDatabaseUatId()).get();
+			if (db != null)
+				data.setDatabaseUat(db);
+		}
+		return data;
+	}
+	
+	public ResultData<ActionResponse> createData(IApplicationRepository _repo, ApplicationRequest newData) {
 		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
 		try {
 			long startTime = System.nanoTime();
 			LocalDateTime now = LocalDateTime.now();
-			BasicType data = new BasicType();
-			data.setName(newData.getName());
-			data.setGroup(newData.getGroup());
-			data.setDescription(newData.getDescription());
-			data.setSort(newData.getSort());
-			data.setActivated(newData.isActivated());
+			Application data = new Application();
+			data = setDataApplication(data, newData);
 			_repo.save(data);
 			ActionResponse act = new ActionResponse();
 			act.setId(data.getId());
@@ -52,26 +75,22 @@ public class BasicTypeAction {
 		return result;
 	}
 
-	public ResultData<ActionResponse> updateData(IBasicTypeRepository _repo, BasicTypeRequest oldData,
+	public ResultData<ActionResponse> updateData(IApplicationRepository _repo, ApplicationRequest oldData,
 			BigInteger id) {
 		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
 		try {
 			long startTime = System.nanoTime();
 			LocalDateTime now = LocalDateTime.now();
-			BasicType data = _repo.findById(id).get();
-			data.setName(oldData.getName());
-			data.setGroup(oldData.getGroup());
-			data.setDescription(oldData.getDescription());
-			data.setSort(oldData.getSort());
-			data.setActivated(oldData.isActivated());
+			Application data = _repo.findById(id).get();
+			data = setDataApplication(data, oldData);
 			_repo.save(data);
-			ActionResponse act = new ActionResponse();
-			act.setId(data.getId());
+			ActionResponse temp = new ActionResponse();
+			temp.setId(data.getId());
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-			act.setActionOn(now.format(formatter));
+			temp.setActionOn(now.format(formatter));
 			long endTime = System.nanoTime();
-			act.setRuntime((endTime - startTime) / ConstantConfig.ONE_MILLION);
-			result.setData(act);
+			temp.setRuntime((endTime - startTime) / ConstantConfig.ONE_MILLION);
+			result.setData(temp);
 			result.setTotal(1);
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
@@ -81,7 +100,7 @@ public class BasicTypeAction {
 		return result;
 	}
 	
-	public ResultData<ActionResponse> deleteData(IBasicTypeRepository _repo, BigInteger id) {
+	public ResultData<ActionResponse> deleteData(IApplicationRepository _repo, BigInteger id) {
 		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
 		try {
 			long startTime = System.nanoTime();

@@ -1,0 +1,7 @@
+ul.horizontal{list-style-type:none;margin:0;padding:0;overflow:hidden;background-color:#333;}
+ul.horizontal li{float:left;display:inline;}
+ul.horizontal li a{display:inline-block;color:white;text-align:center;padding:12px 10px;text-decoration:none;}
+ul.horizontal li a:hover:not(.active){background-color:#4d94ff;}
+ul.horizontal li a.active{background-color:#04AA6D;}
+.info{float:right;}
+body{margin:0px 0px 0px 0px;padding:0px;}

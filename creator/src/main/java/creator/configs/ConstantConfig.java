@@ -29,6 +29,9 @@ public class ConstantConfig {
 			StatusMessage.put(DELETE_DATA_ERROR, "Delete data error");
 		}
 		
+		public static final long ONE_THOUSAND = 1000;
+		public static final long ONE_MILLION = 1000000;
+		
 		// URL API
 		public static final String URL_BASIC_TYPE = "/api/basicTypes/?pageIndex=1&pageSize=10";
 }

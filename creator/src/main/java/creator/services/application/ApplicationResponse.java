@@ -1,4 +1,4 @@
-package creator.services.basicType;
+package creator.services.application;
 
 import java.math.BigInteger;
 
@@ -13,17 +13,21 @@ import lombok.Setter;
 @Setter 
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasicTypeResponse {
+public class ApplicationResponse {
 	@JsonProperty("id")
 	private BigInteger id;
 	@JsonProperty("name")
 	private String name;
-	@JsonProperty("group")
-	private String group;
 	@JsonProperty("description")
 	private String description;
-	@JsonProperty("sort")
-	private int sort;
 	@JsonProperty("isActivated")
 	private boolean isActivated;
+	@JsonProperty("basicTypeId")
+	private BigInteger basicTypeId;
+	@JsonProperty("typeName")
+	private String typeName;
+	@JsonProperty("databaseDevId")
+	private BigInteger databaseDevId;
+	@JsonProperty("databaseUatId")
+	private BigInteger databaseUatId;
 }

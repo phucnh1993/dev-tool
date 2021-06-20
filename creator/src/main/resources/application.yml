@@ -6,9 +6,21 @@ spring:
       base-path: /creators
   jackson:
     time-zone: GMT+7
+  web:
+    resources:
+      cache:
+        period: 3
+        cachecontrol:
+          cache-public: true
+          no-cache: false
+          no-store: false
+          must-revalidate: false
+          max-age: 3
+      chain:
+        compressed: true
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/CodeCreator
+    url: jdbc:mysql://localhost:3306/CodeCreator?useUnicode=yes&characterEncoding=UTF-8
     username: abc
     password: 123
     hikari:

@@ -1,4 +1,4 @@
-function CreateData(urlPath, data) {
+function CreateData(urlPath, id) {
 	urlGlobal = urlPath;
 	idGlobal = id;
 	headerGlobal = header;
@@ -7,14 +7,14 @@ function CreateData(urlPath, data) {
     	if (this.readyState == 4 && this.status == 200) {
 			data = JSON.parse(xhttp.responseText);
 			if (data.errorCode === 0) {
-				console.log("Create data ["+ data.data.id +"] at "+ data.data.actionOn +" in "+ data.data.runtime +" ms");
+				console.log("Delete data ["+ data.data.id +"] at "+ data.data.actionOn +" in "+ data.data.runtime +" ms");
 			}
 			else {
-				console.log("Create data error with code ["+ data.errorCode +"] and message ["+ data.message +"]");
+				console.log("Delete data error with code ["+ data.errorCode +"] and message ["+ data.message +"]");
 			}
     	}
 	};
-	xhttp.open("POST", urlPath, true);
+	xhttp.open("DELETE", urlPath + "/" + id, true);
 	xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
-	xhttp.send(JSON.stringify(data));
+	xhttp.send();
 }

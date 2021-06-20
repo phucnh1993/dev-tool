@@ -8,6 +8,7 @@ import lombok.Setter;
 public class BasicTypeRequest {
 	private boolean isActivated;
 	private String name;
+	private String group;
 	private String description;
 	private int sort;
 }

@@ -1,7 +1,6 @@
 package creator.domains.entities;
 
 import java.math.BigInteger;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -26,11 +26,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "BasicTypes", indexes = {
-		@Index(name = "ix_basic_type_search", columnList = "IsActivated, Group, Name", unique = false)		
+@Table(name = "DatabaseInfos", indexes = {
+		@Index(name = "ix_database_search", columnList = "IsActivated, Name", unique = false)		
 })
 @EntityListeners(AuditingEntityListener.class)
-public class BasicType {
+public class Database {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id", nullable = false, columnDefinition = "bigint unsigned")
@@ -42,18 +42,28 @@ public class BasicType {
 	@Column(name = "Name", nullable = false, length = 100, columnDefinition = "varchar(100) COLLATE ascii_bin")
     private String name;
 	
-	@Column(name = "Group", nullable = false, length = 50, columnDefinition = "varchar(50) COLLATE ascii_bin")
-    private String group;
-	
 	@Column(name = "Description", nullable = false, length = 300, columnDefinition = "varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci")
     private String description;
 	
-	@Column(name = "Sort", nullable = false)
-    private int sort;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "BasicTypeId", referencedColumnName = "Id", nullable = false, columnDefinition = "bigint unsigned")
+    private BasicType basicType;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "basicType")
-    private List<Application> applications;
+	@Column(name = "TypeName", nullable = false, length = 100, columnDefinition = "varchar(100) COLLATE ascii_bin")
+	private String typeName;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "basicType")
-    private List<Database> databases;
+	@Column(name = "IpAddressV4", nullable = true, length = 15, columnDefinition = "varchar(15) COLLATE ascii_bin")
+    private String ipAddressV4;
+	
+	@Column(name = "IpAddressV6", nullable = true, length = 45, columnDefinition = "varchar(45) COLLATE ascii_bin")
+    private String ipAddressV6;
+	
+	@Column(name = "Port", nullable = true, columnDefinition = "smallint unsigned")
+    private Short port;
+	
+	@Column(name = "Username", nullable = true, length = 128, columnDefinition = "varchar(128) COLLATE ascii_bin")
+    private String username;
+	
+	@Column(name = "Password", nullable = true, length = 128, columnDefinition = "varbinary(128)")
+    private byte[] password;
 }

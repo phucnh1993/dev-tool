@@ -15,8 +15,8 @@ function CreateHeader(header) {
 function CreateMultiLeftButton(query) {
 	var btnMulLeft = document.createElement('button');
 	btnMulLeft.setAttribute('onclick', 'JumpPage('+ 1 +','+ 20 +','+ query +')');
-	btnMulLeft.innerText = '&lt;&lt;&lt;';
-	btnMulLeft.setAttribute('class', 'btn-normal btn-accept');
+	btnMulLeft.innerText = 'start';
+	btnMulLeft.setAttribute('class', 'btn-page');
 	return btnMulLeft;
 }
 
@@ -26,45 +26,45 @@ function CreateLeftButton(nowPage, query) {
 	var leftPage = 1;
 	if (nowPage > leftPage) leftPage = nowPage - 1;
 	btnLeft.setAttribute('onclick', 'JumpPage('+ leftPage +','+ 20 +','+ query +')');
-	btnLeft.innerText = '&lt;';
-	btnLeft.setAttribute('class', 'btn-normal btn-accept');
+	btnLeft.innerText = 'previous';
+	btnLeft.setAttribute('class', 'btn-page');
 	return btnLeft;
 }
 
 // Tạo button sang phải 1 đơn vị
-function CreateRightButton(numRow, query) {
-	var rightPage = numRow / 20;
+function CreateRightButton(nowPage, query) {
+	var rightPage = 2;
 	if (rightPage > nowPage) rightPage = nowPage + 1;
 	var btnRight = document.createElement('button');
 	btnRight.setAttribute('onclick', 'JumpPage('+ rightPage +','+ 20 +','+ query +')');
-	btnRight.innerText = '&gt;';
-	btnRight.setAttribute('class', 'btn-normal btn-accept');
+	btnRight.innerText = 'next';
+	btnRight.setAttribute('class', 'btn-page');
 	return btnRight;
 }
 
 // Tạo button sang phải về trang cuối cùng
 function CreateMultiRightButton(numRow, query) {
-	var numPage = numRow / 20;
+	var numPage = numRow / 20 + 1;
 	var btnMulRight = document.createElement('button');
 	btnMulRight.setAttribute('onclick', 'JumpPage('+ numPage +','+ 20 +','+ query +')');
-	btnMulRight.innerText = '&gt;&gt;&gt;';
-	btnMulRight.setAttribute('class', 'btn-normal btn-accept');
+	btnMulRight.innerText = 'end';
+	btnMulRight.setAttribute('class', 'btn-page');
 	return btnMulRight;
 }
 
 // Tạo button footer cho mỗi một trang, giới hạn trong vòng 5 trang
 function CreateFooterPage(numRow, nowPage, query) {
-	var div = document.createElement('div');
-	var numPage = numRow / 20;
+	var arrBtn = new Array();
+	var numPage = numRow / 20 + 1;
 	if (numPage > 5) {
 		for (var i = 1; i <= numPage; i++) {
 			if ((nowPage - 2 >= i) && (nowPage + 2 <= i)) {
 				if (nowPage === i) {
 					var btn = document.createElement('button');
-					btn.setAttribute('onclick', 'JumpPage('+ i +','+ 20 +','+ query +')');
-					btn.setAttribute('class', 'btn-normal btn-success');	
+					btn.setAttribute('class', 'btn-now');	
 				} else {
-					btn.setAttribute('class', 'btn-normal btn-accept');
+					btn.setAttribute('class', 'btn-page');
+					btn.setAttribute('onclick', 'JumpPage('+ i +','+ 20 +','+ query +')');
 				}
 				btn.innerText = i;
 				div.appendChild(btn);
@@ -73,17 +73,17 @@ function CreateFooterPage(numRow, nowPage, query) {
 	} else {
 		for (var i = 1; i <= numPage; i++) {
 			var btn = document.createElement('button');
-			btn.setAttribute('onclick', 'JumpPage('+ i +','+ 20 +','+ query +')');
 			if (nowPage === i) {
-				btn.setAttribute('class', 'btn-normal btn-success');	
+				btn.setAttribute('class', 'btn-now');	
 			} else {
-				btn.setAttribute('class', 'btn-normal btn-accept');
+				btn.setAttribute('class', 'btn-page');
+				btn.setAttribute('onclick', 'JumpPage('+ i +','+ 20 +','+ query +')');
 			}
 			btn.innerText = i;
-			div.appendChild(btn);
+			arrBtn.push(btn);
 		}
 	}
-	return div;
+	return arrBtn;
 }
 
 // Tạo footer cho table
@@ -92,29 +92,38 @@ function CreateFooter(numColumn, numRow, nowPage, query) {
 	var td = document.createElement("td");
 	td.setAttribute('class', 'table-footer');
 	td.setAttribute('colspan', numColumn);
-	
-	if (numPage > nowPage && nowPage > 1) {
-		td.appendChild(CreateMultiLeftButton(query));
-		td.appendChild(CreateLeftButton(nowPage, query));
-		td.appendChild(CreateFooterPage(numRow, nowPage, query));
-		td.appendChild(CreateRightButton(numRow, query));
-		td.appendChild(CreateMultiRightButton(numRow, query));		
-	} else {
-		if (nowPage === 1) {
+	var numPage = numRow / 20 + 1;
+	btn = CreateFooterPage(numRow, nowPage, query);
+	if (numPage > 5) {
+		if (numPage > nowPage && nowPage > 1) {
 			td.appendChild(CreateMultiLeftButton(query));
 			td.appendChild(CreateLeftButton(nowPage, query));
-			td.appendChild(CreateFooterPage(numRow, nowPage, query));
-		}
-		if (numPage === nowPage) {
-			td.appendChild(CreateFooterPage(numRow, nowPage, query));
+			for (var i = 0; i < btn.length; i++)
+				td.appendChild(btn[i]);
 			td.appendChild(CreateRightButton(numRow, query));
-			td.appendChild(CreateMultiRightButton(numRow, query));
+			td.appendChild(CreateMultiRightButton(numRow, query));		
+		} else {
+			if (nowPage === 1) {
+				td.appendChild(CreateRightButton(numRow, query));
+				td.appendChild(CreateMultiRightButton(numRow, query));
+				for (var i = 0; i < btn.length; i++)
+					td.appendChild(btn[i]);
+			}
+			if (numPage === nowPage) {
+				for (var i = 0; i < btn.length; i++)
+					td.appendChild(btn[i]);
+				td.appendChild(CreateMultiLeftButton(query));
+				td.appendChild(CreateLeftButton(nowPage, query));
+			}
 		}
+	} else {
+		for (var i = 0; i < btn.length; i++)
+			td.appendChild(btn[i]);
 	}
 	tr.appendChild(td);
 	var ec = document.createElement("tfoot");
 	ec.appendChild(tr);
-	return ec
+	return ec;
 }
 
 function JumpPage(index, size, query) {
@@ -145,20 +154,36 @@ function BuildTable(id, urlPath, index, size, query, header) {
 					var obj = temp[i];
 					var tempItem = Object.keys(obj).map((key) => [key, obj[key]]);
 					var row = document.createElement('tr');
+					var dataShowClick = new Array();
 					for (var j = 0; j < tempItem.length; j++) {
+						if (j === 0) idRow = tempItem[j][1];
 						var cell = document.createElement('td');
 						cell.innerText = tempItem[j][1];
+						dataShowClick.push(tempItem[j][1]);
 						row.appendChild(cell);
 					}
+    				row.onclick = createClickHandler(dataShowClick);
        				tbody.appendChild(row);
        			}
        			table.appendChild(tbody);
-       			table.appendChild(CreateFooter(numColumn, data.total, nowPage, query));
+       			table.appendChild(CreateFooter(header.length, data.total, index, query));
        		}
     	}
 	};
-	var url = urlPath + '?pageIndex=' + index + '&pageSize=' + size + query;
+	var url = urlPath + '?pageIndex=' + index + '&pageSize=' + size;
+	if (query != 'undefined' && query != null) url + query;
 	xhttp.open("GET", url, true);
 	xhttp.setRequestHeader("Content-type", "application/json");
 	xhttp.send();
+}
+
+function createClickHandler(dataShowClick) {
+	return function() {
+        var child = document.querySelectorAll('div.form-container input');
+  		for(var i = 0; i < child.length; i++) {
+			console.log(dataShowClick[i]);
+			document.getElementById(child[i].id).value = dataShowClick[i];
+  		}
+  		openUpdateForm();
+	};
 }

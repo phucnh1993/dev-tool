@@ -1,0 +1,32 @@
+.msg-alert {
+  opacity: 1;
+  transition: opacity 0.6s;
+  background-color: #f44336;
+  padding: 20px;
+  color: white;
+  margin-bottom: 15px;
+  float: right;
+  font-size: 12px;
+}
+
+.msg-success {
+  opacity: 1;
+  transition: opacity 0.6s;
+  background-color: #4CAF50;
+  padding: 20px;
+  color: white;
+  margin-bottom: 15px;
+  float: right;
+  font-size: 12px;
+}
+
+.msg-warning {
+  opacity: 1;
+  transition: opacity 0.6s;
+  background-color: #ff9800;
+  padding: 20px;
+  color: white;
+  margin-bottom: 15px;
+  float: right;
+  font-size: 12px;
+}
