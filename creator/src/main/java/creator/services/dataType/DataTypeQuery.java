@@ -1,4 +1,4 @@
-package creator.services.basicType;
+package creator.services.dataType;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -13,16 +13,15 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
-
-import creator.domains.entities.BasicType;
 import creator.configs.ConstantConfig;
+import creator.domains.entities.DataType;
 import creator.services.FilterRequest;
 import creator.services.ResultData;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class BasicTypeQuery {
+public class DataTypeQuery {
 	@PersistenceContext
 	final EntityManager entityManager;
 
@@ -31,20 +30,23 @@ public class BasicTypeQuery {
 		return entityManager.createQuery(filter.CreateCount(cb, myClass)).getSingleResult();
 	}
 
-	public ResultData<List<BasicTypeResponse>> getAll(FilterRequest filter) {
-		ResultData<List<BasicTypeResponse>> result = new ResultData<List<BasicTypeResponse>>();
+	public ResultData<List<DataTypeResponse>> getAll(FilterRequest filter) {
+		ResultData<List<DataTypeResponse>> result = new ResultData<List<DataTypeResponse>>();
 		try {
-			result.setData(new ArrayList<BasicTypeResponse>());
+			result.setData(new ArrayList<DataTypeResponse>());
 			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-			result.setTotal(count(filter, BasicType.class));
+			result.setTotal(count(filter, DataType.class));
 			if (result.getTotal() > 0) {
-				TypedQuery<BasicType> typedQuery = entityManager.createQuery(filter.CreateQuery(cb, BasicType.class))
+				TypedQuery<DataType> typedQuery = entityManager.createQuery(filter.CreateQuery(cb, DataType.class))
 						.setFirstResult(filter.getOffset()).setMaxResults(filter.getPageSize());
-				List<BasicType> cmd = typedQuery.getResultList();
-				List<BasicTypeResponse> data = new ArrayList<BasicTypeResponse>();
+				List<DataType> cmd = typedQuery.getResultList();
+				List<DataTypeResponse> data = new ArrayList<DataTypeResponse>();
 				for (int i = 0; i < cmd.size(); i++) {
-					data.add(new BasicTypeResponse(cmd.get(i).getId()
+					data.add(new DataTypeResponse(cmd.get(i).getId()
+							, cmd.get(i).getGroupType().getId()
 							, cmd.get(i).getGroupName()
+							, cmd.get(i).getCodeType().getId()
+							, cmd.get(i).getCodeName()
 							, cmd.get(i).getName()
 							, cmd.get(i).getDescription()
 							, cmd.get(i).getSort()
@@ -60,14 +62,14 @@ public class BasicTypeQuery {
 		return result;
 	}
 	
-	public ResultData<BasicType> getDetail(BigInteger id) {
-		ResultData<BasicType> result = new ResultData<BasicType>();
+	public ResultData<DataType> getDetail(BigInteger id) {
+		ResultData<DataType> result = new ResultData<DataType>();
 		try {
 			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-			CriteriaQuery<BasicType> query = cb.createQuery(BasicType.class);
-			Root<BasicType> root = query.from(BasicType.class);
+			CriteriaQuery<DataType> query = cb.createQuery(DataType.class);
+			Root<DataType> root = query.from(DataType.class);
 			query.where(cb.equal(root.get("id"), id));
-			TypedQuery<BasicType> typedQuery = entityManager.createQuery(query);
+			TypedQuery<DataType> typedQuery = entityManager.createQuery(query);
 			result.setData(typedQuery.getSingleResult());
 			if (result.getData() != null) {
 				result.setTotal(1);

@@ -1,4 +1,4 @@
-package creator.services.basicType;
+package creator.services.dataType;
 
 import java.math.BigInteger;
 
@@ -9,15 +9,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter 
-@Setter 
-@NoArgsConstructor
-@AllArgsConstructor
-public class BasicTypeResponse {
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+public class DataTypeResponse {
 	@JsonProperty("id")
 	private BigInteger id;
+	@JsonProperty("groupTypeId")
+	private BigInteger groupTypeId;
 	@JsonProperty("groupName")
 	private String groupName;
+	@JsonProperty("codeTypeId")
+	private BigInteger codeTypeId;
+	@JsonProperty("codeName")
+	private String codeName;
 	@JsonProperty("name")
 	private String name;
 	@JsonProperty("description")

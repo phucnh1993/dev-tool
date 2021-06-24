@@ -19,7 +19,7 @@ spring:
       chain:
         compressed: true
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/CodeCreator?useUnicode=yes&characterEncoding=UTF-8
     username: abc
     password: 123

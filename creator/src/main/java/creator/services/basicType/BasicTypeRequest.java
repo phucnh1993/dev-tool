@@ -6,9 +6,9 @@ import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
 public class BasicTypeRequest {
-	private boolean isActivated;
+	private boolean activated;
 	private String name;
-	private String group;
+	private String groupName;
 	private String description;
 	private int sort;
 }

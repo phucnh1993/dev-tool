@@ -4,17 +4,18 @@ function GetList() {
 	index = 1;
 	size = 20;
 	query = '';
-	header = ['Id', 'Name', 'Description', 'Sort', 'Is Activated'];
+	header = ['Id', 'Group', 'Name', 'Description', 'Sort', 'Is Activated'];
 	BuildTable(id, urlPath, index, size, query, header);
 }
 
 function CreateOne() {
 	urlPath = '/api/basicTypes';
 	data = {
+		'groupName': document.getElementById('txtGroupName').value,
 		'name': document.getElementById('txtName').value,
 		'description': document.getElementById('txtDescription').value,
 		'sort': document.getElementById('txtSort').value,
-		'isActivated': document.getElementById('isActivated').checked
+		'activated': document.getElementById('isActivated').checked
 	};
 	CreateData(urlPath, data);
 	var child = document.querySelectorAll('div.form-container input');
@@ -31,10 +32,11 @@ function UpdateOne() {
 	var idData = document.getElementById('txtId').value;
 	if (idData != null && idData != 'undefined' && idData != "") {
 		data = {
+			'groupName': document.getElementById('txtGroupName').value,
 			'name': document.getElementById('txtName').value,
 			'description': document.getElementById('txtDescription').value,
 			'sort': document.getElementById('txtSort').value,
-			'isActivated': document.getElementById('isActivated').checked
+			'activated': document.getElementById('isActivated').checked
 		};
 		UpdateData(urlPath, idData, data);
 		var child = document.querySelectorAll('div.form-container input');

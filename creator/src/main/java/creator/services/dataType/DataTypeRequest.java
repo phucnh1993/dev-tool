@@ -1,4 +1,4 @@
-package creator.services.application;
+package creator.services.dataType;
 
 import java.math.BigInteger;
 
@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class ApplicationRequest {
+public class DataTypeRequest {
 	private String name;
 	private String description;
 	private boolean activated;
-	private BigInteger basicTypeId;
-	private BigInteger databaseDevId;
-	private BigInteger databaseUatId;
+	private BigInteger groupTypeId;
+	private BigInteger codeTypeId;
+	private int sort;
 }

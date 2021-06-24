@@ -1,4 +1,4 @@
-package creator.services.basicType;
+package creator.services.dataType;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -9,32 +9,51 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Service;
 
-
-import lombok.RequiredArgsConstructor;
-
-import creator.domains.entities.BasicType;
-import creator.domains.repositories.IBasicTypeRepository;
 import creator.configs.ConstantConfig;
-import creator.services.ResultData;
+import creator.domains.entities.BasicType;
+import creator.domains.entities.DataType;
+import creator.domains.repositories.IBasicTypeRepository;
+import creator.domains.repositories.IDataTypeRepository;
 import creator.services.ActionResponse;
+import creator.services.ResultData;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class BasicTypeAction {
+public class DataTypeAction {
 	@PersistenceContext
 	final EntityManager entityManager;
+	
+	private final IBasicTypeRepository repoBasicType;
 
-	public ResultData<ActionResponse> createData(IBasicTypeRepository _repo, BasicTypeRequest newData) {
+	public DataType setDataType(DataType data, DataTypeRequest request) {
+		data.setName(request.getName());
+		data.setDescription(request.getDescription());
+		data.setActivated(request.isActivated());
+		if (request.getGroupTypeId() != null) {
+			BasicType rbt = repoBasicType.findById(request.getGroupTypeId()).get();
+			if (rbt != null) {
+				data.setGroupType(rbt);
+				data.setGroupName(rbt.getName());
+			}
+		}
+		if (request.getCodeTypeId() != null) {
+			BasicType rbt = repoBasicType.findById(request.getCodeTypeId()).get();
+			if (rbt != null) {
+				data.setCodeType(rbt);
+				data.setCodeName(rbt.getName());
+			}
+		}
+		return data;
+	}
+	
+	public ResultData<ActionResponse> createData(IDataTypeRepository _repo, DataTypeRequest newData) {
 		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
 		try {
 			long startTime = System.nanoTime();
 			LocalDateTime now = LocalDateTime.now();
-			BasicType data = new BasicType();
-			data.setName(newData.getName());
-			data.setGroupName(newData.getGroupName());
-			data.setDescription(newData.getDescription());
-			data.setSort(newData.getSort());
-			data.setActivated(newData.isActivated());
+			DataType data = new DataType();
+			data = setDataType(data, newData);
 			_repo.save(data);
 			ActionResponse act = new ActionResponse();
 			act.setId(data.getId());
@@ -52,18 +71,14 @@ public class BasicTypeAction {
 		return result;
 	}
 
-	public ResultData<ActionResponse> updateData(IBasicTypeRepository _repo, BasicTypeRequest oldData,
+	public ResultData<ActionResponse> updateData(IDataTypeRepository _repo, DataTypeRequest oldData,
 			BigInteger id) {
 		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
 		try {
 			long startTime = System.nanoTime();
 			LocalDateTime now = LocalDateTime.now();
-			BasicType data = _repo.findById(id).get();
-			data.setName(oldData.getName());
-			data.setGroupName(oldData.getGroupName());
-			data.setDescription(oldData.getDescription());
-			data.setSort(oldData.getSort());
-			data.setActivated(oldData.isActivated());
+			DataType data = _repo.findById(id).get();
+			data = setDataType(data, oldData);
 			_repo.save(data);
 			ActionResponse act = new ActionResponse();
 			act.setId(data.getId());
@@ -81,7 +96,7 @@ public class BasicTypeAction {
 		return result;
 	}
 	
-	public ResultData<ActionResponse> deleteData(IBasicTypeRepository _repo, BigInteger id) {
+	public ResultData<ActionResponse> deleteData(IDataTypeRepository _repo, BigInteger id) {
 		ResultData<ActionResponse> result = new ResultData<ActionResponse>();
 		try {
 			long startTime = System.nanoTime();

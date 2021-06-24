@@ -9,10 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter 
-@Setter 
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class DatabaseResponse {
 	@JsonProperty("id")
 	private BigInteger id;
@@ -20,8 +17,8 @@ public class DatabaseResponse {
 	private String name;
 	@JsonProperty("description")
 	private String description;
-	@JsonProperty("isActivated")
-	private boolean isActivated;
+	@JsonProperty("activated")
+	private boolean activated;
 	@JsonProperty("basicTypeId")
 	private BigInteger basicTypeId;
 	@JsonProperty("typeName")
@@ -35,5 +32,5 @@ public class DatabaseResponse {
 	@JsonProperty("username")
 	private String username;
 	@JsonProperty("password")
-	private byte[] password;
+	private String password;
 }

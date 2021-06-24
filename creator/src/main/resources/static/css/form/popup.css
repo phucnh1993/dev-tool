@@ -2,7 +2,13 @@
 .form-container{max-width:800px;padding:10px;background-color:white;}
 .form-container input[type=text]{width:90%;padding:10px;margin:5px 0px 22px 0px;border:none;background:#f1f1f1;}
 .form-container input[type=number]{width:90%;padding:10px;margin:5px 0px 22px 0px;border:none;background:#f1f1f1;}
+.form-container input[type=password]{width:90%;padding:10px;margin:5px 0px 22px 0px;border:none;background:#f1f1f1;}
+.form-container select{width:90%;padding:10px;margin:5px 0px 22px 0px;border:none;background:#f1f1f1;}
+.form-container option{width:90%;padding:10px;border:none;background:#f1f1f1;}
 .form-container input[type=text]:focus{background-color:#ddd;outline:none;}
 .form-container input[type=number]:focus{background-color:#ddd;outline:none;}
+.form-container input[type=password]:focus{background-color:#ddd;outline:none;}
+.form-container select:focus{background-color:#ddd;outline:none;}
+.form-container select option:focus{background-color:#ddd;outline:none;}
 .form-container .btn-normal:hover{opacity:1;}
 .form-container .btn-normal{width:100px;margin-top:10px;margin-bottom:10px;opacity:0.8;}

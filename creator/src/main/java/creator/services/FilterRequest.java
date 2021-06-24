@@ -20,6 +20,8 @@ public class FilterRequest {
 	private String from;
 	private String to;
 	private String keyWords;
+	private Boolean activated;
+	private String groupName;
 	private int pageIndex = ConstantConfig.PAGE_INDEX_DEFAULT;
 	private int pageSize = ConstantConfig.PAGE_SIZE_DEFAULT;
 	private boolean isDescSort = false;
@@ -41,6 +43,14 @@ public class FilterRequest {
 		}
 		if (this.to != null && !this.to.trim().isEmpty()) {
 			Predicate condition = cb.lessThanOrEqualTo(root.get("modifiedOn"), this.to);
+			predicates.add(condition);
+		}
+		if (this.groupName != null && !this.groupName.trim().isEmpty()) {
+			Predicate condition = cb.like(root.get("groupName"), this.keyWords + "%");
+			predicates.add(condition);
+		}
+		if (this.activated != null) {
+			Predicate condition = cb.equal(root.get("activated"), this.activated);
 			predicates.add(condition);
 		}
 		return predicates;

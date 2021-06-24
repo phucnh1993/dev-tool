@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Basic Type Management</title>
+		<title>Database Management</title>
 		<link rel="stylesheet" href="../css/layout/navbar.css" lazyload>
 		<link rel="stylesheet" href="../css/botton/normal.css" lazyload>
 		<link rel="stylesheet" href="../css/botton/success.css" lazyload>
@@ -12,11 +12,12 @@
 		<link rel="stylesheet" href="../css/form/popup.css" lazyload>
 		<link rel="stylesheet" href="../css/table/table.css" lazyload>
 		<script defer src="../js/layout.js" async></script>
+		<script defer src="../js/categories/basicType.js" async></script>
 		<script defer src="../js/forms/action.js" async></script>
 		<script defer src="../js/services/tableService.js" async></script>
 		<script defer src="../js/services/createData.js" async></script>
 		<script defer src="../js/services/updateData.js" async></script>
-		<script defer src="../js/services/basicType.js" async></script>
+		<script defer src="../js/services/database.js" async></script>
 	</head>
 	<body>
 		<nav id='layout'></nav>
@@ -25,22 +26,19 @@
 		</div>
 		<script defer>
 			window.onload = function() {
-				LoadLayout("a_basic_type");
+				LoadLayout("a_database");
 				LoadButton();
+				GetCategoryBasicType("&groupName=DATABASE");
 				GetList();
 			};
 		</script>
 		<div class="form-popup" id="myForm">
 			<div class="form-container">
-				<h3>Create a Basic Type</h3>
+				<h3>Create a Database</h3>
 				<label id="lblId" for="txtId">
     				<b>Id</b>
     			</label><br>
     			<input type="text" placeholder="Id of basic type" id="txtId" name="txtId" readonly><br>
-    			<label for="txtGroupName">
-    				<b>Group</b>
-    			</label><br>
-    			<input type="text" placeholder="Group of basic type" id="txtGroupName" name="txtGroupName" required><br>
     			<label for="txtName">
     				<b>Name</b>
     			</label><br>
@@ -49,10 +47,31 @@
 					<b>Description</b>
 				</label><br>
     			<input type="text" placeholder="Description of basic type" id="txtDescription" name="txtDescription" required><br>
-    			<label for="txtSort">
-    				<b>Sort</b>
+    			<label for="txtBasicTypeId">
+    				<b>Basic Type</b>
     			</label><br>
-    			<input type="number" placeholder="Sort of basic type" id="txtSort" name="txtSort" min="1" required><br>
+    			<select id="txtBasicTypeId">
+    			</select><br>
+    			<label for="txtIpAddressV4">
+    				<b>IP Address Version 4</b>
+    			</label><br>
+    			<input type="text" placeholder="IP Address Version 4" id="txtIpAddressV4" name="txtIpAddressV4"><br>
+    			<label for="txtIpAddressV6">
+    				<b>IP Address Version 6</b>
+    			</label><br>
+    			<input type="text" placeholder="IP Address Version 6" id="txtIpAddressV6" name="txtIpAddressV6"><br>
+    			<label for="txtPort">
+    				<b>Port</b>
+    			</label><br>
+    			<input type="number" placeholder="Port number" id="txtPort" name="txtPort" min="2" max="65535"><br>
+    			<label for="txtUsername">
+    				<b>Username Login</b>
+    			</label><br>
+    			<input type="text" placeholder="Username" id="txtUsername" name="txtUsername"><br>
+    			<label for="txtPassword">
+    				<b>Password Login</b>
+    			</label><br>
+    			<input type="password" placeholder="Password" id="txtPassword" name="txtPassword"><br>
     			<input type="checkbox" id="isActivated" name="isActivated">
     			<label for="isActivated"><b> Is Activated</b></label><br>
     			<button class="btn-normal btn-success" onclick="UpdateOne()">OK</button>

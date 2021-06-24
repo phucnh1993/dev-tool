@@ -12,6 +12,8 @@
 		<link rel="stylesheet" href="../css/form/popup.css" lazyload>
 		<link rel="stylesheet" href="../css/table/table.css" lazyload>
 		<script defer src="../js/layout.js" async></script>
+		<script defer src="../js/categories/basicType.js" async></script>
+		<script defer src="../js/categories/database.js" async></script>
 		<script defer src="../js/forms/action.js" async></script>
 		<script defer src="../js/services/tableService.js" async></script>
 		<script defer src="../js/services/createData.js" async></script>
@@ -27,12 +29,14 @@
 			window.onload = function() {
 				LoadLayout("a_application");
 				LoadButton();
+				GetCategoryBasicType("&groupName=DATABASE");
+				GetCategoryDatabaseForApplication("");
 				GetList();
 			};
 		</script>
 		<div class="form-popup" id="myForm">
 			<div class="form-container">
-				<h3>Create a Basic Type</h3>
+				<h3>Create a Application</h3>
 				<label id="lblId" for="txtId">
     				<b>Id</b>
     			</label><br>
@@ -48,15 +52,18 @@
     			<label for="txtBasicTypeId">
     				<b>Basic Type</b>
     			</label><br>
-    			<input type="number" placeholder="Basic type" id="txtBasicTypeId" name="txtBasicTypeId"><br>
+    			<select id="txtBasicTypeId">
+    			</select><br>
     			<label for="txtDatabaseDevId">
     				<b>Database DEV</b>
     			</label><br>
-    			<input type="number" placeholder="Database DEV" id="txtDatabaseDevId" name="txtDatabaseDevId"><br>
+    			<select id="txtDatabaseDevId">
+    			</select><br>
     			<label for="txtDatabaseDevId">
     				<b>Database UAT</b>
     			</label><br>
-    			<input type="number" placeholder="Database UAT" id="txtDatabaseDevId" name="txtDatabaseDevId"><br>
+    			<select id="txtDatabaseUatId">
+    			</select><br>
     			<input type="checkbox" id="isActivated" name="isActivated">
     			<label for="isActivated"><b> Is Activated</b></label><br>
     			<button class="btn-normal btn-success" onclick="UpdateOne()">OK</button>

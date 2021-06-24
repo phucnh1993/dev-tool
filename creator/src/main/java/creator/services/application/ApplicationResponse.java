@@ -20,7 +20,7 @@ public class ApplicationResponse {
 	private String name;
 	@JsonProperty("description")
 	private String description;
-	@JsonProperty("isActivated")
+	@JsonProperty("activated")
 	private boolean isActivated;
 	@JsonProperty("basicTypeId")
 	private BigInteger basicTypeId;

@@ -28,7 +28,14 @@ public class CategoryController {
 	CategoryQuery _query;
 	
 	@GetMapping("/basicTypes")
-	public @ResponseBody ResultData<List<CategoryResponse>> getAll(FilterRequest filter) {
+	public @ResponseBody ResultData<List<CategoryResponse>> getBasicTypes(FilterRequest filter) {
+		filter.setActivated(true);
 		return _query.getBasicType(filter);
+	}
+	
+	@GetMapping("/databases")
+	public @ResponseBody ResultData<List<CategoryResponse>> getDatabases(FilterRequest filter) {
+		filter.setActivated(true);
+		return _query.getDatabase(filter);
 	}
 }

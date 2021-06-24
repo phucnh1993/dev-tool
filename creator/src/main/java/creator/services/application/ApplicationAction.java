@@ -35,8 +35,10 @@ public class ApplicationAction {
 		data.setActivated(request.isActivated());
 		if (request.getBasicTypeId() != null) {
 			BasicType rbt = repoBasicType.findById(request.getBasicTypeId()).get();
-			if (rbt != null)
+			if (rbt != null) {
 				data.setBasicType(rbt);
+				data.setTypeName(rbt.getName());
+			}
 		}
 		if (request.getDatabaseDevId() != null) {
 			Database db = repoDatabase.findById(request.getDatabaseDevId()).get();
