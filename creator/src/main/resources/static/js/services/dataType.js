@@ -1,23 +1,23 @@
 function GetList() {
-	id = 'application';
-	urlPath = '/api/applications';
+	id = 'basic_type';
+	urlPath = '/api/dataTypes';
 	index = 1;
 	size = 20;
 	query = '';
-	header = ['Id', 'Name', 'Description', 'Is Activated', 'Basic Type Id', 'Basic Type Name', 'Database DEV Id', 'Database UAT Id'];
-	column = ['txtId', 'txtName', 'txtDescription', 'isActivated', 'comBasicTypeId', '', 'comDatabaseDevId', 'comDatabaseUatId'];
+	header = ['Id', 'Name', 'Description', 'Sort', 'Is Activated', 'GroupId', 'GroupName', 'CodeId', 'CodeName'];
+	column = ['txtId', 'txtName', 'txtDescription', 'txtSort', 'isActivated', 'comGroupTypeId', '', 'comCodeTypeId', ''];
 	BuildTable(id, urlPath, index, size, query, header, column);
 }
 
 function CreateOne() {
-	urlPath = '/api/applications';
+	urlPath = '/api/dataTypes';
 	data = {
 		'name': document.getElementById('txtName').value,
 		'description': document.getElementById('txtDescription').value,
-		'activated': document.getElementById('isActivated').checked,
-		'basicTypeId': document.getElementById('comBasicTypeId').value,
-		'databaseDevId': document.getElementById('comDatabaseDevId').value,
-		'databaseUatId': document.getElementById('comDatabaseDevId').value
+		'groupTypeId': document.getElementById('comGroupTypeId').value,
+		'codeTypeId': document.getElementById('comCodeTypeId').value,
+		'sort': document.getElementById('txtSort').value,
+		'activated': document.getElementById('isActivated').checked
 	};
 	CreateData(urlPath, data);
 	var child = document.querySelectorAll('div.form-container input');
@@ -30,16 +30,16 @@ function CreateOne() {
 }
 
 function UpdateOne() {
-	urlPath = '/api/applications';
+	urlPath = '/api/dataTypes';
 	var idData = document.getElementById('txtId').value;
 	if (idData != null && idData != 'undefined' && idData != "") {
 		data = {
 			'name': document.getElementById('txtName').value,
 			'description': document.getElementById('txtDescription').value,
-			'activated': document.getElementById('isActivated').checked,
-			'basicTypeId': document.getElementById('txtBasicTypeId').value,
-			'databaseDevId': document.getElementById('txtDatabaseDevId').value,
-			'databaseUatId': document.getElementById('txtDatabaseDevId').value
+			'groupTypeId': document.getElementById('comGroupTypeId').value,
+			'codeTypeId': document.getElementById('comCodeTypeId').value,
+			'sort': document.getElementById('txtSort').value,
+			'activated': document.getElementById('isActivated').checked
 		};
 		UpdateData(urlPath, idData, data);
 		var child = document.querySelectorAll('div.form-container input');

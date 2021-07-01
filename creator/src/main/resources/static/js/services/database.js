@@ -5,13 +5,14 @@ function GetList() {
 	size = 20;
 	query = '';
 	header = ['Id', 'Name', 'Description', 'Is Activated', 'Id Type', 'Type', 'IP Address V4', 'IP Address V6', 'Port', 'Username', 'Password'];
-	BuildTable(id, urlPath, index, size, query, header);
+	column = ['txtId', 'txtName', 'txtDescription', 'isActivated', 'comBasicTypeId', '', 'txtIpAddressV4', 'txtIpAddressV6', 'txtPort', 'txtUsername', 'txtPassword'];
+	BuildTable(id, urlPath, index, size, query, header, column);
 }
 
 function CreateOne() {
 	urlPath = '/api/databases';
 	data = {
-		'basicTypeId': document.getElementById('txtBasicTypeId').value,
+		'basicTypeId': document.getElementById('comBasicTypeId').value,
 		'name': document.getElementById('txtName').value,
 		'description': document.getElementById('txtDescription').value,
 		'ipAddressV4': document.getElementById('txtIpAddressV4').value,
@@ -36,7 +37,7 @@ function UpdateOne() {
 	var idData = document.getElementById('txtId').value;
 	if (idData != null && idData != 'undefined' && idData != "") {
 		data = {
-			'basicTypeId': document.getElementById('txtBasicTypeId').value,
+			'basicTypeId': document.getElementById('comBasicTypeId').value,
 			'name': document.getElementById('txtName').value,
 			'description': document.getElementById('txtDescription').value,
 			'ipAddressV4': document.getElementById('txtIpAddressV4').value,

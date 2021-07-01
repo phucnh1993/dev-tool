@@ -33,35 +33,21 @@ public class FilterRequest {
 
 	public <T> List<Predicate> CreateListPredicate(CriteriaBuilder cb, Root<T> root, Class<T> myClass) {
 		List<Predicate> predicates = new ArrayList<Predicate>();
-		if (this.keyWords != null && !this.keyWords.trim().isEmpty()) {
-			Predicate condition = cb.like(root.get("name"), this.keyWords + "%");
-			predicates.add(condition);
-		}
-		if (this.from != null && !this.from.trim().isEmpty()) {
-			Predicate condition = cb.greaterThanOrEqualTo(root.get("modifiedOn"), this.from);
-			predicates.add(condition);
-		}
-		if (this.to != null && !this.to.trim().isEmpty()) {
-			Predicate condition = cb.lessThanOrEqualTo(root.get("modifiedOn"), this.to);
-			predicates.add(condition);
-		}
-		if (this.groupName != null && !this.groupName.trim().isEmpty()) {
-			Predicate condition = cb.like(root.get("groupName"), this.keyWords + "%");
-			predicates.add(condition);
-		}
-		if (this.activated != null) {
-			Predicate condition = cb.equal(root.get("activated"), this.activated);
-			predicates.add(condition);
-		}
+		if (this.keyWords != null && !this.keyWords.trim().isEmpty())
+			predicates.add(cb.like(root.get("name"), this.keyWords + "%"));
+		if (this.from != null && !this.from.trim().isEmpty())
+			predicates.add(cb.greaterThanOrEqualTo(root.get("modifiedOn"), this.from));
+		if (this.to != null && !this.to.trim().isEmpty())
+			predicates.add(cb.lessThanOrEqualTo(root.get("modifiedOn"), this.to));
+		if (this.groupName != null && !this.groupName.trim().isEmpty())
+			predicates.add( cb.like(root.get("groupName"), this.groupName + "%"));
+		if (this.activated != null)
+			predicates.add(cb.equal(root.get("activated"), this.activated));
 		return predicates;
 	}
-
+	
 	public <T> CriteriaQuery<T> UseListPredicate(CriteriaQuery<T> query, List<Predicate> predicates) {
-		if (predicates.size() > 0) {
-			predicates.forEach((element) -> {
-				query.where(element);
-			});
-		}
+		query = query.where(predicates.toArray(new Predicate[]{}));
 		return query;
 	}
 

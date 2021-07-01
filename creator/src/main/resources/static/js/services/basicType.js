@@ -5,7 +5,8 @@ function GetList() {
 	size = 20;
 	query = '';
 	header = ['Id', 'Group', 'Name', 'Description', 'Sort', 'Is Activated'];
-	BuildTable(id, urlPath, index, size, query, header);
+	column = ['txtId', 'txtGroupName', 'txtName', 'txtDescription', 'txtSort', 'isActivated'];
+	BuildTable(id, urlPath, index, size, query, header, column);
 }
 
 function CreateOne() {

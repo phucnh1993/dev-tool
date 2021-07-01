@@ -62,4 +62,7 @@ public class BasicType {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "codeType")
     private List<DataType> dataTypeCodes;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "codeType")
+    private List<ObjectStruct> objectStructCodes;
 }

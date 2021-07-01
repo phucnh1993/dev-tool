@@ -30,6 +30,7 @@ public class DataTypeAction {
 		data.setName(request.getName());
 		data.setDescription(request.getDescription());
 		data.setActivated(request.isActivated());
+		data.setSort(request.getSort());
 		if (request.getGroupTypeId() != null) {
 			BasicType rbt = repoBasicType.findById(request.getGroupTypeId()).get();
 			if (rbt != null) {

@@ -28,7 +28,7 @@
 			window.onload = function() {
 				LoadLayout("a_database");
 				LoadButton();
-				GetCategoryBasicType("&groupName=DATABASE");
+				GetCategoryBasicType("comBasicTypeId", "&groupName=DATABASE");
 				GetList();
 			};
 		</script>
@@ -38,19 +38,19 @@
 				<label id="lblId" for="txtId">
     				<b>Id</b>
     			</label><br>
-    			<input type="text" placeholder="Id of basic type" id="txtId" name="txtId" readonly><br>
+    			<input type="text" placeholder="Id of database" id="txtId" name="txtId" readonly><br>
     			<label for="txtName">
     				<b>Name</b>
     			</label><br>
-    			<input type="text" placeholder="Name of basic type" id="txtName" name="txtName" required><br>
+    			<input type="text" placeholder="Name of database" id="txtName" name="txtName" required><br>
 				<label for="txtDescription">
 					<b>Description</b>
 				</label><br>
-    			<input type="text" placeholder="Description of basic type" id="txtDescription" name="txtDescription" required><br>
-    			<label for="txtBasicTypeId">
+    			<input type="text" placeholder="Description of database" id="txtDescription" name="txtDescription" required><br>
+    			<label for="comBasicTypeId">
     				<b>Basic Type</b>
     			</label><br>
-    			<select id="txtBasicTypeId">
+    			<select id="comBasicTypeId">
     			</select><br>
     			<label for="txtIpAddressV4">
     				<b>IP Address Version 4</b>

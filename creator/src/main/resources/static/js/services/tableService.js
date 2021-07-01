@@ -127,18 +127,20 @@ function CreateFooter(numColumn, numRow, nowPage, query) {
 }
 
 function JumpPage(index, size, query) {
-	BuildTable(idGlobal, urlGlobal, index, size, query, headerGlobal);
+	BuildTable(idGlobal, urlGlobal, index, size, query, headerGlobal, columnIdGlobal);
 }
 
 var urlGlobal;
 var idGlobal;
 var headerGlobal;
+var columnIdGlobal;
 
 // Tạo table
-function BuildTable(id, urlPath, index, size, query, header) {
+function BuildTable(id, urlPath, index, size, query, header, columnId) {
 	urlGlobal = urlPath;
 	idGlobal = id;
 	headerGlobal = header;
+	columnIdGlobal = columnId;
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
     	if (this.readyState == 4 && this.status == 200) {
@@ -162,7 +164,7 @@ function BuildTable(id, urlPath, index, size, query, header) {
 						dataShowClick.push(tempItem[j][1]);
 						row.appendChild(cell);
 					}
-    				row.onclick = createClickHandler(dataShowClick);
+    				row.onclick = createClickHandler(dataShowClick, columnId);
        				tbody.appendChild(row);
        			}
        			table.appendChild(tbody);
@@ -177,12 +179,26 @@ function BuildTable(id, urlPath, index, size, query, header) {
 	xhttp.send();
 }
 
-function createClickHandler(dataShowClick) {
+function createClickHandler(dataShowClick, columnId) {
 	return function() {
-        var child = document.querySelectorAll('div.form-container input');
-  		for(var i = 0; i < child.length; i++) {
-			console.log(dataShowClick[i]);
-			document.getElementById(child[i].id).value = dataShowClick[i];
+  		for(var i = 0; i < columnId.length; i++) {
+			if (columnId[i] != "") {
+				if (columnId[i].includes("txt")) {
+					document.getElementById(columnId[i]).value = dataShowClick[i];
+					continue;
+				}
+				if (columnId[i].includes("com")) {
+					var options = document.getElementById(columnId[i]).children;
+					for(var j = 0; j < options.length; j++) {
+						if (String(options[j].value) === String(dataShowClick[i])) {
+							var att = document.createAttribute("selected");
+							document.getElementById(columnId[i]).children[j].setAttributeNode(att);
+						} else {
+							document.getElementById(columnId[i]).children[j].removeAttribute("selected");
+						}
+					}
+				}
+			}
   		}
   		openUpdateForm();
 	};

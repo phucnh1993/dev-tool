@@ -1,6 +1,7 @@
 package creator.domains.entities;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -70,4 +72,8 @@ public class DataType {
 	
 	@Column(name = "Sort", nullable = false)
     private int sort;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dataType")
+    private List<Property> properties;
+	
 }

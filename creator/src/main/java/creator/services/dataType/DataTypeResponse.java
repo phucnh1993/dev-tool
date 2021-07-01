@@ -13,14 +13,6 @@ import lombok.Setter;
 public class DataTypeResponse {
 	@JsonProperty("id")
 	private BigInteger id;
-	@JsonProperty("groupTypeId")
-	private BigInteger groupTypeId;
-	@JsonProperty("groupName")
-	private String groupName;
-	@JsonProperty("codeTypeId")
-	private BigInteger codeTypeId;
-	@JsonProperty("codeName")
-	private String codeName;
 	@JsonProperty("name")
 	private String name;
 	@JsonProperty("description")
@@ -29,4 +21,12 @@ public class DataTypeResponse {
 	private int sort;
 	@JsonProperty("activated")
 	private boolean activated;
+	@JsonProperty("groupTypeId")
+	private BigInteger groupTypeId;
+	@JsonProperty("groupName")
+	private String groupName;
+	@JsonProperty("codeTypeId")
+	private BigInteger codeTypeId;
+	@JsonProperty("codeName")
+	private String codeName;
 }

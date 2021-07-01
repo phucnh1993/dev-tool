@@ -4,8 +4,8 @@ function GetCategoryDatabaseForApplication(query) {
 	xhttp.onreadystatechange = function() {
     	if (this.readyState == 4 && this.status == 200) {
 			data = JSON.parse(xhttp.responseText);
-			var selectDev = document.getElementById("txtDatabaseDevId");
-			var selectUat = document.getElementById("txtDatabaseUatId");
+			var selectDev = document.getElementById("comDatabaseDevId");
+			var selectUat = document.getElementById("comDatabaseUatId");
 			selectDev.innerHTML = "";
 			selectUat.innerHTML = "";
 			var temp = data.data;

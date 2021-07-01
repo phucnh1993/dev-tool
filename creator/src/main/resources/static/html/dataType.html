@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Application Management</title>
+		<title>Basic Type Management</title>
 		<link rel="stylesheet" href="../css/layout/navbar.css" lazyload>
 		<link rel="stylesheet" href="../css/botton/normal.css" lazyload>
 		<link rel="stylesheet" href="../css/botton/success.css" lazyload>
@@ -12,13 +12,12 @@
 		<link rel="stylesheet" href="../css/form/popup.css" lazyload>
 		<link rel="stylesheet" href="../css/table/table.css" lazyload>
 		<script defer src="../js/layout.js" async></script>
-		<script defer src="../js/categories/basicType.js" async></script>
-		<script defer src="../js/categories/database.js" async></script>
 		<script defer src="../js/forms/action.js" async></script>
+		<script defer src="../js/categories/basicType.js" async></script>
 		<script defer src="../js/services/tableService.js" async></script>
 		<script defer src="../js/services/createData.js" async></script>
 		<script defer src="../js/services/updateData.js" async></script>
-		<script defer src="../js/services/application.js" async></script>
+		<script defer src="../js/services/dataType.js" async></script>
 	</head>
 	<body>
 		<nav id='layout'></nav>
@@ -27,43 +26,42 @@
 		</div>
 		<script defer>
 			window.onload = function() {
-				LoadLayout("a_application");
+				LoadLayout("a_data_type");
 				LoadButton();
-				GetCategoryBasicType("comBasicTypeId", "&groupName=APPTYPE");
-				GetCategoryDatabaseForApplication("");
 				GetList();
+				GetCategoryBasicType("comGroupTypeId", "&groupName=DATATYPE");
+				GetCategoryBasicType("comCodeTypeId", "&groupName=CODETYPE");
 			};
 		</script>
 		<div class="form-popup" id="myForm">
 			<div class="form-container">
-				<h3>Create a Application</h3>
+				<h3>Create a Data Type</h3>
 				<label id="lblId" for="txtId">
     				<b>Id</b>
     			</label><br>
-    			<input type="text" placeholder="Id of application" id="txtId" name="txtId" readonly><br>
+    			<input type="text" placeholder="Id of data type" id="txtId" name="txtId" readonly><br>
     			<label for="txtName">
     				<b>Name</b>
     			</label><br>
-    			<input type="text" placeholder="Name of application" id="txtName" name="txtName" required><br>
+    			<input type="text" placeholder="Name of data type" id="txtName" name="txtName" required><br>
 				<label for="txtDescription">
 					<b>Description</b>
 				</label><br>
-    			<input type="text" placeholder="Description of application" id="txtDescription" name="txtDescription" required><br>
-    			<label for="comBasicTypeId">
-    				<b>Basic Type</b>
+    			<input type="text" placeholder="Description of data type" id="txtDescription" name="txtDescription" required><br>
+    			<label for="comGroupTypeId">
+    				<b>Group Type</b>
     			</label><br>
-    			<select id="comBasicTypeId">
+    			<select id="comGroupTypeId">
     			</select><br>
-    			<label for="comDatabaseDevId">
-    				<b>Database DEV</b>
+    			<label for="comCodeTypeId">
+    				<b>Code Type</b>
     			</label><br>
-    			<select id="comDatabaseDevId">
+    			<select id="comCodeTypeId">
     			</select><br>
-    			<label for="comDatabaseUatId">
-    				<b>Database UAT</b>
+    			<label for="txtSort">
+    				<b>Sort</b>
     			</label><br>
-    			<select id="comDatabaseUatId">
-    			</select><br>
+    			<input type="number" placeholder="Sort of basic type" id="txtSort" name="txtSort" min="1" required><br>
     			<input type="checkbox" id="isActivated" name="isActivated">
     			<label for="isActivated"><b> Is Activated</b></label><br>
     			<button class="btn-normal btn-success" onclick="UpdateOne()">OK</button>

@@ -43,14 +43,14 @@ public class DataTypeQuery {
 				List<DataTypeResponse> data = new ArrayList<DataTypeResponse>();
 				for (int i = 0; i < cmd.size(); i++) {
 					data.add(new DataTypeResponse(cmd.get(i).getId()
-							, cmd.get(i).getGroupType().getId()
-							, cmd.get(i).getGroupName()
-							, cmd.get(i).getCodeType().getId()
-							, cmd.get(i).getCodeName()
 							, cmd.get(i).getName()
 							, cmd.get(i).getDescription()
 							, cmd.get(i).getSort()
-							, cmd.get(i).isActivated()));
+							, cmd.get(i).isActivated()
+							, cmd.get(i).getGroupType().getId()
+							, cmd.get(i).getGroupName()
+							, cmd.get(i).getCodeType().getId()
+							, cmd.get(i).getCodeName()));
 				}
 				result.setData(data);
 			}
